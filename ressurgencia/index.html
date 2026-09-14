@@ -233,6 +233,45 @@
     border-bottom:2px solid var(--ink);padding-bottom:2px;
   }
 
+  /* ---------- passport raffle ---------- */
+  .passport-section{background:var(--board-bg);color:var(--board-text);}
+  .passport-section .eyebrow{color:var(--rhein);border-color:var(--board-line);}
+  .passport-section .head-block p{color:#b8ab8c;}
+  .passport{
+    margin-top:44px;
+    display:grid;grid-template-columns:240px 1fr;
+    border:2px solid var(--rhein);
+    max-width:820px;
+    background:var(--paper-deep);
+  }
+  .passport-cover{
+    background:#0e0a05;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    padding:40px 24px;
+    border-right:2px solid var(--rhein);
+    text-align:center;
+  }
+  .passport-cover .emblem{font-size:2.6rem;}
+  .passport-cover .title{
+    font-family:'Big Shoulders Display',sans-serif;font-weight:900;
+    text-transform:uppercase;font-size:1.6rem;color:var(--board-text);line-height:0.95;
+  }
+  .passport-cover .sub{font-size:0.72rem;letter-spacing:0.08em;color:var(--rhein);text-transform:uppercase;}
+  .passport-page{padding:30px 32px 34px;color:var(--ink);}
+  .passport-page .pass-fields{margin-top:0;}
+  .passport-success{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--rhein-deep);
+    border:2px dashed var(--rhein-deep);padding:16px 18px;
+  }
+  .passport-error{
+    margin-top:16px;color:#c0392b;font-weight:600;font-size:0.88rem;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  @media (max-width:680px){
+    .passport{grid-template-columns:1fr;}
+    .passport-cover{border-right:none;border-bottom:2px solid var(--rhein);padding:28px 20px;}
+  }
+
   /* ---------- crew (founders) ---------- */
   .crew-list{margin-top:36px;display:flex;flex-wrap:wrap;gap:16px;}
   .tag{
@@ -272,15 +311,15 @@
     max-width:720px;
     padding:30px 32px 34px;
   }
-  .quote-card .field{display:flex;flex-direction:column;gap:7px;}
-  .quote-card .field input{
+  .quote-card .field,.passport-page .field{display:flex;flex-direction:column;gap:7px;}
+  .quote-card .field input,.passport-page .field input{
     font-family:'IBM Plex Mono',monospace;font-size:1rem;color:var(--ink);
     background:transparent;border:none;border-bottom:2px solid var(--ink);
     padding:7px 2px;width:100%;
   }
-  .quote-card .field input::placeholder{color:var(--ink-soft);opacity:0.75;}
-  .quote-card .field input:focus{outline:none;border-bottom-color:var(--rhein-deep);}
-  .quote-card .field input.invalid{border-bottom-color:#c0392b;border-bottom-width:3px;}
+  .quote-card .field input::placeholder,.passport-page .field input::placeholder{color:var(--ink-soft);opacity:0.75;}
+  .quote-card .field input:focus,.passport-page .field input:focus{outline:none;border-bottom-color:var(--rhein-deep);}
+  .quote-card .field input.invalid,.passport-page .field input.invalid{border-bottom-color:#c0392b;border-bottom-width:3px;}
   .form-warning{
     margin-top:16px;color:#c0392b;font-weight:600;font-size:0.88rem;
     font-family:'IBM Plex Mono',monospace;
@@ -469,6 +508,56 @@
     <div class="stamps-cta">
       <a class="link-arrow" href="https://share.google/tbfOlNbeBFTAVl9VJ" target="_blank" rel="noopener">Ver todas no Google →</a>
       <span class="mono" style="color:var(--ink-soft);font-size:0.85rem;">Cadastrada e certificada oficialmente no Cadastur/Ministério do Turismo.</span>
+    </div>
+  </div>
+</section>
+
+<section class="passport-section" id="sorteio">
+  <div class="wrap">
+    <div class="head-block">
+      <span class="eyebrow">Sorteio Ressurgência 2027</span>
+      <h2 class="display">Carimbe seu passaporte e concorra a uma passagem aérea</h2>
+      <p>Preencha seus dados pra participar do sorteio de uma passagem aérea pra Conferência Ressurgência 2027. O resultado é anunciado por lá, e o ganhador é avisado pelo WhatsApp.</p>
+    </div>
+
+    <div class="passport">
+      <div class="passport-cover">
+        <span class="emblem">✈</span>
+        <span class="title">Passaporte</span>
+        <span class="sub mono">Conferência<br>Ressurgência · 2027</span>
+      </div>
+      <div class="passport-page">
+        <form id="sorteio-form" novalidate>
+          <div class="pass-fields">
+            <div class="field">
+              <label class="f-label" for="s-nome">Nome completo</label>
+              <input id="s-nome" name="nome" type="text" autocomplete="name" required placeholder="Como podemos te chamar?">
+            </div>
+            <div class="field">
+              <label class="f-label" for="s-celular">Celular</label>
+              <input id="s-celular" name="celular" type="tel" autocomplete="tel" required placeholder="(00) 00000-0000">
+            </div>
+            <div class="field">
+              <label class="f-label" for="s-cidade">Cidade de origem</label>
+              <input id="s-cidade" name="cidade" type="text" required placeholder="De onde você vem?">
+            </div>
+            <div class="field">
+              <label class="f-label" for="s-igreja">Igreja que representa</label>
+              <input id="s-igreja" name="igreja" type="text" required placeholder="Nome da sua igreja">
+            </div>
+          </div>
+
+          <div class="perf"></div>
+
+          <div class="pass-stub">
+            <div class="barcode" aria-hidden="true"></div>
+            <button id="sorteio-send" class="stub-btn" type="submit">Carimbar passaporte</button>
+          </div>
+          <p class="form-warning" id="sorteio-warning" hidden>Preenche os campos destacados antes de enviar.</p>
+          <p class="passport-error" id="sorteio-error" hidden>Não deu pra confirmar sua inscrição agora. Tenta de novo em instantes ou chama a gente no <a class="wa-link" href="https://api.whatsapp.com/send?phone=5527998600269">WhatsApp</a>.</p>
+        </form>
+        <p class="passport-success" id="sorteio-success" hidden>✓ Passaporte carimbado! Você já está concorrendo à passagem pra Ressurgência 2027.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -819,6 +908,68 @@
     Promise.race([sendQuoteToIddas(fd), timeout])
       .catch(function (err) { console.error('Falha ao enviar cotação pro iDDAS:', err); })
       .then(finish);
+  });
+
+  // ---------- passport raffle (sorteio) ----------
+  var SORTEIO_WEBHOOK_URL = 'https://n8n-n8n.ezixbt.easypanel.host/webhook/rhein-sorteio';
+
+  var sorteioForm = document.getElementById('sorteio-form');
+  var sorteioSend = document.getElementById('sorteio-send');
+  var sorteioWarning = document.getElementById('sorteio-warning');
+  var sorteioError = document.getElementById('sorteio-error');
+  var sorteioSuccess = document.getElementById('sorteio-success');
+  var SORTEIO_REQUIRED_FIELDS = ['nome', 'celular', 'cidade', 'igreja'];
+
+  sorteioForm.addEventListener('input', function (e) {
+    if (e.target && e.target.classList) e.target.classList.remove('invalid');
+  });
+
+  function findInvalidSorteioFields() {
+    return SORTEIO_REQUIRED_FIELDS
+      .map(function (name) { return sorteioForm.elements[name]; })
+      .filter(function (el) { return !el.value.trim(); });
+  }
+
+  sorteioForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    sorteioForm.querySelectorAll('.invalid').forEach(function (el) { el.classList.remove('invalid'); });
+    sorteioError.hidden = true;
+    var invalid = findInvalidSorteioFields();
+    if (invalid.length) {
+      invalid.forEach(function (el) { el.classList.add('invalid'); });
+      sorteioWarning.hidden = false;
+      invalid[0].focus();
+      invalid[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    sorteioWarning.hidden = true;
+
+    var fd = new FormData(sorteioForm);
+    sorteioSend.disabled = true;
+    sorteioSend.textContent = 'Enviando...';
+
+    fetch(SORTEIO_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: fd.get('nome'),
+        celular: fd.get('celular'),
+        cidade: fd.get('cidade'),
+        igreja: fd.get('igreja')
+      })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('n8n respondeu ' + res.status);
+        sorteioForm.hidden = true;
+        sorteioSuccess.hidden = false;
+      })
+      .catch(function (err) {
+        console.error('Falha ao enviar inscrição do sorteio:', err);
+        sorteioSend.disabled = false;
+        sorteioSend.textContent = 'Carimbar passaporte';
+        sorteioError.hidden = false;
+      });
   });
 </script>
 
