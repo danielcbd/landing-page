@@ -294,7 +294,9 @@
   }
   .quote-card textarea::placeholder{color:var(--ink-soft);opacity:0.75;}
   .quote-card textarea:focus{outline:none;border-color:var(--rhein-deep);}
-  #bagagem-qtd-wrap[hidden]{display:none;}
+  #bagagem-qtd-wrap[hidden],#criancas-idades-wrap[hidden]{display:none;}
+  .child-ages-row{display:flex;flex-wrap:wrap;gap:14px 20px;}
+  .child-ages-row .field{width:90px;}
   .radio-row,.check-grid{display:flex;flex-wrap:wrap;gap:14px 28px;}
   .check-box{
     display:inline-flex;align-items:center;gap:10px;cursor:pointer;
@@ -533,9 +535,18 @@
           <input id="q-volta" name="data_volta" type="date">
         </div>
         <div class="field">
-          <label class="f-label" for="q-pessoas">Quantas pessoas</label>
-          <input id="q-pessoas" name="pessoas" type="number" min="1" value="1" required>
+          <label class="f-label" for="q-adultos">Adultos</label>
+          <input id="q-adultos" name="adultos" type="number" min="1" value="1" required>
         </div>
+        <div class="field">
+          <label class="f-label" for="q-criancas">Crianças</label>
+          <input id="q-criancas" name="criancas" type="number" min="0" value="0">
+        </div>
+      </div>
+
+      <div class="field-group" id="criancas-idades-wrap" hidden>
+        <span class="f-label">Idade de cada criança</span>
+        <div class="child-ages-row" id="criancas-idades-list"></div>
       </div>
 
       <div class="perf"></div>
@@ -602,6 +613,36 @@
   var bagagemQtdWrap = document.getElementById('bagagem-qtd-wrap');
   var bagagemQtdInput = document.getElementById('q-bagagem-qtd');
 
+  var criancasInput = document.getElementById('q-criancas');
+  var idadesWrap = document.getElementById('criancas-idades-wrap');
+  var idadesList = document.getElementById('criancas-idades-list');
+
+  function syncCriancasIdades() {
+    var n = parseInt(criancasInput.value, 10) || 0;
+    idadesWrap.hidden = n <= 0;
+    var existing = Array.prototype.map.call(idadesList.querySelectorAll('input'), function (el) { return el.value; });
+    idadesList.innerHTML = '';
+    for (var i = 0; i < n; i++) {
+      var field = document.createElement('div');
+      field.className = 'field';
+      var label = document.createElement('label');
+      label.className = 'f-label';
+      label.setAttribute('for', 'q-idade-crianca-' + i);
+      label.textContent = 'Criança ' + (i + 1);
+      var input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.max = '17';
+      input.id = 'q-idade-crianca-' + i;
+      input.name = 'idade_crianca';
+      input.placeholder = 'Idade';
+      if (existing[i] !== undefined) input.value = existing[i];
+      field.appendChild(label);
+      field.appendChild(input);
+      idadesList.appendChild(field);
+    }
+  }
+
   var idaInput = document.getElementById('q-ida');
   var voltaInput = document.getElementById('q-volta');
   var hojeISO = new Date().toISOString().slice(0, 10);
@@ -616,6 +657,18 @@
     var despacha = quoteForm.querySelector('input[name="bagagem"]:checked').value === 'Sim';
     bagagemQtdWrap.hidden = !despacha;
     bagagemQtdInput.required = despacha;
+  }
+
+  function pessoasTexto(fd) {
+    var adultos = fd.get('adultos');
+    var criancas = parseInt(fd.get('criancas'), 10) || 0;
+    var texto = adultos + ' adulto' + (adultos == 1 ? '' : 's');
+    if (criancas > 0) {
+      texto += ' + ' + criancas + ' criança' + (criancas == 1 ? '' : 's');
+      var idades = fd.getAll('idade_crianca').filter(function (v) { return v.trim(); });
+      if (idades.length) texto += ' (idades: ' + idades.join(', ') + ')';
+    }
+    return texto;
   }
 
   function formatDateBR(iso) {
@@ -646,7 +699,7 @@
       'Origem: ' + fd.get('origem'),
       'Destino: ' + fd.get('destino'),
       'Datas: ' + datasTxt,
-      'Pessoas: ' + fd.get('pessoas'),
+      'Pessoas: ' + pessoasTexto(fd),
       'Bagagem despachada: ' + bagagemTxt,
       'Interesse em: ' + (interesses.length ? interesses.join(', ') : 'nada além da viagem em si')
     ];
@@ -661,12 +714,18 @@
     quoteSend.href = quoteUrl();
   }
 
+  criancasInput.addEventListener('input', function () {
+    syncCriancasIdades();
+    refreshQuoteLink();
+  });
+  syncCriancasIdades();
+
   quoteForm.addEventListener('input', refreshQuoteLink);
   quoteForm.addEventListener('change', refreshQuoteLink);
   refreshQuoteLink();
 
   var quoteWarning = document.getElementById('quote-warning');
-  var REQUIRED_FIELD_NAMES = ['nome', 'telefone', 'origem', 'destino', 'pessoas'];
+  var REQUIRED_FIELD_NAMES = ['nome', 'telefone', 'origem', 'destino', 'adultos'];
 
   function fieldInvalid(el) {
     el.classList.remove('invalid');
@@ -680,6 +739,11 @@
       .map(function (name) { return quoteForm.elements[name]; })
       .filter(function (el) { return !el.value.trim(); });
     if (!bagagemQtdWrap.hidden && !bagagemQtdInput.value.trim()) invalid.push(bagagemQtdInput);
+    if (!idadesWrap.hidden) {
+      idadesList.querySelectorAll('input').forEach(function (el) {
+        if (!el.value.trim()) invalid.push(el);
+      });
+    }
     return invalid;
   }
 
@@ -709,7 +773,9 @@
         origem: fd.get('origem'),
         destino: fd.get('destino'),
         datas: datasTexto,
-        pessoas: fd.get('pessoas'),
+        adultos: fd.get('adultos'),
+        criancas: fd.get('criancas') || '0',
+        idades_criancas: fd.getAll('idade_crianca').filter(function (v) { return v.trim(); }).join(', '),
         bagagem_texto: bagagemTexto,
         interesses: interesses.length ? interesses.join(', ') : '',
         observacao: (fd.get('observacao') || '').trim()
