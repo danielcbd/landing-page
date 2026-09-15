@@ -267,6 +267,20 @@
     margin-top:16px;color:#c0392b;font-weight:600;font-size:0.88rem;
     font-family:'IBM Plex Mono',monospace;
   }
+  .ig-gate{
+    background:var(--paper);border:2px dashed var(--rhein-deep);
+    padding:16px 18px;margin-bottom:24px;
+  }
+  .ig-gate-row{
+    margin-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .ig-gate-status{
+    font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--ink-soft);
+  }
+  .ig-gate.followed{border-style:solid;}
+  .ig-gate.followed .ig-gate-status{color:var(--rhein-deep);font-weight:600;}
+  .stub-btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .stub-btn:disabled:hover{background:var(--ink);color:var(--paper);}
   .terms-details{
     margin-top:22px;padding-top:16px;border-top:1px dashed var(--ink-soft);
     font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--ink-soft);
@@ -539,6 +553,15 @@
       </div>
       <div class="passport-page">
         <form id="sorteio-form" novalidate>
+          <div class="ig-gate" id="ig-gate">
+            <span class="f-label">Passo 1 — siga a gente pra ficar elegível</span>
+            <div class="ig-gate-row">
+              <a id="ig-follow-btn" class="stub-btn ghost" href="https://www.instagram.com/rhein.viagens" target="_blank" rel="noopener">Seguir no Instagram</a>
+              <span class="ig-gate-status" id="ig-gate-status">Ainda falta seguir @rhein.viagens</span>
+            </div>
+            <input type="hidden" name="segue_instagram" id="s-segue-instagram" value="não">
+          </div>
+
           <div class="pass-fields">
             <div class="field">
               <label class="f-label" for="s-nome">Nome completo</label>
@@ -562,7 +585,7 @@
 
           <div class="pass-stub">
             <div class="barcode" aria-hidden="true"></div>
-            <button id="sorteio-send" class="stub-btn" type="submit">Carimbar passaporte</button>
+            <button id="sorteio-send" class="stub-btn" type="submit" disabled>Carimbar passaporte</button>
           </div>
           <p class="form-warning" id="sorteio-warning" hidden>Preenche os campos destacados antes de enviar.</p>
           <p class="passport-error" id="sorteio-error" hidden>Não deu pra confirmar sua inscrição agora. Tenta de novo em instantes ou chama a gente no <a class="wa-link" href="https://api.whatsapp.com/send?phone=5527998600269">WhatsApp</a>.</p>
@@ -943,6 +966,19 @@
   var sorteioError = document.getElementById('sorteio-error');
   var sorteioSuccess = document.getElementById('sorteio-success');
   var SORTEIO_REQUIRED_FIELDS = ['nome', 'celular', 'cidade', 'igreja'];
+  var SORTEIO_WARNING_DEFAULT = sorteioWarning.textContent;
+
+  var igGate = document.getElementById('ig-gate');
+  var igFollowBtn = document.getElementById('ig-follow-btn');
+  var igGateStatus = document.getElementById('ig-gate-status');
+  var igSegueInput = document.getElementById('s-segue-instagram');
+
+  igFollowBtn.addEventListener('click', function () {
+    igGate.classList.add('followed');
+    igGateStatus.textContent = '✓ Segue @rhein.viagens';
+    igSegueInput.value = 'sim';
+    sorteioSend.disabled = false;
+  });
 
   sorteioForm.addEventListener('input', function (e) {
     if (e.target && e.target.classList) e.target.classList.remove('invalid');
@@ -959,9 +995,18 @@
 
     sorteioForm.querySelectorAll('.invalid').forEach(function (el) { el.classList.remove('invalid'); });
     sorteioError.hidden = true;
+
+    if (igSegueInput.value !== 'sim') {
+      sorteioWarning.textContent = 'Clica em "Seguir no Instagram" primeiro pra ficar elegível.';
+      sorteioWarning.hidden = false;
+      igGate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
     var invalid = findInvalidSorteioFields();
     if (invalid.length) {
       invalid.forEach(function (el) { el.classList.add('invalid'); });
+      sorteioWarning.textContent = SORTEIO_WARNING_DEFAULT;
       sorteioWarning.hidden = false;
       invalid[0].focus();
       invalid[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -980,7 +1025,8 @@
         nome: fd.get('nome'),
         celular: fd.get('celular'),
         cidade: fd.get('cidade'),
-        igreja: fd.get('igreja')
+        igreja: fd.get('igreja'),
+        segue_instagram: fd.get('segue_instagram')
       })
     })
       .then(function (res) {
