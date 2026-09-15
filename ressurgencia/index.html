@@ -272,6 +272,7 @@
     padding:18px 20px;margin-top:20px;
   }
   .ig-gate p{font-size:0.92rem;color:var(--ink);}
+  .stub-btn.disabled{opacity:0.5;pointer-events:none;}
   .ig-gate-row{
     margin-top:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   }
@@ -965,8 +966,13 @@
   var igFollowBtn = document.getElementById('ig-follow-btn');
 
   igFollowBtn.addEventListener('click', function () {
-    igGate.hidden = true;
-    sorteioSuccess.hidden = false;
+    igFollowBtn.classList.add('disabled');
+    var originalLabel = igFollowBtn.textContent;
+    igFollowBtn.textContent = 'Confirmando...';
+    setTimeout(function () {
+      igGate.hidden = true;
+      sorteioSuccess.hidden = false;
+    }, 5000);
   });
 
   sorteioForm.addEventListener('input', function (e) {
