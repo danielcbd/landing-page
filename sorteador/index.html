@@ -99,11 +99,6 @@
   .draw-btn:hover:not(:disabled){background:var(--board-text);border-color:var(--board-text);}
   .draw-btn:disabled{opacity:0.35;cursor:not-allowed;}
 
-  .remove-toggle{
-    display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#b8ab8c;cursor:pointer;
-  }
-  .remove-toggle input{accent-color:var(--rhein);width:15px;height:15px;}
-
   /* ---------- side panel ---------- */
   .panel-section{
     background:var(--paper-deep);border:2px solid var(--ink);
@@ -171,10 +166,6 @@
         <div class="stamp" id="stamp" hidden><span class="check">✓</span>SORTEADO(A)</div>
       </div>
       <button class="draw-btn" id="drawBtn" disabled>Sortear</button>
-      <label class="remove-toggle mono">
-        <input type="checkbox" id="removeToggle" checked>
-        Remover sorteados da lista
-      </label>
     </section>
 
     <aside>
@@ -222,7 +213,6 @@
   var historySection = document.getElementById('historySection');
   var historyList = document.getElementById('historyList');
   var drawBtn = document.getElementById('drawBtn');
-  var removeToggle = document.getElementById('removeToggle');
   var stageLabel = document.getElementById('stageLabel');
   var nameMain = document.getElementById('nameMain');
   var detailRow = document.getElementById('detailRow');
@@ -429,10 +419,8 @@
       drawnNames.push(winner);
       renderHistory();
 
-      if (removeToggle.checked){
-        participants.splice(winnerIdx, 1);
-        countNum.textContent = participants.length;
-      }
+      participants.splice(winnerIdx, 1);
+      countNum.textContent = participants.length;
       saveState();
 
       drawBtn.disabled = eligibleCount() === 0;
