@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorteador | Rhein Viagens</title>
+<meta name="description" content="Sorteador do prêmio da Conferência Ressurgência — carregue a lista de inscritos e sorteie o ganhador.">
+<link rel="icon" href="../ressurgencia/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="../ressurgencia/assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe7d6;
+    --paper-deep:#e3d4b3;
+    --paper-line:#d8c69f;
+    --ink:#1d170f;
+    --ink-soft:#6e6353;
+    --rhein:#ff4d23;
+    --rhein-deep:#a82c10;
+    --board-bg:#17110a;
+    --board-line:rgba(243,231,201,0.16);
+    --board-text:#f3e7c9;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;text-wrap:balance;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px;}
+
+  .top{
+    display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:28px;
+  }
+  .brand-logo{height:34px;width:auto;display:block;}
+  .tag{font-size:0.72rem;letter-spacing:0.12em;color:var(--ink-soft);text-transform:uppercase;}
+
+  .layout{display:grid;grid-template-columns:1.55fr 1fr;gap:26px;align-items:start;}
+  @media (max-width:860px){ .layout{grid-template-columns:1fr;} }
+
+  /* ---------- stage ---------- */
+  .stage{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);
+    padding:30px 26px 26px;
+    display:flex;flex-direction:column;align-items:center;gap:22px;
+  }
+  .stage-frame{width:100%;text-align:center;position:relative;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+  .stage-label{font-size:0.76rem;letter-spacing:0.18em;color:var(--rhein);}
+  .name-display{width:100%;overflow:hidden;padding:6px 0;}
+  .name-main{
+    display:block;font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;
+    font-size:clamp(1.9rem,6.4vw,3.4rem);line-height:1.02;text-wrap:balance;
+    color:var(--board-text);
+  }
+  .name-main.cycling{color:#a99a78;}
+  .detail-row{
+    gap:34px;flex-wrap:wrap;justify-content:center;
+    padding-top:14px;border-top:1px dashed var(--board-line);width:100%;max-width:460px;
+  }
+  .detail-row:not([hidden]){display:flex;}
+  .detail-row .d-label{display:block;font-size:0.68rem;letter-spacing:0.12em;color:#b8ab8c;font-family:'IBM Plex Mono',monospace;}
+  .detail-row .d-value{display:block;font-size:1.05rem;font-weight:600;margin-top:4px;}
+  .stamp{
+    position:absolute;top:-6px;right:6px;
+    width:92px;height:92px;border-radius:50%;
+    border:2.5px dashed var(--rhein);color:var(--rhein);
+    flex-direction:column;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.62rem;letter-spacing:0.04em;
+    transform:rotate(-10deg);
+    background:rgba(23,17,10,0.55);
+  }
+  .stamp:not([hidden]){display:flex;}
+  .stamp .check{font-size:1.3rem;line-height:1;margin-bottom:2px;}
+  @keyframes stampIn{
+    0%{transform:scale(2.4) rotate(-10deg);opacity:0;}
+    70%{transform:scale(0.92) rotate(-10deg);opacity:1;}
+    100%{transform:scale(1) rotate(-10deg);opacity:1;}
+  }
+  .stamp.show{animation:stampIn 0.42s cubic-bezier(.2,.9,.3,1.2);}
+
+  .draw-btn{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.95rem;
+    letter-spacing:0.04em;text-transform:uppercase;
+    background:var(--rhein);color:var(--board-bg);
+    border:2px solid var(--rhein);
+    padding:14px 34px;cursor:pointer;
+    transition:background .15s ease,color .15s ease,opacity .15s ease;
+  }
+  .draw-btn:hover:not(:disabled){background:var(--board-text);border-color:var(--board-text);}
+  .draw-btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+  .remove-toggle{
+    display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#b8ab8c;cursor:pointer;
+  }
+  .remove-toggle input{accent-color:var(--rhein);width:15px;height:15px;}
+
+  /* ---------- side panel ---------- */
+  .panel-section{
+    background:var(--paper-deep);border:2px solid var(--ink);
+    padding:20px 22px 22px;margin-bottom:18px;
+  }
+  .panel-section h2{
+    font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;
+    font-size:1.05rem;margin-bottom:14px;
+  }
+  .dropzone{
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    border:2px dashed var(--ink-soft);padding:26px 14px;cursor:pointer;
+    font-size:0.9rem;color:var(--ink-soft);transition:border-color .15s ease,color .15s ease;
+  }
+  .dropzone:hover,.dropzone.drag{border-color:var(--rhein-deep);color:var(--ink);}
+  .hint{margin-top:12px;font-size:0.74rem;color:var(--ink-soft);line-height:1.6;}
+  .error-msg{
+    margin-top:12px;color:#c0392b;font-weight:600;font-size:0.82rem;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  .count-row{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;}
+  .count-num{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:2.3rem;}
+  .count-label{font-size:0.72rem;letter-spacing:0.08em;color:var(--ink-soft);text-transform:uppercase;}
+
+  .btn{
+    display:inline-block;width:100%;text-align:center;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.85rem;
+    letter-spacing:0.03em;text-transform:uppercase;
+    padding:11px 16px;cursor:pointer;border:2px solid var(--ink);background:transparent;color:var(--ink);
+    transition:background .15s ease,color .15s ease;
+  }
+  .btn:hover{background:var(--ink);color:var(--paper);}
+
+  .history{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;}
+  .history li{
+    display:grid;grid-template-columns:22px 1fr;gap:2px 10px;
+    padding-bottom:10px;border-bottom:1px solid var(--paper-line);
+  }
+  .history li:last-child{border-bottom:none;padding-bottom:0;}
+  .h-num{font-family:'IBM Plex Mono',monospace;color:var(--rhein-deep);font-weight:700;font-size:0.85rem;}
+  .h-name{font-weight:700;grid-column:2;}
+  .h-meta{grid-column:2;font-size:0.72rem;color:var(--ink-soft);}
+
+  .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;margin-top:30px;}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <img class="brand-logo" src="assets/rhein-wordmark-viagens.png" alt="Rhein Viagens">
+    <span class="tag mono">Sorteador · Ressurgência</span>
+  </div>
+
+  <div class="layout">
+    <section class="stage">
+      <div class="stage-frame">
+        <span class="stage-label mono" id="stageLabel">AGUARDANDO LISTA</span>
+        <div class="name-display"><span class="name-main" id="nameMain">—</span></div>
+        <div class="detail-row" id="detailRow" hidden>
+          <div><span class="d-label">Cidade</span><span class="d-value" id="cidadeValue"></span></div>
+          <div><span class="d-label">Igreja</span><span class="d-value" id="igrejaValue"></span></div>
+        </div>
+        <div class="stamp" id="stamp" hidden><span class="check">✓</span>SORTEADO(A)</div>
+      </div>
+      <button class="draw-btn" id="drawBtn" disabled>Sortear</button>
+      <label class="remove-toggle mono">
+        <input type="checkbox" id="removeToggle" checked>
+        Remover sorteados da lista
+      </label>
+    </section>
+
+    <aside>
+      <div class="panel-section" id="uploadSection">
+        <h2>Carregar lista</h2>
+        <label class="dropzone" id="dropzone">
+          <span>Arraste o .csv aqui ou clique pra escolher</span>
+          <input type="file" id="fileInput" accept=".csv,text/csv" hidden>
+        </label>
+        <p class="hint">Precisa ter colunas de nome, cidade e igreja (o cabeçalho pode ser "Nome" ou "Nome completo", por exemplo). Outras colunas, como celular e data, são ignoradas.</p>
+        <p class="error-msg" id="errorMsg" hidden></p>
+      </div>
+
+      <div class="panel-section" id="listSection" hidden>
+        <h2>Participantes</h2>
+        <div class="count-row">
+          <span class="count-num mono" id="countNum">0</span>
+          <span class="count-label">carimbados na lista</span>
+        </div>
+        <button class="btn" id="resetBtn">Carregar outra lista</button>
+      </div>
+
+      <div class="panel-section" id="historySection" hidden>
+        <h2>Sorteados</h2>
+        <ol class="history" id="historyList"></ol>
+      </div>
+    </aside>
+  </div>
+
+  <p class="fine-print mono">Roda inteiramente no seu navegador — a lista carregada não é enviada pra lugar nenhum.</p>
+</div>
+
+<script>
+(function(){
+  var participants = [];
+  var drawnNames = [];
+  var isDrawing = false;
+
+  var fileInput = document.getElementById('fileInput');
+  var dropzone = document.getElementById('dropzone');
+  var uploadSection = document.getElementById('uploadSection');
+  var listSection = document.getElementById('listSection');
+  var countNum = document.getElementById('countNum');
+  var resetBtn = document.getElementById('resetBtn');
+  var historySection = document.getElementById('historySection');
+  var historyList = document.getElementById('historyList');
+  var drawBtn = document.getElementById('drawBtn');
+  var removeToggle = document.getElementById('removeToggle');
+  var stageLabel = document.getElementById('stageLabel');
+  var nameMain = document.getElementById('nameMain');
+  var detailRow = document.getElementById('detailRow');
+  var cidadeValue = document.getElementById('cidadeValue');
+  var igrejaValue = document.getElementById('igrejaValue');
+  var stamp = document.getElementById('stamp');
+  var errorMsg = document.getElementById('errorMsg');
+
+  function normalize(s){
+    return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  }
+
+  function parseCSV(text){
+    var rows = [], row = [], field = '', inQuotes = false;
+    for (var i = 0; i < text.length; i++){
+      var c = text[i];
+      if (inQuotes){
+        if (c === '"'){
+          if (text[i+1] === '"'){ field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ','){ row.push(field); field = ''; }
+        else if (c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r'){ /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length){ row.push(field); rows.push(row); }
+    return rows.filter(function(r){ return r.some(function(v){ return v.trim() !== ''; }); });
+  }
+
+  function showError(msg){
+    errorMsg.textContent = msg;
+    errorMsg.hidden = false;
+  }
+
+  function saveState(){
+    try {
+      localStorage.setItem('rheinSorteio_participants', JSON.stringify(participants));
+      localStorage.setItem('rheinSorteio_drawn', JSON.stringify(drawnNames));
+    } catch (e) {}
+  }
+
+  function loadSavedState(){
+    try {
+      var p = localStorage.getItem('rheinSorteio_participants');
+      var d = localStorage.getItem('rheinSorteio_drawn');
+      if (p) participants = JSON.parse(p) || [];
+      if (d) drawnNames = JSON.parse(d) || [];
+    } catch (e) {}
+  }
+
+  function clearState(){
+    try {
+      localStorage.removeItem('rheinSorteio_participants');
+      localStorage.removeItem('rheinSorteio_drawn');
+    } catch (e) {}
+  }
+
+  function loadCSVText(text){
+    errorMsg.hidden = true;
+    var rows = parseCSV(text);
+    if (!rows.length){ showError('Esse arquivo veio vazio.'); return; }
+
+    var header = rows[0].map(normalize);
+    var idx = { nome: -1, cidade: -1, igreja: -1 };
+    header.forEach(function(h, i){
+      if (idx.nome === -1 && h.indexOf('nome') !== -1) idx.nome = i;
+      if (idx.cidade === -1 && h.indexOf('cidade') !== -1) idx.cidade = i;
+      if (idx.igreja === -1 && h.indexOf('igreja') !== -1) idx.igreja = i;
+    });
+    if (idx.nome === -1 || idx.cidade === -1 || idx.igreja === -1) {
+      showError('Não encontrei colunas de nome, cidade e igreja. Colunas do arquivo: ' + rows[0].join(', '));
+      return;
+    }
+
+    var list = [];
+    for (var r = 1; r < rows.length; r++){
+      var row = rows[r];
+      var nome = (row[idx.nome] || '').trim();
+      if (!nome) continue;
+      list.push({
+        nome: nome,
+        cidade: (row[idx.cidade] || '').trim(),
+        igreja: (row[idx.igreja] || '').trim()
+      });
+    }
+    if (!list.length){ showError('Não achei nenhum participante com nome preenchido.'); return; }
+
+    participants = list;
+    drawnNames = [];
+    saveState();
+    showListLoaded();
+    resetStage();
+  }
+
+  function showListLoaded(){
+    uploadSection.hidden = true;
+    listSection.hidden = false;
+    countNum.textContent = participants.length;
+    historySection.hidden = drawnNames.length === 0;
+    renderHistory();
+    drawBtn.disabled = participants.length === 0;
+  }
+
+  function resetStage(){
+    stageLabel.textContent = participants.length ? 'PRONTO PRA SORTEAR' : 'LISTA ESGOTADA';
+    nameMain.textContent = '—';
+    nameMain.classList.remove('cycling');
+    detailRow.hidden = true;
+    stamp.hidden = true;
+    stamp.classList.remove('show');
+  }
+
+  function renderHistory(){
+    historyList.innerHTML = '';
+    drawnNames.forEach(function(w, i){
+      var li = document.createElement('li');
+      var num = document.createElement('span');
+      num.className = 'h-num mono';
+      num.textContent = i + 1;
+      var name = document.createElement('span');
+      name.className = 'h-name';
+      name.textContent = w.nome;
+      var meta = document.createElement('span');
+      meta.className = 'h-meta mono';
+      meta.textContent = (w.cidade || '—') + ' · ' + (w.igreja || '—');
+      li.appendChild(num);
+      li.appendChild(name);
+      li.appendChild(meta);
+      historyList.appendChild(li);
+    });
+    historySection.hidden = drawnNames.length === 0;
+  }
+
+  function draw(){
+    if (isDrawing || !participants.length) return;
+    isDrawing = true;
+    drawBtn.disabled = true;
+    stageLabel.textContent = 'SORTEANDO...';
+    detailRow.hidden = true;
+    stamp.hidden = true;
+    stamp.classList.remove('show');
+    nameMain.classList.add('cycling');
+
+    var winnerIdx = Math.floor(Math.random() * participants.length);
+    var winner = participants[winnerIdx];
+
+    var elapsed = 0;
+    var duration = 2800;
+    var delay = 55;
+
+    function tick(){
+      var pick = participants[Math.floor(Math.random() * participants.length)];
+      nameMain.textContent = pick.nome;
+      elapsed += delay;
+      if (elapsed < duration){
+        delay = delay * 1.08;
+        setTimeout(tick, delay);
+      } else {
+        finish();
+      }
+    }
+
+    function finish(){
+      nameMain.classList.remove('cycling');
+      nameMain.textContent = winner.nome;
+      cidadeValue.textContent = winner.cidade || '—';
+      igrejaValue.textContent = winner.igreja || '—';
+      detailRow.hidden = false;
+      stamp.hidden = false;
+      void stamp.offsetWidth;
+      stamp.classList.add('show');
+      stageLabel.textContent = 'RESULTADO';
+
+      drawnNames.push(winner);
+      renderHistory();
+
+      if (removeToggle.checked){
+        participants.splice(winnerIdx, 1);
+        countNum.textContent = participants.length;
+      }
+      saveState();
+
+      drawBtn.disabled = participants.length === 0;
+      drawBtn.textContent = participants.length === 0 ? 'Lista esgotada' : 'Sortear de novo';
+      isDrawing = false;
+    }
+
+    tick();
+  }
+
+  function reset(){
+    participants = [];
+    drawnNames = [];
+    clearState();
+    uploadSection.hidden = false;
+    listSection.hidden = true;
+    historySection.hidden = true;
+    fileInput.value = '';
+    stageLabel.textContent = 'AGUARDANDO LISTA';
+    nameMain.textContent = '—';
+    detailRow.hidden = true;
+    stamp.hidden = true;
+    stamp.classList.remove('show');
+    drawBtn.disabled = true;
+    drawBtn.textContent = 'Sortear';
+  }
+
+  fileInput.addEventListener('change', function(){
+    var file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){ loadCSVText(String(reader.result)); };
+    reader.readAsText(file, 'UTF-8');
+  });
+
+  dropzone.addEventListener('click', function(){ fileInput.click(); });
+  dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('drag'); });
+  dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('drag'); });
+  dropzone.addEventListener('drop', function(e){
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+    var file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){ loadCSVText(String(reader.result)); };
+    reader.readAsText(file, 'UTF-8');
+  });
+
+  drawBtn.addEventListener('click', draw);
+  resetBtn.addEventListener('click', reset);
+
+  loadSavedState();
+  if (participants.length){
+    showListLoaded();
+    drawBtn.textContent = 'Sortear';
+    stageLabel.textContent = 'PRONTO PRA SORTEAR';
+    if (drawnNames.length){
+      var last = drawnNames[drawnNames.length - 1];
+      nameMain.textContent = last.nome;
+      cidadeValue.textContent = last.cidade || '—';
+      igrejaValue.textContent = last.igreja || '—';
+      detailRow.hidden = false;
+      stageLabel.textContent = 'ÚLTIMO RESULTADO';
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
