@@ -125,23 +125,9 @@
     font-family:'IBM Plex Mono',monospace;
   }
 
-  .count-row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+  .count-row{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;}
   .count-num{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:2.3rem;}
   .count-label{font-size:0.72rem;letter-spacing:0.08em;color:var(--ink-soft);text-transform:uppercase;}
-  .count-total{font-size:0.76rem;color:var(--ink-soft);margin-bottom:16px;}
-
-  .participant-list{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;border-top:1px solid var(--paper-line);}
-  .p-row{
-    display:flex;align-items:baseline;gap:10px;padding:8px 2px;
-    border-bottom:1px solid var(--paper-line);
-  }
-  .p-row.ineligible{opacity:0.45;}
-  .p-check{display:flex;align-items:center;flex:0 0 auto;}
-  .p-check input{accent-color:var(--rhein-deep);width:15px;height:15px;cursor:pointer;}
-  .p-info{display:flex;flex-direction:column;min-width:0;flex:1;}
-  .p-name{font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .p-row.ineligible .p-name{text-decoration:line-through;}
-  .p-meta{font-size:0.68rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
   .btn{
     display:inline-block;width:100%;text-align:center;
@@ -206,11 +192,8 @@
         <h2>Participantes</h2>
         <div class="count-row">
           <span class="count-num mono" id="countNum">0</span>
-          <span class="count-label">elegíveis pro sorteio</span>
+          <span class="count-label">carimbados na lista</span>
         </div>
-        <p class="count-total mono" id="countTotal"></p>
-        <p class="hint" style="margin-top:0;margin-bottom:12px;">Desmarque quem está fora dos termos — a pessoa continua na lista, só não entra no sorteio.</p>
-        <ul class="participant-list" id="participantList"></ul>
         <button class="btn" id="resetBtn">Carregar outra lista</button>
       </div>
 
@@ -235,8 +218,6 @@
   var uploadSection = document.getElementById('uploadSection');
   var listSection = document.getElementById('listSection');
   var countNum = document.getElementById('countNum');
-  var countTotal = document.getElementById('countTotal');
-  var participantList = document.getElementById('participantList');
   var resetBtn = document.getElementById('resetBtn');
   var historySection = document.getElementById('historySection');
   var historyList = document.getElementById('historyList');
@@ -362,62 +343,17 @@
     return participants.filter(function(p){ return p.eligible; }).length;
   }
 
-  function updateCounts(){
-    var elig = eligibleCount();
-    countNum.textContent = elig;
-    countTotal.textContent = participants.length === elig
-      ? 'de ' + participants.length + ' carregados'
-      : 'de ' + participants.length + ' carregados (' + (participants.length - elig) + ' fora dos termos)';
-    drawBtn.disabled = elig === 0;
-  }
-
-  function renderParticipantList(){
-    participantList.innerHTML = '';
-    participants.forEach(function(p, i){
-      var li = document.createElement('li');
-      li.className = 'p-row' + (p.eligible ? '' : ' ineligible');
-
-      var label = document.createElement('label');
-      label.className = 'p-check';
-      var checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = p.eligible;
-      checkbox.addEventListener('change', function(){
-        participants[i].eligible = checkbox.checked;
-        li.className = 'p-row' + (checkbox.checked ? '' : ' ineligible');
-        updateCounts();
-        saveState();
-      });
-      label.appendChild(checkbox);
-
-      var info = document.createElement('div');
-      info.className = 'p-info';
-      var name = document.createElement('span');
-      name.className = 'p-name';
-      name.textContent = p.nome;
-      var meta = document.createElement('span');
-      meta.className = 'p-meta';
-      meta.textContent = (p.cidade || '—') + ' · ' + (p.igreja || '—');
-      info.appendChild(name);
-      info.appendChild(meta);
-
-      li.appendChild(label);
-      li.appendChild(info);
-      participantList.appendChild(li);
-    });
-  }
-
   function showListLoaded(){
     uploadSection.hidden = true;
     listSection.hidden = false;
-    updateCounts();
-    renderParticipantList();
+    countNum.textContent = participants.length;
     historySection.hidden = drawnNames.length === 0;
     renderHistory();
+    drawBtn.disabled = eligibleCount() === 0;
   }
 
   function resetStage(){
-    stageLabel.textContent = eligibleCount() ? 'PRONTO PRA SORTEAR' : 'NENHUM ELEGÍVEL';
+    stageLabel.textContent = eligibleCount() ? 'PRONTO PRA SORTEAR' : 'LISTA ESGOTADA';
     nameMain.textContent = '—';
     nameMain.classList.remove('cycling');
     detailRow.hidden = true;
@@ -495,12 +431,12 @@
 
       if (removeToggle.checked){
         participants.splice(winnerIdx, 1);
-        renderParticipantList();
+        countNum.textContent = participants.length;
       }
-      updateCounts();
       saveState();
 
-      drawBtn.textContent = eligibleCount() === 0 ? 'Nenhum elegível' : 'Sortear de novo';
+      drawBtn.disabled = eligibleCount() === 0;
+      drawBtn.textContent = eligibleCount() === 0 ? 'Lista esgotada' : 'Sortear de novo';
       isDrawing = false;
     }
 
@@ -551,8 +487,8 @@
   loadSavedState();
   if (participants.length){
     showListLoaded();
-    drawBtn.textContent = eligibleCount() ? 'Sortear' : 'Nenhum elegível';
-    stageLabel.textContent = eligibleCount() ? 'PRONTO PRA SORTEAR' : 'NENHUM ELEGÍVEL';
+    drawBtn.textContent = eligibleCount() ? 'Sortear' : 'Lista esgotada';
+    stageLabel.textContent = eligibleCount() ? 'PRONTO PRA SORTEAR' : 'LISTA ESGOTADA';
     if (drawnNames.length){
       var last = drawnNames[drawnNames.length - 1];
       nameMain.textContent = last.nome;
