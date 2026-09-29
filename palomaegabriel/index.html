@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro | Paloma &amp; Gabriel</title>
+<meta name="description" content="Roteiro personalizado de Paloma e Gabriel — Portugal e Espanha, com tickets de cada trecho e checklist de passeios.">
+<link rel="icon" href="../ressurgencia/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="../ressurgencia/assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe7d6;
+    --paper-deep:#e3d4b3;
+    --paper-line:#d8c69f;
+    --ink:#1d170f;
+    --ink-soft:#6e6353;
+    --rhein:#ff4d23;
+    --rhein-deep:#a82c10;
+    --board-bg:#17110a;
+    --board-line:rgba(243,231,201,0.16);
+    --board-text:#f3e7c9;
+    --ok:#3d7a4f;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;text-wrap:balance;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;}
+
+  header{
+    background:var(--paper);border-bottom:2px solid var(--ink);
+    position:sticky;top:0;z-index:10;
+  }
+  header .bar{
+    max-width:760px;margin:0 auto;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo-img{height:24px;width:auto;display:block;}
+  .wa-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    letter-spacing:0.03em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);
+    padding:9px 14px;border:2px solid var(--ink);text-decoration:none;
+    transition:background .15s ease,color .15s ease;
+  }
+  .wa-btn:hover{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+
+  /* ---------- cover ---------- */
+  .cover{padding:36px 0 8px;}
+  .cover .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.76rem;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--rhein-deep);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    padding:6px 0;margin-bottom:22px;display:inline-block;
+  }
+  .cover h1{font-size:clamp(2.1rem,7vw,3.1rem);line-height:0.98;}
+  .cover h1 .cut{color:var(--rhein);}
+  .cover p.lead{margin-top:14px;color:var(--ink-soft);font-size:1.02rem;max-width:520px;}
+
+  .trip-card{
+    margin-top:28px;background:var(--paper-deep);border:2px solid var(--ink);
+    padding:24px 24px 26px;
+  }
+  .trip-card .who{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;}
+  .trip-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px 22px;margin-top:18px;
+  }
+  .trip-fields .f-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
+  .trip-fields .f-value{font-size:0.98rem;font-weight:600;margin-top:3px;}
+  .perf{position:relative;border-top:2px dashed var(--ink-soft);margin:20px 0;}
+  .perf::before,.perf::after{
+    content:'';position:absolute;top:0;transform:translateY(-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:var(--paper-deep);border:2px solid var(--ink);
+  }
+  .perf::before{left:-26px;}
+  .perf::after{right:-26px;}
+  .trip-progress{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .trip-progress .bar{flex:1;min-width:140px;height:10px;background:var(--paper);border:2px solid var(--ink);position:relative;}
+  .trip-progress .bar-fill{position:absolute;inset:0;width:0%;background:var(--rhein);transition:width .3s ease;}
+  .trip-progress .count{font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--ink-soft);white-space:nowrap;}
+
+  /* ---------- day nav ---------- */
+  .day-nav{
+    display:flex;gap:8px;overflow-x:auto;padding:18px 0 6px;margin-bottom:6px;
+    -ms-overflow-style:none;scrollbar-width:none;
+  }
+  .day-nav::-webkit-scrollbar{display:none;}
+  .day-nav a{
+    flex:0 0 auto;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    padding:8px 14px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;
+    white-space:nowrap;
+  }
+  .day-nav a:hover{background:var(--ink);color:var(--paper);}
+
+  /* ---------- day ticket ---------- */
+  .day{margin-top:34px;scroll-margin-top:70px;}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .day-head .num{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.9rem;text-transform:uppercase;}
+  .day-head .date{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--ink-soft);}
+
+  .ticket{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;
+  }
+  .ticket-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .ticket-top .kind{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rhein);}
+  .ticket-top .locator{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:#b8ab8c;}
+  .ticket-route{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .ticket-route .city{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.5rem;text-transform:uppercase;}
+  .ticket-route .arrow{color:var(--rhein);font-size:1.2rem;}
+  .ticket-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:14px 20px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--board-line);
+  }
+  .ticket-fields .t-label{font-size:0.66rem;letter-spacing:0.1em;color:#b8ab8c;font-family:'IBM Plex Mono',monospace;}
+  .ticket-fields .t-value{font-size:0.92rem;font-weight:600;margin-top:3px;}
+  .ticket-note{
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);
+    font-size:0.82rem;color:#d8cbb0;
+  }
+
+  .connection{
+    background:var(--paper-deep);color:var(--ink-soft);
+    border-left:2px solid var(--ink);border-right:2px solid var(--ink);
+    padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
+  }
+
+  .stay{
+    background:var(--paper-deep);border:2px solid var(--ink);border-top:none;
+    padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .stay .s-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
+  .stay .s-value{font-weight:700;margin-top:2px;}
+
+  /* ---------- attractions checklist ---------- */
+  .attractions{margin-top:16px;}
+  .attractions h3{
+    font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;
+    font-size:1rem;color:var(--ink-soft);margin-bottom:10px;letter-spacing:0.02em;
+  }
+  .item{
+    display:flex;align-items:flex-start;gap:12px;
+    padding:12px 2px;border-bottom:1px solid var(--paper-line);cursor:pointer;
+  }
+  .item:last-child{border-bottom:none;}
+  .item .box{
+    flex:0 0 auto;width:22px;height:22px;border:2px solid var(--ink);margin-top:1px;
+    display:flex;align-items:center;justify-content:center;background:var(--paper);
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .item.done .box{background:var(--ok);border-color:var(--ok);}
+  .item .box::after{content:'';width:11px;height:6px;border-left:2px solid var(--paper);border-bottom:2px solid var(--paper);transform:rotate(-45deg) translateY(-1px);opacity:0;}
+  .item.done .box::after{opacity:1;}
+  .item .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .item .name{font-weight:700;font-size:0.98rem;}
+  .item.done .name{text-decoration:line-through;color:var(--ink-soft);}
+  .item .desc{font-size:0.84rem;color:var(--ink-soft);}
+
+  footer{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);}
+  footer .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;}
+
+  @media (max-width:560px){
+    .cover{padding-top:26px;}
+    .trip-card,.ticket,.stay{padding-left:18px;padding-right:18px;}
+    .perf::before{left:-22px;}
+    .perf::after{right:-22px;}
+  }
+</style>
+
+</head>
+<body>
+<header>
+  <div class="bar">
+    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <a class="wa-btn" href="https://api.whatsapp.com/send?phone=5527998600269&text=Ol%C3%A1!%20Estou%20com%20uma%20d%C3%BAvida%20sobre%20meu%20roteiro.">Falar com a Rhein</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="cover">
+    <span class="eyebrow">Roteiro personalizado</span>
+    <h1 class="display">Portugal<br>&amp; Espanha<span class="cut">.</span></h1>
+    <p class="lead">Do embarque em Vitória até a volta pra casa — cada trecho, hospedagem e passeio já organizados pra você só aproveitar.</p>
+
+    <div class="trip-card">
+      <span class="who">Paloma &amp; Gabriel</span>
+      <div class="trip-fields">
+        <div><div class="f-label">Período</div><div class="f-value">05 a 23 out 2026</div></div>
+        <div><div class="f-label">Duração</div><div class="f-value">19 dias · Portugal e Espanha</div></div>
+        <div><div class="f-label">Consultor</div><div class="f-value">Daniel Dias</div></div>
+        <div><div class="f-label">Localizador</div><div class="f-value">CWQXU8</div></div>
+      </div>
+      <div class="perf"></div>
+      <div class="trip-progress">
+        <span class="count mono" id="progressCount">0 de 0 passeios feitos</span>
+        <div class="bar"><div class="bar-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <nav class="day-nav" id="dayNav"></nav>
+  </section>
+
+  <div id="days"></div>
+
+  <footer>
+    <p class="fine-print mono">Rhein Viagens e Turismo LTDA · Cadastur · Qualquer imprevisto, chama a gente no WhatsApp a qualquer hora.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var TRIP_ID = 'CWQXU8';
+
+  var DAYS = [
+    {
+      date: '05 → 06 OUT (qui-sex)',
+      title: 'Embarque para Portugal',
+      tickets: [
+        {
+          kind: 'Voo · Nacional',
+          locator: 'CWQXU8',
+          from: 'VIX',
+          to: 'GIG',
+          fields: [
+            { label: 'Cia · Voo', value: 'GOL G3 1845' },
+            { label: 'Embarque', value: '14:55' },
+            { label: 'Pouso', value: '16:05' },
+            { label: 'Terminal', value: '2' }
+          ],
+          note: 'Apresentar-se no check-in em Vitória com 3h de antecedência (o trecho final é internacional). Levar passaporte com validade mínima de 6 meses.',
+          connectionAfter: 'Conexão em Rio de Janeiro (Galeão) · 4h25'
+        },
+        {
+          kind: 'Voo · Internacional',
+          locator: 'CWQXU8',
+          from: 'GIG',
+          to: 'OPO',
+          fields: [
+            { label: 'Cia · Voo', value: 'TAP TP78' },
+            { label: 'Embarque', value: '20:30 (05/10)' },
+            { label: 'Pouso', value: '10:30 (06/10)' },
+            { label: 'Terminal', value: '2' }
+          ],
+          note: 'Voo noturno — pouso em Porto já na manhã do dia seguinte.'
+        }
+      ],
+      stay: null,
+      attractions: []
+    },
+    {
+      date: '22 → 23 OUT (qui-sex)',
+      title: 'Volta para o Brasil',
+      tickets: [
+        {
+          kind: 'Voo · Internacional',
+          locator: 'CWQXU8',
+          from: 'BCN',
+          to: 'LIS',
+          fields: [
+            { label: 'Cia · Voo', value: 'TAP TP1037' },
+            { label: 'Embarque', value: '20:20' },
+            { label: 'Pouso', value: '21:20' },
+            { label: 'Terminal', value: '1' }
+          ],
+          connectionAfter: 'Conexão em Lisboa · 2h10'
+        },
+        {
+          kind: 'Voo · Internacional',
+          locator: 'CWQXU8',
+          from: 'LIS',
+          to: 'GRU',
+          fields: [
+            { label: 'Cia · Voo', value: 'TAP TP87' },
+            { label: 'Embarque', value: '23:30 (22/10)' },
+            { label: 'Pouso', value: '05:50 (23/10)' },
+            { label: 'Terminal', value: '1 → 3' }
+          ],
+          connectionAfter: 'Conexão em São Paulo (Guarulhos) · 3h10'
+        },
+        {
+          kind: 'Voo · Nacional',
+          locator: 'CWQXU8',
+          from: 'GRU',
+          to: 'VIX',
+          fields: [
+            { label: 'Cia · Voo', value: 'TAP TP4169' },
+            { label: 'Embarque', value: '09:00' },
+            { label: 'Pouso', value: '10:30' },
+            { label: 'Terminal', value: '2' }
+          ],
+          note: 'Chegada em Vitória — fim da viagem!'
+        }
+      ],
+      stay: null,
+      attractions: []
+    }
+  ];
+
+  var checksKey = 'rheinRoteiro_' + TRIP_ID;
+  var checks = {};
+  try {
+    var saved = localStorage.getItem(checksKey);
+    if (saved) checks = JSON.parse(saved) || {};
+  } catch (e) {}
+
+  function saveChecks(){
+    try { localStorage.setItem(checksKey, JSON.stringify(checks)); } catch (e) {}
+  }
+
+  var dayNav = document.getElementById('dayNav');
+  var daysWrap = document.getElementById('days');
+  var progressCount = document.getElementById('progressCount');
+  var progressFill = document.getElementById('progressFill');
+
+  var totalAttractions = 0;
+  DAYS.forEach(function(d){ totalAttractions += d.attractions.length; });
+
+  function updateProgress(){
+    var done = 0;
+    Object.keys(checks).forEach(function(k){ if (checks[k]) done++; });
+    progressCount.textContent = done + ' de ' + totalAttractions + ' passeios feitos';
+    progressFill.style.width = totalAttractions ? Math.round((done / totalAttractions) * 100) + '%' : '0%';
+  }
+
+  DAYS.forEach(function(day, di){
+    var dayId = 'day-' + (di + 1);
+
+    var navLink = document.createElement('a');
+    navLink.href = '#' + dayId;
+    navLink.textContent = day.title;
+    dayNav.appendChild(navLink);
+
+    var section = document.createElement('section');
+    section.className = 'day';
+    section.id = dayId;
+
+    var head = document.createElement('div');
+    head.className = 'day-head';
+    head.innerHTML = '<span class="num">' + day.title + '</span><span class="date mono">' + day.date + '</span>';
+    section.appendChild(head);
+
+    day.tickets.forEach(function(t){
+      var ticket = document.createElement('div');
+      ticket.className = 'ticket';
+      var fieldsHtml = t.fields.map(function(f){
+        return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+      }).join('');
+      ticket.innerHTML =
+        '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span><span class="locator mono">' + t.locator + '</span></div>' +
+        '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
+        '<div class="ticket-fields">' + fieldsHtml + '</div>' +
+        (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '');
+      section.appendChild(ticket);
+
+      if (t.connectionAfter){
+        var conn = document.createElement('div');
+        conn.className = 'connection mono';
+        conn.textContent = t.connectionAfter;
+        section.appendChild(conn);
+      }
+    });
+
+    if (day.stay){
+      var stay = document.createElement('div');
+      stay.className = 'stay';
+      stay.innerHTML = '<div><div class="s-label">' + day.stay.label + '</div><div class="s-value">' + day.stay.value + '</div></div>';
+      section.appendChild(stay);
+    }
+
+    if (day.attractions.length){
+      var attractionsWrap = document.createElement('div');
+      attractionsWrap.className = 'attractions';
+      var h3 = document.createElement('h3');
+      h3.textContent = 'Passeios do dia';
+      attractionsWrap.appendChild(h3);
+
+      day.attractions.forEach(function(att, ai){
+        var itemId = 'day' + (di + 1) + '-att' + ai;
+        var item = document.createElement('div');
+        item.className = 'item' + (checks[itemId] ? ' done' : '');
+        item.innerHTML =
+          '<span class="box" aria-hidden="true"></span>' +
+          '<span class="info"><span class="name">' + att.name + '</span><span class="desc">' + att.desc + '</span></span>';
+        item.addEventListener('click', function(){
+          checks[itemId] = !checks[itemId];
+          item.classList.toggle('done', !!checks[itemId]);
+          saveChecks();
+          updateProgress();
+        });
+        attractionsWrap.appendChild(item);
+      });
+
+      section.appendChild(attractionsWrap);
+    }
+
+    daysWrap.appendChild(section);
+  });
+
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
