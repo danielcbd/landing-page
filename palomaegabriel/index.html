@@ -111,9 +111,20 @@
 
   /* ---------- day ticket ---------- */
   .day{margin-top:34px;scroll-margin-top:70px;}
-  .day-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .day-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;
+    cursor:pointer;list-style:none;
+  }
+  .day-head::-webkit-details-marker{display:none;}
+  .day-head .title-row{display:flex;align-items:baseline;gap:10px;}
+  .day-head .arrow{
+    display:inline-block;font-size:1.3rem;color:var(--rhein-deep);
+    transition:transform .2s ease;transform:rotate(-90deg);flex:0 0 auto;
+  }
+  .day[open] .day-head .arrow{transform:rotate(0deg);}
   .day-head .num{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.9rem;text-transform:uppercase;}
   .day-head .date{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--ink-soft);}
+  .day .day-body{margin-top:0;}
 
   .ticket{
     background:var(--board-bg);color:var(--board-text);
@@ -345,19 +356,22 @@
   DAYS.forEach(function(day, di){
     var dayId = 'day-' + (di + 1);
 
-    var navLink = document.createElement('a');
-    navLink.href = '#' + dayId;
-    navLink.textContent = day.title;
-    dayNav.appendChild(navLink);
-
-    var section = document.createElement('section');
+    var section = document.createElement('details');
     section.className = 'day';
     section.id = dayId;
 
-    var head = document.createElement('div');
+    var head = document.createElement('summary');
     head.className = 'day-head';
-    head.innerHTML = '<span class="num">' + day.title + '</span><span class="date mono">' + day.date + '</span>';
+    head.innerHTML =
+      '<span class="title-row"><span class="arrow">▾</span><span class="num">' + day.title + '</span></span>' +
+      '<span class="date mono">' + day.date + '</span>';
     section.appendChild(head);
+
+    var navLink = document.createElement('a');
+    navLink.href = '#' + dayId;
+    navLink.textContent = day.title;
+    navLink.addEventListener('click', function(){ section.open = true; });
+    dayNav.appendChild(navLink);
 
     day.tickets.forEach(function(t){
       var ticket = document.createElement('div');
