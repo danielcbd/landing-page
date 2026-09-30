@@ -199,6 +199,7 @@
   .ticket-check.done .box::after{opacity:1;}
   .ticket-check .label{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:0.02em;color:#d8cbb0;}
   .ticket-check.done .label{color:var(--ok);}
+  .ticket-check.locked{cursor:default;}
 
   footer{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);}
   footer .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;}
@@ -275,7 +276,8 @@
             { label: 'Terminal', value: '2' }
           ],
           note: 'Apresentar-se no check-in em Vitória com 3h de antecedência (o trecho final é internacional). Levar passaporte com validade mínima de 6 meses.',
-          connectionAfter: 'Conexão em Rio de Janeiro (Galeão) · 4h25'
+          connectionAfter: 'Conexão em Rio de Janeiro (Galeão) · 4h25',
+          arriveAt: '2026-10-05T16:05:00'
         },
         {
           kind: 'Voo · Internacional',
@@ -288,7 +290,8 @@
             { label: 'Pouso', value: '10:30 (06/10)' },
             { label: 'Terminal', value: '2' }
           ],
-          note: 'Voo noturno — pouso em Porto já na manhã do dia seguinte.'
+          note: 'Voo noturno — pouso em Porto já na manhã do dia seguinte.',
+          arriveAt: '2026-10-06T10:30:00'
         }
       ],
       stay: null,
@@ -309,7 +312,8 @@
             { label: 'Pouso', value: '21:20' },
             { label: 'Terminal', value: '1' }
           ],
-          connectionAfter: 'Conexão em Lisboa · 2h10'
+          connectionAfter: 'Conexão em Lisboa · 2h10',
+          arriveAt: '2026-10-22T21:20:00'
         },
         {
           kind: 'Voo · Internacional',
@@ -322,7 +326,8 @@
             { label: 'Pouso', value: '05:50 (23/10)' },
             { label: 'Terminal', value: '1 → 3' }
           ],
-          connectionAfter: 'Conexão em São Paulo (Guarulhos) · 3h10'
+          connectionAfter: 'Conexão em São Paulo (Guarulhos) · 3h10',
+          arriveAt: '2026-10-23T05:50:00'
         },
         {
           kind: 'Voo · Nacional',
@@ -335,7 +340,8 @@
             { label: 'Pouso', value: '10:30' },
             { label: 'Terminal', value: '2' }
           ],
-          note: 'Chegada em Vitória — fim da viagem!'
+          note: 'Chegada em Vitória — fim da viagem!',
+          arriveAt: '2026-10-23T10:30:00'
         }
       ],
       stay: null,
@@ -362,12 +368,27 @@
   var totalAttractions = 0;
   DAYS.forEach(function(d){ totalAttractions += d.attractions.length; totalAttractions += d.tickets.length; });
 
+  var AUTO_DONE_BUFFER_MS = 30 * 60 * 1000;
+  function ticketAutoDone(t){
+    if (!t.arriveAt) return false;
+    return Date.now() >= (new Date(t.arriveAt).getTime() + AUTO_DONE_BUFFER_MS);
+  }
+
   function updateProgress(){
     var done = 0;
-    Object.keys(checks).forEach(function(k){ if (checks[k]) done++; });
+    DAYS.forEach(function(d, di){
+      d.attractions.forEach(function(att, ai){
+        if (checks['day' + (di + 1) + '-att' + ai]) done++;
+      });
+      d.tickets.forEach(function(t, ti){
+        if (ticketAutoDone(t) || checks['day' + (di + 1) + '-ticket' + ti]) done++;
+      });
+    });
     progressCount.textContent = done + ' de ' + totalAttractions + ' atividades concluídas';
     progressFill.style.width = totalAttractions ? Math.round((done / totalAttractions) * 100) + '%' : '0%';
   }
+
+  var autoChecks = [];
 
   DAYS.forEach(function(day, di){
     var dayId = 'day-' + (di + 1);
@@ -403,12 +424,15 @@
       section.appendChild(ticket);
 
       var ticketId = 'day' + (di + 1) + '-ticket' + ti;
+      var locked = ticketAutoDone(t);
+      var doneNow = locked || !!checks[ticketId];
       var ticketCheck = document.createElement('div');
-      ticketCheck.className = 'ticket-check' + (checks[ticketId] ? ' done' : '');
+      ticketCheck.className = 'ticket-check' + (doneNow ? ' done' : '') + (locked ? ' locked' : '');
       ticketCheck.innerHTML =
         '<span class="box" aria-hidden="true"></span>' +
-        '<span class="label">' + (checks[ticketId] ? 'Voo concluído' : 'Marcar voo como concluído') + '</span>';
+        '<span class="label">' + (doneNow ? 'Voo concluído' : 'Marcar voo como concluído') + '</span>';
       ticketCheck.addEventListener('click', function(){
+        if (ticketAutoDone(t)) return;
         checks[ticketId] = !checks[ticketId];
         ticketCheck.classList.toggle('done', !!checks[ticketId]);
         ticketCheck.querySelector('.label').textContent = checks[ticketId] ? 'Voo concluído' : 'Marcar voo como concluído';
@@ -416,6 +440,15 @@
         updateProgress();
       });
       ticket.appendChild(ticketCheck);
+
+      if (!locked){
+        autoChecks.push(function(){
+          if (!ticketAutoDone(t)) return false;
+          ticketCheck.classList.add('done', 'locked');
+          ticketCheck.querySelector('.label').textContent = 'Voo concluído';
+          return true;
+        });
+      }
 
       if (t.connectionAfter){
         var conn = document.createElement('div');
@@ -462,6 +495,16 @@
   });
 
   updateProgress();
+
+  setInterval(function(){
+    var anyChanged = false;
+    autoChecks = autoChecks.filter(function(check){
+      var justLocked = check();
+      if (justLocked) anyChanged = true;
+      return !justLocked;
+    });
+    if (anyChanged) updateProgress();
+  }, 60000);
 })();
 </script>
 
