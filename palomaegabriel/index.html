@@ -184,6 +184,22 @@
   .item.done .name{text-decoration:line-through;color:var(--ink-soft);}
   .item .desc{font-size:0.84rem;color:var(--ink-soft);}
 
+  /* ---------- ticket checkbox ---------- */
+  .ticket-check{
+    display:flex;align-items:center;gap:10px;cursor:pointer;
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);
+  }
+  .ticket-check .box{
+    flex:0 0 auto;width:20px;height:20px;border:2px solid var(--board-text);
+    display:flex;align-items:center;justify-content:center;background:transparent;
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .ticket-check.done .box{background:var(--ok);border-color:var(--ok);}
+  .ticket-check .box::after{content:'';width:10px;height:5px;border-left:2px solid var(--paper);border-bottom:2px solid var(--paper);transform:rotate(-45deg) translateY(-1px);opacity:0;}
+  .ticket-check.done .box::after{opacity:1;}
+  .ticket-check .label{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:0.02em;color:#d8cbb0;}
+  .ticket-check.done .label{color:var(--ok);}
+
   footer{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);}
   footer .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;}
 
@@ -344,7 +360,7 @@
   var progressFill = document.getElementById('progressFill');
 
   var totalAttractions = 0;
-  DAYS.forEach(function(d){ totalAttractions += d.attractions.length; });
+  DAYS.forEach(function(d){ totalAttractions += d.attractions.length; totalAttractions += d.tickets.length; });
 
   function updateProgress(){
     var done = 0;
@@ -373,7 +389,7 @@
     navLink.addEventListener('click', function(){ section.open = true; });
     dayNav.appendChild(navLink);
 
-    day.tickets.forEach(function(t){
+    day.tickets.forEach(function(t, ti){
       var ticket = document.createElement('div');
       ticket.className = 'ticket';
       var fieldsHtml = t.fields.map(function(f){
@@ -385,6 +401,21 @@
         '<div class="ticket-fields">' + fieldsHtml + '</div>' +
         (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '');
       section.appendChild(ticket);
+
+      var ticketId = 'day' + (di + 1) + '-ticket' + ti;
+      var ticketCheck = document.createElement('div');
+      ticketCheck.className = 'ticket-check' + (checks[ticketId] ? ' done' : '');
+      ticketCheck.innerHTML =
+        '<span class="box" aria-hidden="true"></span>' +
+        '<span class="label">' + (checks[ticketId] ? 'Voo concluído' : 'Marcar voo como concluído') + '</span>';
+      ticketCheck.addEventListener('click', function(){
+        checks[ticketId] = !checks[ticketId];
+        ticketCheck.classList.toggle('done', !!checks[ticketId]);
+        ticketCheck.querySelector('.label').textContent = checks[ticketId] ? 'Voo concluído' : 'Marcar voo como concluído';
+        saveChecks();
+        updateProgress();
+      });
+      ticket.appendChild(ticketCheck);
 
       if (t.connectionAfter){
         var conn = document.createElement('div');
