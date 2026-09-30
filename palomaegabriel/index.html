@@ -212,7 +212,7 @@
       </div>
       <div class="perf"></div>
       <div class="trip-progress">
-        <span class="count mono" id="progressCount">0 de 0 passeios feitos</span>
+        <span class="count mono" id="progressCount">0 de 0 atividades concluídas</span>
         <div class="bar"><div class="bar-fill" id="progressFill"></div></div>
       </div>
     </div>
@@ -338,7 +338,7 @@
   function updateProgress(){
     var done = 0;
     Object.keys(checks).forEach(function(k){ if (checks[k]) done++; });
-    progressCount.textContent = done + ' de ' + totalAttractions + ' passeios feitos';
+    progressCount.textContent = done + ' de ' + totalAttractions + ' atividades concluídas';
     progressFill.style.width = totalAttractions ? Math.round((done / totalAttractions) * 100) + '%' : '0%';
   }
 
