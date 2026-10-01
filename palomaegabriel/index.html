@@ -704,14 +704,20 @@
       tickets: [
         {
           kind: 'Trem · Nacional',
+          locator: 'NX2Y7F',
           from: 'MADRID ATOCHA',
           to: 'BARCELONA SANTS',
           fields: [
+            { label: 'Cia · Trem', value: 'Renfe AVE 03171' },
             { label: 'Embarque', value: '16:57' },
-            { label: 'Chegada', value: '19:59' }
+            { label: 'Chegada', value: '19:59' },
+            { label: 'Vagão · Lugares', value: '3 · 10A (Paloma) e 10B (Gabriel)' }
           ],
-          note: 'Sugiro ir de carro de aplicativo (Cabify ou Uber, 9 min) ou metrô (12 min) do hotel até Madrid-Puerta de Atocha — chegue com 30 min de antecedência. Na chegada em Barcelona: metrô (11 min) até o hotel. Bilhete ainda será enviado.',
-          arriveAt: '2026-10-18T19:59:00'
+          note: 'Sugiro ir de carro de aplicativo (Cabify ou Uber, 9 min) ou metrô (12 min) do hotel até Madrid-Puerta de Atocha — chegue com 30 min de antecedência. Na chegada em Barcelona: metrô (11 min) até o hotel.',
+          arriveAt: '2026-10-18T19:59:00',
+          pdfs: [
+            { href: 'assets/bilhete-trem-madrid-barcelona.pdf', label: 'Bilhete eletrônico' }
+          ]
         }
       ],
       stays: [
