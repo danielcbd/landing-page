@@ -277,7 +277,6 @@
       <div class="trip-fields">
         <div><div class="f-label">Período</div><div class="f-value">05 a 23 out 2026</div></div>
         <div><div class="f-label">Duração</div><div class="f-value">19 dias · Portugal e Espanha</div></div>
-        <div><div class="f-label">Localizador</div><div class="f-value">CWQXU8</div></div>
       </div>
       <div class="ticket-downloads">
         <a class="wa-btn" href="assets/bilhete-paloma.pdf" download>Bilhete · Paloma</a>
@@ -412,6 +411,7 @@
         {
           name: 'Hotel Gat Rossio',
           confirmation: 'EXP-2473028131',
+          checkOutAt: '2026-10-12T12:00:00',
           fields: [
             { label: 'Check-in', value: '09 OUT · a partir das 15h' },
             { label: 'Check-out', value: '12 OUT · até meio-dia' },
@@ -467,6 +467,7 @@
         {
           name: 'Petit Palace Vargas',
           confirmation: '94363200',
+          checkOutAt: '2026-10-14T12:00:00',
           fields: [
             { label: 'Check-in', value: '12 OUT · a partir das 14h' },
             { label: 'Check-out', value: '14 OUT · até meio-dia' },
@@ -496,6 +497,7 @@
         {
           name: 'Petit Palace Tres Cruces',
           confirmation: '94458046',
+          checkOutAt: '2026-10-18T12:00:00',
           fields: [
             { label: 'Check-in', value: '14 OUT · a partir das 14h' },
             { label: 'Check-out', value: '18 OUT · até meio-dia' },
@@ -539,6 +541,7 @@
         {
           name: 'Arc la Rambla',
           confirmation: 'EXP-2477741068',
+          checkOutAt: '2026-10-22T12:00:00',
           fields: [
             { label: 'Check-in', value: '18 OUT · a partir das 15h' },
             { label: 'Check-out', value: '22 OUT · até meio-dia' },
@@ -653,13 +656,19 @@
   var progressFill = document.getElementById('progressFill');
 
   var totalAttractions = 0;
-  DAYS.forEach(function(d){ totalAttractions += d.attractions.length; totalAttractions += d.tickets.length; });
+  DAYS.forEach(function(d){
+    totalAttractions += d.attractions.length;
+    totalAttractions += d.tickets.length;
+    totalAttractions += (d.stays || []).length;
+  });
 
   var AUTO_DONE_BUFFER_MS = 30 * 60 * 1000;
-  function ticketAutoDone(t){
-    if (!t.arriveAt) return false;
-    return Date.now() >= (new Date(t.arriveAt).getTime() + AUTO_DONE_BUFFER_MS);
+  function isPastWithBuffer(iso){
+    if (!iso) return false;
+    return Date.now() >= (new Date(iso).getTime() + AUTO_DONE_BUFFER_MS);
   }
+  function ticketAutoDone(t){ return isPastWithBuffer(t.arriveAt); }
+  function stayAutoDone(s){ return isPastWithBuffer(s.checkOutAt); }
 
   function updateProgress(){
     var done = 0;
@@ -669,6 +678,9 @@
       });
       d.tickets.forEach(function(t, ti){
         if (ticketAutoDone(t) || checks['day' + (di + 1) + '-ticket' + ti]) done++;
+      });
+      (d.stays || []).forEach(function(s, si){
+        if (stayAutoDone(s) || checks['day' + (di + 1) + '-stay' + si]) done++;
       });
     });
     progressCount.textContent = done + ' de ' + totalAttractions + ' atividades concluídas';
@@ -748,7 +760,7 @@
       }
     });
 
-    (day.stays || []).forEach(function(s){
+    (day.stays || []).forEach(function(s, si){
       var stayCard = document.createElement('div');
       stayCard.className = 'stay-card';
       var stayFieldsHtml = s.fields.map(function(f){
@@ -763,6 +775,33 @@
           return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
         }).join('') + '</div>' : '');
       section.appendChild(stayCard);
+
+      var stayId = 'day' + (di + 1) + '-stay' + si;
+      var stayLocked = stayAutoDone(s);
+      var stayDoneNow = stayLocked || !!checks[stayId];
+      var stayCheck = document.createElement('div');
+      stayCheck.className = 'ticket-check' + (stayDoneNow ? ' done' : '') + (stayLocked ? ' locked' : '');
+      stayCheck.innerHTML =
+        '<span class="box" aria-hidden="true"></span>' +
+        '<span class="label">' + (stayDoneNow ? 'Hospedagem concluída' : 'Marcar hospedagem como concluída') + '</span>';
+      stayCheck.addEventListener('click', function(){
+        if (stayAutoDone(s)) return;
+        checks[stayId] = !checks[stayId];
+        stayCheck.classList.toggle('done', !!checks[stayId]);
+        stayCheck.querySelector('.label').textContent = checks[stayId] ? 'Hospedagem concluída' : 'Marcar hospedagem como concluída';
+        saveChecks();
+        updateProgress();
+      });
+      stayCard.appendChild(stayCheck);
+
+      if (!stayLocked){
+        autoChecks.push(function(){
+          if (!stayAutoDone(s)) return false;
+          stayCheck.classList.add('done', 'locked');
+          stayCheck.querySelector('.label').textContent = 'Hospedagem concluída';
+          return true;
+        });
+      }
     });
 
     if (day.pending){
