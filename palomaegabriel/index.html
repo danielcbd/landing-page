@@ -604,8 +604,26 @@
     },
     {
       date: '14 OUT (qua)',
-      title: 'Check-in em Madrid',
-      tickets: [],
+      title: 'Trem para Madrid',
+      tickets: [
+        {
+          kind: 'Trem · Nacional',
+          locator: '5G5BW7',
+          from: 'SEVILLA SANTA JUSTA',
+          to: 'MADRID ATOCHA',
+          fields: [
+            { label: 'Cia · Trem', value: 'Renfe AVE 02161' },
+            { label: 'Embarque', value: '15:52' },
+            { label: 'Chegada', value: '18:31' },
+            { label: 'Vagão · Lugares', value: '7 · 5B (Paloma) e 5A (Gabriel)' }
+          ],
+          note: 'Sugiro ir de carro de aplicativo (Cabify ou Uber), 13 min do hotel até Sevilha Santa Justa — chegue com 30 min de antecedência. Na chegada em Madrid: metrô (24 min) ou carro de aplicativo (16 min) até o hotel.',
+          arriveAt: '2026-10-14T18:31:00',
+          pdfs: [
+            { href: 'assets/bilhete-trem-sevilha-madrid.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       stays: [
         {
           name: 'Petit Palace Tres Cruces',
@@ -616,40 +634,86 @@
             { label: 'Check-out', value: '18 OUT · até meio-dia' },
             { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' }
           ],
-          note: 'C/Tres Cruces 6, Madrid, Espanha · Tel: +34 915 22 33 27',
+          note: 'C/Tres Cruces 6, Madrid, Espanha · Tel: +34 915 22 33 27 · Café da manhã incluído. Restaurantes próximos: La Gloria de Montera e SteakBurger Gran Vía.',
           pdfs: [
             { href: 'assets/hospedagem-madrid-petit-palace-tres-cruces.pdf', label: 'Voucher' }
           ]
         }
       ],
-      attractions: [],
+      attractions: [
+        { name: 'Torre del Oro', desc: 'Deslocamento até a primeira parada do dia: carro de aplicativo (Cabify ou Uber) 4 min, transporte público 10 min, ou 15 min a pé.' },
+        { name: 'Plaza de España', desc: '' },
+        { name: 'Parque María Luisa', desc: '' },
+        { name: 'Restaurante próximo', desc: 'La Terraza del Cristina.' },
+        { name: 'Bairro de Santa Cruz (bairro histórico)', desc: 'Passeie pelas ruas: Calle Mateos Gago e Calle Judería.' }
+      ],
       pending: false
     },
     {
       date: '15 OUT (qui)',
-      title: 'Roteiro em preparação',
+      title: 'Bernabéu e Palácio Real',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Estádio Santiago Bernabéu', desc: 'Deslocamento: metrô (30 min) ou carro de aplicativo (Cabify ou Uber, 18 min). Tempo médio de visita: 2h. Horário de visita: 9h às 18:30h. Tour: € 39/pessoa + € 6 audioguia. Aviso: há previsão de jogo Madrid x Sevilla no dia 17/10 (sábado) — em dias de jogo, o tour (museu e vista panorâmica) pode ser feito até 5h30 antes do início da partida; no dia anterior e no dia do jogo, vestiários e bancos de reservas ficam fechados.' },
+        { name: 'Palácio Real de Madrid', desc: 'Tempo médio de visita: 2h. De segunda a quinta-feira, das 17h às 19h (16h às 18h no inverno): entrada gratuita para cidadãos latino-americanos, com acreditação prévia de nacionalidade (documento de identidade nacional, passaporte ou carteira de motorista). Bilheteira fecha 1h antes.' },
+        { name: 'Pôr do sol no Templo de Debod', desc: 'Aberto de terça a sábado, das 10h às 20h (último acesso às 19:30h). Gratuito. Localizado na Plaza de España.' }
+      ],
+      pending: false
     },
     {
       date: '16 OUT (sex)',
-      title: 'Roteiro em preparação',
+      title: 'Centro Histórico de Madrid',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Gran Vía', desc: 'A rua mais conhecida de Madrid.' },
+        { name: 'Porta do Sol', desc: '"Quilômetro zero" e Estátua do Urso e o Madroño.' },
+        { name: 'Plaza de Santa Ana', desc: '' },
+        { name: 'Plaza Mayor', desc: '' },
+        { name: 'Almoçar no El Botín', desc: 'O restaurante mais antigo do mundo.' },
+        { name: 'Catedral de la Almudena', desc: 'Aberta de segunda a domingo, das 10h às 20:30h. Museu da Catedral: segunda a sábado, das 10h às 14:30h — Valor: € 8/pessoa.' },
+        { name: 'Café na San Ginés', desc: 'Pasadizo San Ginés, 5. chocolateriasangines.com — aberto 24h.' },
+        { name: 'Mercado San Miguel', desc: 'Tapas e culinária típica de rua. Aberto das 10h à 1h.' },
+        { name: 'Museu do Jamón', desc: 'Famosa rede de tapas (culinária típica de rua).' },
+        { name: 'Bairro La Latina', desc: 'Opções de bares, tavernas, restaurantes e casas de tapas: Calle de Cava Baja, Calle de Cava Alta e Calle del Almendro.' },
+        { name: 'Shows de flamenco no Bairro La Latina', desc: 'Opções: El Corral de la Morería (€ 49,95/pessoa) e La Cueva de Lola (€ 28/pessoa, ou € 32/pessoa com show + bebida — fecha às 23:30h).' }
+      ],
+      pending: false
     },
     {
       date: '17 OUT (sáb)',
-      title: 'Roteiro em preparação',
+      title: 'Museus e Parques',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Plaza de Cibeles', desc: 'A praça mais famosa de Madrid.' },
+        { name: 'Palácio de Cibeles', desc: 'De terça a domingo, das 10h às 20h (segunda fechado). Acesso livre ao edifício. Miradouro de Madrid: € 3/pessoa.' },
+        { name: 'Puerta de Alcalá', desc: 'Fica no início da Calle Alcalá, na Plaza de la Independencia.' },
+        { name: 'Jardins do Retiro', desc: 'Inclui: Monumento a Afonso XII, Lago Grande do Retiro e Palácio de Cristal (o palácio está fechado temporariamente, mas o entorno está aberto para visita).' },
+        { name: 'Museu do Prado', desc: 'Horário: 16h. Entrada geral já reservada (localizador M443806F).',
+          pdfs: [
+            { href: 'assets/voucher-museu-do-prado.pdf', label: 'Voucher' }
+          ]
+        },
+        { name: 'Museu Reina Sofía', desc: 'Horário: 19h.' },
+        { name: 'Círculo de Bellas Artes', desc: 'Rooftop + acesso às salas de exposição das 11h às 14h e das 17h às 21h — Valor: € 7/pessoa. Rooftop aberto até 2h no sábado.' }
+      ],
+      pending: false
     },
     {
       date: '18 OUT (dom)',
-      title: 'Check-in em Barcelona',
-      tickets: [],
+      title: 'Trem para Barcelona',
+      tickets: [
+        {
+          kind: 'Trem · Nacional',
+          from: 'MADRID ATOCHA',
+          to: 'BARCELONA SANTS',
+          fields: [
+            { label: 'Embarque', value: '16:57' },
+            { label: 'Chegada', value: '19:59' }
+          ],
+          note: 'Sugiro ir de carro de aplicativo (Cabify ou Uber, 9 min) ou metrô (12 min) do hotel até Madrid-Puerta de Atocha — chegue com 30 min de antecedência. Na chegada em Barcelona: metrô (11 min) até o hotel. Bilhete ainda será enviado.',
+          arriveAt: '2026-10-18T19:59:00'
+        }
+      ],
       stays: [
         {
           name: 'Arc la Rambla',
@@ -661,35 +725,70 @@
             { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' },
             { label: 'A pagar na propriedade', value: '€ 61,60 · imposto local' }
           ],
-          note: 'La Rambla 19, Barcelona, Espanha · Tel: +34 93 301 97 98',
+          note: 'La Rambla 19, Barcelona, Espanha · Tel: +34 93 301 97 98 · Café da manhã incluído.',
           pdfs: [
             { href: 'assets/hospedagem-barcelona-arc-la-rambla.pdf', label: 'Voucher' }
           ]
         }
       ],
-      attractions: [],
+      attractions: [
+        { name: 'Bairro de La Latina e Feira do Rastro (Mercado de Pulgas)', desc: 'Abre apenas aos domingos e feriados, das 9h às 15h. É uma feira livre popular, com bastante aglomeração de turistas — cuidado com batedores de carteira.' },
+        { name: 'Bairro El Gòtic', desc: 'Passeie pelo bairro e curta a vida noturna.' }
+      ],
       pending: false
     },
     {
       date: '19 OUT (seg)',
-      title: 'Roteiro em preparação',
+      title: 'La Rambla e Passeig de Gràcia',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Catedral de Barcelona', desc: 'Horário: 9:30h.',
+          pdfs: [
+            { href: 'assets/voucher-catedral-de-barcelona.pdf', label: 'Voucher' }
+          ]
+        },
+        { name: 'La Rambla', desc: 'Avenida movimentada e turística de Barcelona. Inclui: Mercat de La Boqueria (mercado de tapas e outras culinárias típicas), Praça Reial e Monument a Colón.' },
+        { name: 'Restaurantes próximos (La Rambla)', desc: 'La Pallaresa - churros com chocolate (aberto das 9h às 13h e das 16h às 21h). La Cassola Restaurant - comida tradicional catalã (aberto das 9:30h às 16h).' },
+        { name: 'Praça Catalunya', desc: 'Lojas: Primark, Zara.' },
+        { name: 'Passeig de Gràcia', desc: 'Lojas: Lego, H&M, Massimo Dutti, Stradivarius.' },
+        { name: 'Casa Batlló', desc: '' },
+        { name: 'Casa Milà', desc: '' },
+        { name: 'Restaurantes próximos (Passeig de Gràcia)', desc: 'Vinitus - tapas (aberto das 11h à 00h). La Flauta - tapas e montaditos (aberto das 9h à 01h). Xurreria Trébol - churros com chocolate (aberto das 8h às 23h).' },
+        { name: 'Sercotel Rosellón Rooftop', desc: 'Vista para a Sagrada Família — avaliar disponibilidade para reserva.' }
+      ],
+      pending: false
     },
     {
       date: '20 OUT (ter)',
-      title: 'Roteiro em preparação',
+      title: 'Picasso e Sagrada Família',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Museu Picasso', desc: 'Horário: 10:15h. Tempo estimado de visita: 2h.',
+          pdfs: [
+            { href: 'assets/voucher-museu-picasso.pdf', label: 'Voucher' }
+          ]
+        },
+        { name: 'Parc de la Ciutadella', desc: 'Inclui: Cascada Monumental, Mamute, Parlamento da Catalunha e Hivernacle.' },
+        { name: 'Arco do Triunfo', desc: '' },
+        { name: 'Sagrada Família', desc: 'Horário: 17:30h. Visita livre com áudio-guia, sem torre — € 26/pessoa. Tempo estimado de visita: 1h30 a 2h.',
+          pdfs: [
+            { href: 'assets/voucher-sagrada-familia.pdf', label: 'Voucher' }
+          ]
+        }
+      ],
+      pending: false
     },
     {
       date: '21 OUT (qua)',
-      title: 'Roteiro em preparação',
+      title: 'Parque Güell e Barceloneta',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Parque Güell', desc: 'Horário: 11h. Deslocamento: metrô + a pé (30 min) ou carro de aplicativo (Cabify ou Uber, 30 min). Tempo estimado de visita: 3 a 4 horas.' },
+        { name: 'Restaurantes próximos (Parque Güell)', desc: 'Taverna El Glop - especializada em paellas (aberta das 11h à 00h). Tapeo Gràcia - restaurante de tapas (aberto das 12h à 00h). Can Codim - restaurante de tapas (aberto das 12h à 00h).' },
+        { name: 'Praia Barceloneta', desc: 'Assista ao pôr do sol.' },
+        { name: 'Restaurante próximo (Barceloneta)', desc: 'El Nou Ramonet - paellas (aberto das 13h à 00h).' }
+      ],
+      pending: false
     },
     {
       date: '22 OUT (qui)',
@@ -725,7 +824,10 @@
           arriveAt: '2026-10-23T05:50:00'
         }
       ],
-      attractions: [],
+      attractions: [
+        { name: 'Museu Nacional d\'Art de Catalunya', desc: 'Horário: 10h. Deslocamento: metrô (23 min) ou carro de aplicativo (Cabify ou Uber, 23 min). Aberto de terça a sábado, das 10h às 18h. Valor: € 12/pessoa. Tempo estimado de visita: 2 horas.' },
+        { name: 'Fonte Mágica de Montjuïc', desc: 'Deslocamento: metrô (42 min) ou carro de aplicativo (Cabify ou Uber, 35 min). Recomendamos chegar com pelo menos 3 horas de antecedência em relação ao voo de volta.' }
+      ],
       pending: false
     },
     {
@@ -846,7 +948,7 @@
         return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
       }).join('');
       ticket.innerHTML =
-        '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span><span class="locator mono">' + t.locator + '</span></div>' +
+        '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span>' + (t.locator ? '<span class="locator mono">' + t.locator + '</span>' : '') + '</div>' +
         '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
         '<div class="ticket-fields">' + fieldsHtml + '</div>' +
         (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '') +
