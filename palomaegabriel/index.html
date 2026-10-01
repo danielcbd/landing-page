@@ -111,6 +111,8 @@
     white-space:nowrap;
   }
   .day-nav a:hover{background:var(--ink);color:var(--paper);}
+  .day-nav a.done{background:var(--ok);border-color:var(--ok);color:var(--paper);}
+  .day-nav a.done:hover{background:var(--ink);border-color:var(--ink);}
 
   /* ---------- day ticket ---------- */
   .day{margin-top:34px;scroll-margin-top:70px;}
@@ -670,6 +672,12 @@
   function ticketAutoDone(t){ return isPastWithBuffer(t.arriveAt); }
   function stayAutoDone(s){ return isPastWithBuffer(s.checkOutAt); }
 
+  var TRIP_START_DATE = new Date(2026, 9, 5);
+  function dayConcluded(di){
+    var dayEnd = new Date(TRIP_START_DATE.getFullYear(), TRIP_START_DATE.getMonth(), TRIP_START_DATE.getDate() + di + 1);
+    return Date.now() >= dayEnd.getTime();
+  }
+
   function updateProgress(){
     var done = 0;
     DAYS.forEach(function(d, di){
@@ -705,9 +713,20 @@
 
     var navLink = document.createElement('a');
     navLink.href = '#' + dayId;
-    navLink.textContent = 'Dia ' + (di + 1);
+    var navConcluded = dayConcluded(di);
+    if (navConcluded) navLink.classList.add('done');
+    navLink.textContent = (navConcluded ? '✓ ' : '') + 'Dia ' + (di + 1);
     navLink.addEventListener('click', function(){ section.open = true; });
     dayNav.appendChild(navLink);
+
+    if (!navConcluded){
+      autoChecks.push(function(){
+        if (!dayConcluded(di)) return false;
+        navLink.classList.add('done');
+        navLink.textContent = '✓ Dia ' + (di + 1);
+        return true;
+      });
+    }
 
     day.tickets.forEach(function(t, ti){
       var ticket = document.createElement('div');
