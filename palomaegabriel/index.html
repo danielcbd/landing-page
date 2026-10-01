@@ -424,11 +424,26 @@
     },
     {
       date: '12 OUT (seg)',
-      title: 'Roteiro em preparação',
-      tickets: [],
+      title: 'Ônibus para Sevilha',
+      tickets: [
+        {
+          kind: 'Ônibus · Internacional',
+          locator: '1gcepqt',
+          from: 'LISBOA',
+          to: 'SEVILHA',
+          fields: [
+            { label: 'Linha', value: 'ALSA 3555' },
+            { label: 'Embarque', value: '10:45' },
+            { label: 'Chegada', value: '19:14' },
+            { label: 'Assentos', value: '5 (Paloma) · 6 (Gabriel)' }
+          ],
+          note: 'Saída de Lisboa Sete Rios, 6 paradas até Sevilha (Plaza de Armas). Apresente o bilhete no celular — não precisa imprimir. Leve documento de identificação.',
+          arriveAt: '2026-10-12T19:14:00'
+        }
+      ],
       stay: null,
       attractions: [],
-      pending: true
+      pending: false
     },
     {
       date: '13 OUT (ter)',
@@ -646,12 +661,12 @@
       ticketCheck.className = 'ticket-check' + (doneNow ? ' done' : '') + (locked ? ' locked' : '');
       ticketCheck.innerHTML =
         '<span class="box" aria-hidden="true"></span>' +
-        '<span class="label">' + (doneNow ? 'Voo concluído' : 'Marcar voo como concluído') + '</span>';
+        '<span class="label">' + (doneNow ? 'Trecho concluído' : 'Marcar trecho como concluído') + '</span>';
       ticketCheck.addEventListener('click', function(){
         if (ticketAutoDone(t)) return;
         checks[ticketId] = !checks[ticketId];
         ticketCheck.classList.toggle('done', !!checks[ticketId]);
-        ticketCheck.querySelector('.label').textContent = checks[ticketId] ? 'Voo concluído' : 'Marcar voo como concluído';
+        ticketCheck.querySelector('.label').textContent = checks[ticketId] ? 'Trecho concluído' : 'Marcar trecho como concluído';
         saveChecks();
         updateProgress();
       });
@@ -661,7 +676,7 @@
         autoChecks.push(function(){
           if (!ticketAutoDone(t)) return false;
           ticketCheck.classList.add('done', 'locked');
-          ticketCheck.querySelector('.label').textContent = 'Voo concluído';
+          ticketCheck.querySelector('.label').textContent = 'Trecho concluído';
           return true;
         });
       }
