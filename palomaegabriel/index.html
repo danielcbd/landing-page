@@ -59,9 +59,9 @@
   }
   .wa-btn:hover{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
   .ticket-downloads{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
-  .ticket .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
-  .ticket .ticket-downloads .wa-btn{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
-  .ticket .ticket-downloads .wa-btn:hover{background:var(--rhein-deep);border-color:var(--rhein-deep);color:var(--paper);}
+  .ticket .ticket-downloads,.stay-card .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
+  .ticket .ticket-downloads .wa-btn,.stay-card .ticket-downloads .wa-btn{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket .ticket-downloads .wa-btn:hover,.stay-card .ticket-downloads .wa-btn:hover{background:var(--rhein-deep);border-color:var(--rhein-deep);color:var(--paper);}
 
   /* ---------- cover ---------- */
   .cover{padding:36px 0 8px;}
@@ -158,12 +158,11 @@
     padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
   }
 
-  .stay{
-    background:var(--paper-deep);border:2px solid var(--ink);border-top:none;
-    padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  .stay-card{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;margin-top:14px;
   }
-  .stay .s-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
-  .stay .s-value{font-weight:700;margin-top:2px;}
+  .stay-card .ticket-route{margin-top:10px;}
 
   .day-pending{
     border:2px dashed var(--paper-line);background:var(--paper-deep);
@@ -216,7 +215,7 @@
 
   @media (max-width:560px){
     .cover{padding-top:26px;}
-    .trip-card,.ticket,.stay{padding-left:18px;padding-right:18px;}
+    .trip-card,.ticket,.stay-card{padding-left:18px;padding-right:18px;}
     .perf::before{left:-22px;}
     .perf::after{right:-22px;}
   }
@@ -381,7 +380,6 @@
           ]
         }
       ],
-      stay: null,
       attractions: [],
       pending: false
     },
@@ -389,7 +387,6 @@
       date: '06 OUT (ter)',
       title: 'Chegada em Porto',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -397,7 +394,6 @@
       date: '07 OUT (qua)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -405,23 +401,36 @@
       date: '08 OUT (qui)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
     {
       date: '09 OUT (sex)',
-      title: 'Roteiro em preparação',
+      title: 'Check-in em Lisboa',
       tickets: [],
-      stay: null,
+      stays: [
+        {
+          name: 'Hotel Gat Rossio',
+          confirmation: 'EXP-2473028131',
+          fields: [
+            { label: 'Check-in', value: '09 OUT · a partir das 15h' },
+            { label: 'Check-out', value: '12 OUT · até meio-dia' },
+            { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' },
+            { label: 'A pagar na propriedade', value: '€ 24,00 · imposto local' }
+          ],
+          note: 'Rua Do Jardim Do Regedor 27-35, Lisboa, Portugal · Tel: +351 21 347 83 00',
+          pdfs: [
+            { href: 'assets/hospedagem-lisboa-gat-rossio.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       attractions: [],
-      pending: true
+      pending: false
     },
     {
       date: '10 OUT (sáb)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -429,7 +438,6 @@
       date: '11 OUT (dom)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -455,7 +463,21 @@
           ]
         }
       ],
-      stay: null,
+      stays: [
+        {
+          name: 'Petit Palace Vargas',
+          confirmation: '94363200',
+          fields: [
+            { label: 'Check-in', value: '12 OUT · a partir das 14h' },
+            { label: 'Check-out', value: '14 OUT · até meio-dia' },
+            { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' }
+          ],
+          note: 'Calle Arjona 1, Sevilha, Espanha · Tel: +34 954 22 10 32',
+          pdfs: [
+            { href: 'assets/hospedagem-sevilha-petit-palace-vargas.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       attractions: [],
       pending: false
     },
@@ -463,23 +485,35 @@
       date: '13 OUT (ter)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
     {
       date: '14 OUT (qua)',
-      title: 'Roteiro em preparação',
+      title: 'Check-in em Madrid',
       tickets: [],
-      stay: null,
+      stays: [
+        {
+          name: 'Petit Palace Tres Cruces',
+          confirmation: '94458046',
+          fields: [
+            { label: 'Check-in', value: '14 OUT · a partir das 14h' },
+            { label: 'Check-out', value: '18 OUT · até meio-dia' },
+            { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' }
+          ],
+          note: 'C/Tres Cruces 6, Madrid, Espanha · Tel: +34 915 22 33 27',
+          pdfs: [
+            { href: 'assets/hospedagem-madrid-petit-palace-tres-cruces.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       attractions: [],
-      pending: true
+      pending: false
     },
     {
       date: '15 OUT (qui)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -487,7 +521,6 @@
       date: '16 OUT (sex)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -495,23 +528,36 @@
       date: '17 OUT (sáb)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
     {
       date: '18 OUT (dom)',
-      title: 'Roteiro em preparação',
+      title: 'Check-in em Barcelona',
       tickets: [],
-      stay: null,
+      stays: [
+        {
+          name: 'Arc la Rambla',
+          confirmation: 'EXP-2477741068',
+          fields: [
+            { label: 'Check-in', value: '18 OUT · a partir das 15h' },
+            { label: 'Check-out', value: '22 OUT · até meio-dia' },
+            { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' },
+            { label: 'A pagar na propriedade', value: '€ 61,60 · imposto local' }
+          ],
+          note: 'La Rambla 19, Barcelona, Espanha · Tel: +34 93 301 97 98',
+          pdfs: [
+            { href: 'assets/hospedagem-barcelona-arc-la-rambla.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       attractions: [],
-      pending: true
+      pending: false
     },
     {
       date: '19 OUT (seg)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -519,7 +565,6 @@
       date: '20 OUT (ter)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -527,7 +572,6 @@
       date: '21 OUT (qua)',
       title: 'Roteiro em preparação',
       tickets: [],
-      stay: null,
       attractions: [],
       pending: true
     },
@@ -565,7 +609,6 @@
           arriveAt: '2026-10-23T05:50:00'
         }
       ],
-      stay: null,
       attractions: [],
       pending: false
     },
@@ -588,7 +631,6 @@
           arriveAt: '2026-10-23T10:30:00'
         }
       ],
-      stay: null,
       attractions: [],
       pending: false
     }
@@ -706,12 +748,22 @@
       }
     });
 
-    if (day.stay){
-      var stay = document.createElement('div');
-      stay.className = 'stay';
-      stay.innerHTML = '<div><div class="s-label">' + day.stay.label + '</div><div class="s-value">' + day.stay.value + '</div></div>';
-      section.appendChild(stay);
-    }
+    (day.stays || []).forEach(function(s){
+      var stayCard = document.createElement('div');
+      stayCard.className = 'stay-card';
+      var stayFieldsHtml = s.fields.map(function(f){
+        return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+      }).join('');
+      stayCard.innerHTML =
+        '<div class="ticket-top"><span class="kind mono">Hospedagem</span><span class="locator mono">' + s.confirmation + '</span></div>' +
+        '<div class="ticket-route"><span class="city">' + s.name + '</span></div>' +
+        '<div class="ticket-fields">' + stayFieldsHtml + '</div>' +
+        (s.note ? '<div class="ticket-note">' + s.note + '</div>' : '') +
+        (s.pdfs && s.pdfs.length ? '<div class="ticket-downloads">' + s.pdfs.map(function(p){
+          return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+        }).join('') + '</div>' : '');
+      section.appendChild(stayCard);
+    });
 
     if (day.pending){
       var pending = document.createElement('div');
