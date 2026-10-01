@@ -356,7 +356,11 @@
           ],
           note: 'Apresentar-se no check-in em Vitória com 3h de antecedência (o trecho final é internacional). Levar passaporte com validade mínima de 6 meses.',
           connectionAfter: 'Conexão em Rio de Janeiro (Galeão) · 4h25',
-          arriveAt: '2026-10-05T16:05:00'
+          arriveAt: '2026-10-05T16:05:00',
+          pdfs: [
+            { href: 'assets/bilhete-paloma.pdf', label: 'Bilhete eletrônico - Paloma' },
+            { href: 'assets/bilhete-gabriel.pdf', label: 'Bilhete eletrônico - Gabriel' }
+          ]
         },
         {
           kind: 'Voo · Internacional',
@@ -370,7 +374,11 @@
             { label: 'Terminal', value: '2' }
           ],
           note: 'Voo noturno — pouso em Porto já na manhã do dia seguinte.',
-          arriveAt: '2026-10-06T10:30:00'
+          arriveAt: '2026-10-06T10:30:00',
+          pdfs: [
+            { href: 'assets/bilhete-paloma.pdf', label: 'Bilhete eletrônico - Paloma' },
+            { href: 'assets/bilhete-gabriel.pdf', label: 'Bilhete eletrônico - Gabriel' }
+          ]
         }
       ],
       stay: null,
@@ -442,8 +450,9 @@
           ],
           note: 'Saída de Lisboa Sete Rios, 6 paradas até Sevilha (Plaza de Armas). Apresente o bilhete no celular — não precisa imprimir. Leve documento de identificação.',
           arriveAt: '2026-10-12T19:14:00',
-          pdf: 'assets/bilhete-onibus-lisboa-sevilha.pdf',
-          pdfLabel: 'Bilhete eletrônico'
+          pdfs: [
+            { href: 'assets/bilhete-onibus-lisboa-sevilha.pdf', label: 'Bilhete eletrônico' }
+          ]
         }
       ],
       stay: null,
@@ -657,7 +666,9 @@
         '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
         '<div class="ticket-fields">' + fieldsHtml + '</div>' +
         (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '') +
-        (t.pdf ? '<div class="ticket-downloads"><a class="wa-btn" href="' + t.pdf + '" download>' + (t.pdfLabel || 'Baixar bilhete (PDF)') + '</a></div>' : '');
+        (t.pdfs && t.pdfs.length ? '<div class="ticket-downloads">' + t.pdfs.map(function(p){
+          return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+        }).join('') + '</div>' : '');
       section.appendChild(ticket);
 
       var ticketId = 'day' + (di + 1) + '-ticket' + ti;
