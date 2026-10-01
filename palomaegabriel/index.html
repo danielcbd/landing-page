@@ -456,8 +456,26 @@
     },
     {
       date: '09 OUT (sex)',
-      title: 'Check-in em Lisboa',
-      tickets: [],
+      title: 'Trem para Lisboa',
+      tickets: [
+        {
+          kind: 'Trem · Nacional',
+          locator: 'JFVR3NXF',
+          from: 'PORTO CAMPANHÃ',
+          to: 'LISBOA SANTA APOLÓNIA',
+          fields: [
+            { label: 'Cia · Trem', value: 'CP Alfa Pendular 122' },
+            { label: 'Embarque', value: '11:40' },
+            { label: 'Chegada', value: '14:30' },
+            { label: 'Carruagem · Lugares', value: '4 · 66 (Paloma) e 64 (Gabriel)' }
+          ],
+          note: 'Do hotel em Porto até a estação de Campanhã: metrô (11 min) ou carro de aplicativo (7 min) — chegue com 30 min de antecedência. Da estação de Santa Apolónia até a hospedagem em Lisboa: metrô (10 min) ou carro de aplicativo.',
+          arriveAt: '2026-10-09T14:30:00',
+          pdfs: [
+            { href: 'assets/bilhete-trem-porto-lisboa.pdf', label: 'Bilhete eletrônico' }
+          ]
+        }
+      ],
       stays: [
         {
           name: 'Hotel Gat Rossio',
@@ -469,13 +487,15 @@
             { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' },
             { label: 'A pagar na propriedade', value: '€ 24,00 · imposto local' }
           ],
-          note: 'Rua Do Jardim Do Regedor 27-35, Lisboa, Portugal · Tel: +351 21 347 83 00',
+          note: 'Rua Do Jardim Do Regedor 27-35, Lisboa, Portugal · Tel: +351 21 347 83 00 · Café da manhã incluído.',
           pdfs: [
             { href: 'assets/hospedagem-lisboa-gat-rossio.pdf', label: 'Voucher' }
           ]
         }
       ],
-      attractions: [],
+      attractions: [
+        { name: 'Elétrico 28', desc: 'Valor: € 3,30/pessoa comprando com o motorista. Intervalo médio entre cada viagem: 15 min. Trajeto completo: 40 min a 1 hora. Dica: há relatos de muitas filas — embarque no sentido contrário ao da maioria dos turistas, começando em Campo Ouriques (Prazeres) e terminando na Praça Martim Moniz.' }
+      ],
       pending: false
     },
     {
