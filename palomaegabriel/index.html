@@ -388,8 +388,25 @@
       date: '06 OUT (ter)',
       title: 'Chegada em Porto',
       tickets: [],
-      attractions: [],
-      pending: true
+      stays: [
+        {
+          name: 'The White Box Boutique House',
+          fields: [
+            { label: 'Check-in', value: '06 OUT' },
+            { label: 'Check-out', value: '09 OUT' },
+            { label: 'Hóspedes', value: 'Paloma & Gabriel (2 adultos)' }
+          ]
+        }
+      ],
+      attractions: [
+        { name: 'Rua de Santa Catarina', desc: 'A principal rua de compras do Porto, com cafés históricos.' },
+        { name: 'Capela das Almas', desc: 'Fachada famosa coberta de azulejos. Aberta todos os dias, das 7:30h às 17:30h.' },
+        { name: 'Mercado do Bolhão', desc: 'Mercado tradicional com produtos locais. Aberto até às 20h.' },
+        { name: 'Pastel de nata', desc: 'Sugestões: Manteigaria (8h-21h), Fábrica da Nata (8h-22h) e Nata Lisboa (8h-19:30h).' },
+        { name: 'Ponte Luís I', desc: 'Atravesse pelo tabuleiro superior para uma das vistas mais famosas do Porto.' },
+        { name: 'Pôr do sol e jantar no Cais da Ribeira (Gaia)', desc: 'Sugestões: Taberninha do Manel (terça a domingo, até 23h), Mercado Beira Rio (11h às 22h) e Bite RoofTop (até 22h).' }
+      ],
+      pending: false
     },
     {
       date: '07 OUT (qua)',
@@ -786,7 +803,7 @@
         return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
       }).join('');
       stayCard.innerHTML =
-        '<div class="ticket-top"><span class="kind mono">Hospedagem</span><span class="locator mono">' + s.confirmation + '</span></div>' +
+        '<div class="ticket-top"><span class="kind mono">Hospedagem</span>' + (s.confirmation ? '<span class="locator mono">' + s.confirmation + '</span>' : '') + '</div>' +
         '<div class="ticket-route"><span class="city">' + s.name + '</span></div>' +
         '<div class="ticket-fields">' + stayFieldsHtml + '</div>' +
         (s.note ? '<div class="ticket-note">' + s.note + '</div>' : '') +
