@@ -59,6 +59,9 @@
   }
   .wa-btn:hover{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
   .ticket-downloads{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .ticket .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
+  .ticket .ticket-downloads .wa-btn{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket .ticket-downloads .wa-btn:hover{background:var(--rhein-deep);border-color:var(--rhein-deep);color:var(--paper);}
 
   /* ---------- cover ---------- */
   .cover{padding:36px 0 8px;}
@@ -438,7 +441,9 @@
             { label: 'Assentos', value: '5 (Paloma) · 6 (Gabriel)' }
           ],
           note: 'Saída de Lisboa Sete Rios, 6 paradas até Sevilha (Plaza de Armas). Apresente o bilhete no celular — não precisa imprimir. Leve documento de identificação.',
-          arriveAt: '2026-10-12T19:14:00'
+          arriveAt: '2026-10-12T19:14:00',
+          pdf: 'assets/bilhete-onibus-lisboa-sevilha.pdf',
+          pdfLabel: 'Baixar bilhete · Ônibus (PDF)'
         }
       ],
       stay: null,
@@ -651,7 +656,8 @@
         '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span><span class="locator mono">' + t.locator + '</span></div>' +
         '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
         '<div class="ticket-fields">' + fieldsHtml + '</div>' +
-        (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '');
+        (t.note ? '<div class="ticket-note">' + t.note + '</div>' : '') +
+        (t.pdf ? '<div class="ticket-downloads"><a class="wa-btn" href="' + t.pdf + '" download>' + (t.pdfLabel || 'Baixar bilhete (PDF)') + '</a></div>' : '');
       section.appendChild(ticket);
 
       var ticketId = 'day' + (di + 1) + '-ticket' + ti;
