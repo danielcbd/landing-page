@@ -194,6 +194,7 @@
   .item .name{font-weight:700;font-size:0.98rem;}
   .item.done .name{text-decoration:line-through;color:var(--ink-soft);}
   .item .desc{font-size:0.84rem;color:var(--ink-soft);}
+  .item .ticket-downloads{margin-top:6px;}
 
   /* ---------- ticket checkbox ---------- */
   .ticket-check{
@@ -410,10 +411,26 @@
     },
     {
       date: '07 OUT (qua)',
-      title: 'Roteiro em preparação',
+      title: 'Explorando o Porto',
       tickets: [],
-      attractions: [],
-      pending: true
+      attractions: [
+        { name: 'Estação de São Bento', desc: 'Comece o dia com os azulejos icônicos de Portugal. Aberto de 8h às 18h · Gratuito. Sugestão de horário: 8:30h.' },
+        { name: 'Catedral Sé do Porto', desc: 'Catedral imponente com vista para a Ribeira. Aberta de 9h às 18:30h. Catedral: entrada gratuita. Claustro e Casa do Cabildo: € 3/pessoa. Sugestão de horário: 9h.' },
+        { name: 'Miradouro da Rua das Aldas', desc: '' },
+        { name: 'Almoçar na Ribeira', desc: 'Localizada à beira do Rio Douro. Sugestões: Bacalhau (ótimo para pratos de bacalhau com vista para o rio), Adega São Nicolau (perto do rio, comida clássica, muito procurada — chegue cedo) e A Grade (pratos tradicionais portugueses).' },
+        { name: 'Palácio da Bolsa', desc: 'Sugestão de horário: 14h. Aberto das 9h às 18h30 (última entrada). O horário e o idioma da visita (Português, Espanhol, Francês ou Inglês) são definidos na bilheteira, por ordem de chegada. Reserva nº 37000.',
+          pdfs: [
+            { href: 'assets/voucher-palacio-da-bolsa-paloma.pdf', label: 'Voucher - Paloma' },
+            { href: 'assets/voucher-palacio-da-bolsa-gabriel.pdf', label: 'Voucher - Gabriel' }
+          ]
+        },
+        { name: 'Parque das Virtudes', desc: '' },
+        { name: 'Igreja do Carmo', desc: 'Sugestão de horário: 16h. Aberta das 9:30h às 17h · Gratuita.' },
+        { name: 'Universidade do Porto', desc: '' },
+        { name: 'Espetáculo Spiritus', desc: 'Horário: 19:30h.' },
+        { name: 'Torre dos Clérigos', desc: 'Show de luzes. Horário: 20:30h.' }
+      ],
+      pending: false
     },
     {
       date: '08 OUT (qui)',
@@ -860,13 +877,23 @@
         item.className = 'item' + (checks[itemId] ? ' done' : '');
         item.innerHTML =
           '<span class="box" aria-hidden="true"></span>' +
-          '<span class="info"><span class="name">' + att.name + '</span><span class="desc">' + att.desc + '</span></span>';
+          '<span class="info"><span class="name">' + att.name + '</span>' +
+          (att.desc ? '<span class="desc">' + att.desc + '</span>' : '') +
+          (att.pdfs && att.pdfs.length ? '<span class="ticket-downloads">' + att.pdfs.map(function(p){
+            return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+          }).join('') + '</span>' : '') +
+          '</span>';
         item.addEventListener('click', function(){
           checks[itemId] = !checks[itemId];
           item.classList.toggle('done', !!checks[itemId]);
           saveChecks();
           updateProgress();
         });
+        if (att.pdfs && att.pdfs.length){
+          item.querySelectorAll('.ticket-downloads a').forEach(function(a){
+            a.addEventListener('click', function(e){ e.stopPropagation(); });
+          });
+        }
         attractionsWrap.appendChild(item);
       });
 
