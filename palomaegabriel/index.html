@@ -802,7 +802,8 @@
     },
     {
       date: '22 OUT (qui)',
-      title: 'Início da volta para o Brasil',
+      title: 'Montjuïc e volta para o Brasil',
+      attractionsFirst: true,
       tickets: [
         {
           kind: 'Voo · Internacional',
@@ -957,6 +958,7 @@
       });
     }
 
+    function renderTickets(){
     day.tickets.forEach(function(t, ti){
       var ticket = document.createElement('div');
       ticket.className = 'ticket';
@@ -1007,7 +1009,9 @@
         section.appendChild(conn);
       }
     });
+    }
 
+    function renderStays(){
     (day.stays || []).forEach(function(s, si){
       var stayCard = document.createElement('div');
       stayCard.className = 'stay-card';
@@ -1051,6 +1055,7 @@
         });
       }
     });
+    }
 
     if (day.pending){
       var pending = document.createElement('div');
@@ -1059,6 +1064,7 @@
       section.appendChild(pending);
     }
 
+    function renderAttractions(){
     if (day.attractions.length){
       var attractionsWrap = document.createElement('div');
       attractionsWrap.className = 'attractions';
@@ -1093,6 +1099,17 @@
       });
 
       section.appendChild(attractionsWrap);
+    }
+    }
+
+    if (day.attractionsFirst){
+      renderAttractions();
+      renderTickets();
+      renderStays();
+    } else {
+      renderTickets();
+      renderStays();
+      renderAttractions();
     }
 
     daysWrap.appendChild(section);
