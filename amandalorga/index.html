@@ -499,6 +499,7 @@
       attractions: [
         { name: 'Catedral de Notre-Dame', desc: 'A 4 min a pé da hospedagem.\nAberta de segunda a sexta, das 7h50 às 19h | sábado e domingo, das 8h15 às 19h30.\nEntrada gratuita e sem necessidade de reserva — a espera costuma ser inferior a 20 min durante a semana, pela manhã.\nÉ possível reservar, mas os horários são liberados só algumas horas antes da visita (não dá para reservar com dias de antecedência).' },
         { name: 'Caminhar em direção ao Museu do Louvre', desc: '' },
+        { name: 'Almoçar no Le Relais de l\'Entrecôte Saint-Honoré', desc: 'Aberto na sexta, das 12h às 14h30.' },
         { name: 'Jardin des Tuileries', desc: '' },
         { name: 'Galeries Lafayette Haussmann', desc: 'Terraço panorâmico gratuito, com vista para a Torre Eiffel.' },
         { name: 'Museu do Louvre', desc: 'Horário: 18:30h.\nDuração média: 2h30 a 3 horas.\nEntrada pela Pirâmide ou pelo Carrousel — metrô Palais-Royal / Musée du Louvre.\nIngressos nominais (Amanda e Guilherme): levar documento de identificação.\nPedido C262570015862.',
@@ -746,15 +747,14 @@
     var head = document.createElement('summary');
     head.className = 'day-head';
     head.innerHTML =
-      '<span class="title-row"><span class="arrow">▾</span><span class="title-text"><span class="day-num mono">Dia ' + (di + 1) + '</span><span class="num">' + day.title + '</span></span></span>' +
-      '<span class="date mono">' + day.date + '</span>';
+      '<span class="title-row"><span class="arrow">▾</span><span class="title-text"><span class="day-num mono">' + day.date + '</span><span class="num">' + day.title + '</span></span></span>';
     section.appendChild(head);
 
     var navLink = document.createElement('a');
     navLink.href = '#' + dayId;
     var navConcluded = dayConcluded(di);
     if (navConcluded) navLink.classList.add('done');
-    navLink.textContent = (navConcluded ? '✓ ' : '') + 'Dia ' + (di + 1);
+    navLink.textContent = (navConcluded ? '✓ ' : '') + day.date;
     navLink.addEventListener('click', function(){ section.open = true; });
     dayNav.appendChild(navLink);
 
@@ -762,7 +762,7 @@
       autoChecks.push(function(){
         if (!dayConcluded(di)) return false;
         navLink.classList.add('done');
-        navLink.textContent = '✓ Dia ' + (di + 1);
+        navLink.textContent = '✓ ' + day.date;
         return true;
       });
     }
