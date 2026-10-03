@@ -938,15 +938,14 @@
     var head = document.createElement('summary');
     head.className = 'day-head';
     head.innerHTML =
-      '<span class="title-row"><span class="arrow">▾</span><span class="title-text"><span class="day-num mono">Dia ' + (di + 1) + '</span><span class="num">' + day.title + '</span></span></span>' +
-      '<span class="date mono">' + day.date + '</span>';
+      '<span class="title-row"><span class="arrow">▾</span><span class="title-text"><span class="day-num mono">' + day.date + '</span><span class="num">' + day.title + '</span></span></span>';
     section.appendChild(head);
 
     var navLink = document.createElement('a');
     navLink.href = '#' + dayId;
     var navConcluded = dayConcluded(di);
     if (navConcluded) navLink.classList.add('done');
-    navLink.textContent = (navConcluded ? '✓ ' : '') + 'Dia ' + (di + 1);
+    navLink.textContent = (navConcluded ? '✓ ' : '') + day.date;
     navLink.addEventListener('click', function(){ section.open = true; });
     dayNav.appendChild(navLink);
 
@@ -954,7 +953,7 @@
       autoChecks.push(function(){
         if (!dayConcluded(di)) return false;
         navLink.classList.add('done');
-        navLink.textContent = '✓ Dia ' + (di + 1);
+        navLink.textContent = '✓ ' + day.date;
         return true;
       });
     }
