@@ -669,7 +669,9 @@
         { name: 'Porta do Sol', desc: '"Quilômetro zero" e Estátua do Urso e o Madroño.' },
         { name: 'Plaza de Santa Ana', desc: '' },
         { name: 'Plaza Mayor', desc: '' },
-        { name: 'Almoçar no El Botín', desc: 'O restaurante mais antigo do mundo.' },
+        { name: 'Almoçar no Sobrino de Botín', desc: 'O restaurante mais antigo do mundo.\n- Endereço: C. de Cuchilleros, 17, Centro, 28005 Madrid.\n- Reserva: 13h, para 2 pessoas.\n- Pagamento da garantia da reserva via link enviado por SMS.',
+          link: { href: 'https://tfk.io/3nc7gy7q', label: 'Pagar garantia da reserva' }
+        },
         { name: 'Catedral de la Almudena', desc: 'Aberta de segunda a domingo, das 10h às 20:30h.\nMuseu da Catedral: segunda a sábado, das 10h às 14:30h — Valor: € 8/pessoa.' },
         { name: 'Café na San Ginés', desc: 'Pasadizo San Ginés, 5. chocolateriasangines.com\nAberto 24h.' },
         { name: 'Mercado San Miguel', desc: 'Tapas e culinária típica de rua.\nAberto das 10h à 1h.' },
@@ -1080,9 +1082,12 @@
           '<span class="box" aria-hidden="true"></span>' +
           '<span class="info"><span class="name">' + att.name + '</span>' +
           (att.desc ? '<span class="desc">' + nl2br(att.desc) + '</span>' : '') +
-          (att.pdfs && att.pdfs.length ? '<span class="ticket-downloads">' + att.pdfs.map(function(p){
-            return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
-          }).join('') + '</span>' : '') +
+          ((att.pdfs && att.pdfs.length) || att.link ? '<span class="ticket-downloads">' +
+            ((att.pdfs && att.pdfs.length) ? att.pdfs.map(function(p){
+              return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+            }).join('') : '') +
+            (att.link ? '<a class="wa-btn" href="' + att.link.href + '" target="_blank" rel="noopener noreferrer">' + att.link.label + '</a>' : '') +
+          '</span>' : '') +
           '</span>';
         item.addEventListener('click', function(){
           checks[itemId] = !checks[itemId];
@@ -1090,7 +1095,7 @@
           saveChecks();
           updateProgress();
         });
-        if (att.pdfs && att.pdfs.length){
+        if ((att.pdfs && att.pdfs.length) || att.link){
           item.querySelectorAll('.ticket-downloads a').forEach(function(a){
             a.addEventListener('click', function(e){ e.stopPropagation(); });
           });
