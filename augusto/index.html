@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro | Augusto, Amanda &amp; Arthur</title>
+<meta name="description" content="Roteiro personalizado de Augusto, Amanda e Arthur: França, Itália e Suíça, com tickets de cada trecho e checklist de passeios.">
+<link rel="icon" href="../ressurgencia/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="../ressurgencia/assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe7d6;
+    --paper-deep:#e3d4b3;
+    --paper-line:#d8c69f;
+    --ink:#1d170f;
+    --ink-soft:#6e6353;
+    --rhein:#ff4d23;
+    --rhein-deep:#a82c10;
+    --board-bg:#17110a;
+    --board-line:rgba(243,231,201,0.16);
+    --board-text:#f3e7c9;
+    --ok:#3d7a4f;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;text-wrap:balance;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;}
+
+  header{
+    background:var(--paper);border-bottom:2px solid var(--ink);
+    position:sticky;top:0;z-index:10;
+  }
+  header .bar{
+    max-width:760px;margin:0 auto;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo-img{height:24px;width:auto;display:block;}
+  .wa-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    letter-spacing:0.03em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);
+    padding:9px 14px;border:2px solid var(--ink);text-decoration:none;
+    transition:background .15s ease,color .15s ease;
+  }
+  .wa-btn:hover{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket-downloads{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .ticket .ticket-downloads,.stay-card .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
+  .ticket .ticket-downloads .wa-btn,.stay-card .ticket-downloads .wa-btn{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket .ticket-downloads .wa-btn:hover,.stay-card .ticket-downloads .wa-btn:hover{background:var(--rhein-deep);border-color:var(--rhein-deep);color:var(--paper);}
+
+  /* ---------- cover ---------- */
+  .cover{padding:36px 0 8px;}
+  .cover .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.76rem;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--rhein-deep);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    padding:6px 0;margin-bottom:22px;display:inline-block;
+  }
+  .cover h1{font-size:clamp(2.1rem,7vw,3.1rem);line-height:0.98;}
+  .cover h1 .cut{color:var(--rhein);}
+  .cover p.lead{margin-top:14px;color:var(--ink-soft);font-size:1.02rem;max-width:520px;}
+
+  .trip-card{
+    margin-top:28px;background:var(--paper-deep);border:2px solid var(--ink);
+    padding:24px 24px 26px;
+  }
+  .trip-card .who{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;}
+  .trip-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px 22px;margin-top:18px;
+  }
+  .trip-fields .f-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
+  .trip-fields .f-value{font-size:0.98rem;font-weight:600;margin-top:3px;}
+  .perf{position:relative;border-top:2px dashed var(--ink-soft);margin:20px 0;}
+  .perf::before,.perf::after{
+    content:'';position:absolute;top:0;transform:translateY(-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:var(--paper-deep);border:2px solid var(--ink);
+  }
+  .perf::before{left:-26px;}
+  .perf::after{right:-26px;}
+  .trip-progress{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .trip-progress .bar{flex:1;min-width:140px;height:10px;background:var(--paper);border:2px solid var(--ink);position:relative;}
+  .trip-progress .bar-fill{position:absolute;inset:0;width:0%;background:var(--rhein);transition:width .3s ease;}
+  .trip-progress .count{font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--ink-soft);white-space:nowrap;}
+
+  /* ---------- day nav ---------- */
+  .day-nav{
+    display:flex;gap:8px;overflow-x:auto;padding:18px 0 6px;margin-bottom:6px;
+    -ms-overflow-style:none;scrollbar-width:none;
+  }
+  .day-nav::-webkit-scrollbar{display:none;}
+  .day-nav a{
+    flex:0 0 auto;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    padding:8px 14px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;
+    white-space:nowrap;
+  }
+  .day-nav a:hover{background:var(--ink);color:var(--paper);}
+  .day-nav a.done{background:var(--ok);border-color:var(--ok);color:var(--paper);}
+  .day-nav a.done:hover{background:var(--ink);border-color:var(--ink);}
+
+  /* ---------- day ticket ---------- */
+  .day{margin-top:34px;scroll-margin-top:70px;}
+  .day-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;
+    cursor:pointer;list-style:none;
+  }
+  .day-head::-webkit-details-marker{display:none;}
+  .day-head .title-row{display:flex;align-items:baseline;gap:10px;}
+  .day-head .title-text{display:flex;flex-direction:column;gap:3px;}
+  .day-head .day-num{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rhein-deep);}
+  .day-head .arrow{
+    display:inline-block;font-size:1.3rem;color:var(--rhein-deep);
+    transition:transform .2s ease;transform:rotate(-90deg);flex:0 0 auto;
+  }
+  .day[open] .day-head .arrow{transform:rotate(0deg);}
+  .day-head .num{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.9rem;text-transform:uppercase;}
+  .day-head .date{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--ink-soft);}
+  .day .day-body{margin-top:0;}
+
+  .ticket{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;
+  }
+  .ticket-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .ticket-top .kind{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rhein);}
+  .ticket-top .locator{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:#b8ab8c;}
+  .ticket-route{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .ticket-route .city{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.5rem;text-transform:uppercase;}
+  .ticket-route .arrow{color:var(--rhein);font-size:1.2rem;}
+  .ticket-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:14px 20px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--board-line);
+  }
+  .ticket-fields .t-label{font-size:0.66rem;letter-spacing:0.1em;color:#b8ab8c;font-family:'IBM Plex Mono',monospace;}
+  .ticket-fields .t-value{font-size:0.92rem;font-weight:600;margin-top:3px;}
+  .ticket-note{
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);
+    font-size:0.82rem;color:#d8cbb0;
+  }
+
+  .connection{
+    background:var(--paper-deep);color:var(--ink-soft);
+    border-left:2px solid var(--ink);border-right:2px solid var(--ink);
+    padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
+  }
+
+  .stay-card{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;margin-top:14px;
+  }
+  .stay-card .ticket-route{margin-top:10px;}
+
+  .day-pending{
+    border:2px dashed var(--paper-line);background:var(--paper-deep);
+    padding:16px 22px;color:var(--ink-soft);font-size:0.8rem;text-align:center;
+  }
+
+  /* ---------- attractions checklist ---------- */
+  .attractions{margin-top:16px;}
+  .attractions h3{
+    font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;
+    font-size:1rem;color:var(--ink-soft);margin-bottom:10px;letter-spacing:0.02em;
+  }
+  .item{
+    display:flex;align-items:flex-start;gap:12px;
+    padding:12px 2px;border-bottom:1px solid var(--paper-line);cursor:pointer;
+  }
+  .item:last-child{border-bottom:none;}
+  .item .box{
+    flex:0 0 auto;width:22px;height:22px;border:2px solid var(--ink);margin-top:1px;
+    display:flex;align-items:center;justify-content:center;background:var(--paper);
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .item.done .box{background:var(--ok);border-color:var(--ok);}
+  .item .box::after{content:'';width:11px;height:6px;border-left:2px solid var(--paper);border-bottom:2px solid var(--paper);transform:rotate(-45deg) translateY(-1px);opacity:0;}
+  .item.done .box::after{opacity:1;}
+  .item .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .item .name{font-weight:700;font-size:0.98rem;}
+  .item.done .name{text-decoration:line-through;color:var(--ink-soft);}
+  .item .desc{font-size:0.84rem;color:var(--ink-soft);}
+  .item .ticket-downloads{margin-top:6px;}
+
+  /* ---------- ticket checkbox ---------- */
+  .ticket-check{
+    display:flex;align-items:center;gap:10px;cursor:pointer;
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);
+  }
+  .ticket-check .box{
+    flex:0 0 auto;width:20px;height:20px;border:2px solid var(--board-text);
+    display:flex;align-items:center;justify-content:center;background:transparent;
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .ticket-check.done .box{background:var(--ok);border-color:var(--ok);}
+  .ticket-check .box::after{content:'';width:10px;height:5px;border-left:2px solid var(--paper);border-bottom:2px solid var(--paper);transform:rotate(-45deg) translateY(-1px);opacity:0;}
+  .ticket-check.done .box::after{opacity:1;}
+  .ticket-check .label{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:0.02em;color:#d8cbb0;}
+  .ticket-check.done .label{color:var(--ok);}
+  .ticket-check.locked{cursor:default;}
+
+  footer{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);}
+  footer .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;}
+
+  @media (max-width:560px){
+    .cover{padding-top:26px;}
+    .trip-card,.ticket,.stay-card{padding-left:18px;padding-right:18px;}
+    .perf::before{left:-22px;}
+    .perf::after{right:-22px;}
+  }
+
+  /* ---------- access lock ---------- */
+  #appContent{display:none;}
+  #appContent.show{display:block;}
+  .lock-screen{
+    position:fixed;inset:0;background:var(--paper);z-index:100;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .lock-screen.hidden{display:none;}
+  .lock-card{
+    max-width:340px;width:100%;background:var(--paper-deep);border:2px solid var(--ink);
+    padding:32px 28px;text-align:center;
+  }
+  .lock-card .logo-img{height:24px;margin:0 auto 20px;}
+  .lock-lead{color:var(--ink-soft);font-size:0.9rem;margin-bottom:24px;}
+  .lock-input{
+    width:100%;font-family:'IBM Plex Mono',monospace;font-size:1.6rem;letter-spacing:0.6em;
+    text-align:center;padding:12px 12px 12px 18px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);
+    margin-bottom:16px;
+  }
+  .lock-input:focus{outline:none;border-color:var(--rhein);}
+  .lock-btn{width:100%;justify-content:center;border:none;cursor:pointer;font-size:0.78rem;}
+  .lock-error{color:var(--rhein-deep);font-size:0.82rem;margin-top:14px;}
+</style>
+
+</head>
+<body>
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <p class="lock-lead">Roteiro pessoal de Augusto, Amanda &amp; Arthur. Digite o código de acesso.</p>
+    <form id="lockForm" autocomplete="off">
+      <input id="lockInput" class="lock-input mono" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" aria-label="Código de acesso">
+      <button type="submit" class="wa-btn lock-btn">Entrar</button>
+    </form>
+    <p class="lock-error mono" id="lockError" hidden>Código incorreto. Tente novamente.</p>
+  </div>
+</div>
+
+<div id="appContent">
+<header>
+  <div class="bar">
+    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <a class="wa-btn" href="https://chat.whatsapp.com/BAeYdlEeFaU4vbDrHW4tl9?s=cl&p=i&mlu=0&ilr=4">Falar com a Rhein</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="cover">
+    <span class="eyebrow">Roteiro personalizado</span>
+    <h1 class="display">França, Itália<br>E Suíça<span class="cut">.</span></h1>
+    <p class="lead">Do embarque no Brasil até a volta pra casa, cada trecho, hospedagem e passeio já organizados pra vocês só aproveitarem.</p>
+
+    <div class="trip-card">
+      <span class="who">Augusto, Amanda &amp; Arthur</span>
+      <div class="trip-fields">
+        <div><div class="f-label">Período</div><div class="f-value">15 out a 04 nov 2026</div></div>
+        <div><div class="f-label">Duração</div><div class="f-value">21 dias · França, Itália e Suíça</div></div>
+      </div>
+      <div class="perf"></div>
+      <div class="trip-progress">
+        <span class="count mono" id="progressCount">0 de 0 atividades concluídas</span>
+        <div class="bar"><div class="bar-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <nav class="day-nav" id="dayNav"></nav>
+  </section>
+
+  <div id="days"></div>
+
+  <footer>
+    <p class="fine-print mono">Rhein Viagens e Turismo LTDA · Cadastur · Qualquer imprevisto, chama a gente no WhatsApp a qualquer hora.</p>
+  </footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var TRIP_ID = 'AUGUSTO2026';
+
+  var ACCESS_PIN = '7891';
+  var accessKey = 'rheinRoteiroUnlocked_' + TRIP_ID;
+  var lockScreen = document.getElementById('lockScreen');
+  var appContent = document.getElementById('appContent');
+  var lockForm = document.getElementById('lockForm');
+  var lockInput = document.getElementById('lockInput');
+  var lockError = document.getElementById('lockError');
+
+  function unlock(){
+    lockScreen.classList.add('hidden');
+    appContent.classList.add('show');
+  }
+
+  var alreadyUnlocked = false;
+  try { alreadyUnlocked = localStorage.getItem(accessKey) === '1'; } catch (e) {}
+
+  if (alreadyUnlocked){
+    unlock();
+  } else {
+    lockForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (lockInput.value === ACCESS_PIN){
+        try { localStorage.setItem(accessKey, '1'); } catch (e) {}
+        unlock();
+      } else {
+        lockError.hidden = false;
+        lockInput.value = '';
+        lockInput.focus();
+      }
+    });
+  }
+
+  var DAYS = [
+    {
+      date: '15 OUT (qui)',
+      title: 'Embarque para Paris',
+      tickets: [
+        {
+          kind: 'Voo · Internacional',
+          from: 'GIG',
+          to: 'CDG',
+          fields: [
+            { label: 'Embarque', value: '22:10' },
+            { label: 'Pouso', value: '14:25 (16/10)' }
+          ],
+          note: 'Voo noturno, com pouso em Paris já na tarde do dia seguinte.',
+          arriveAt: '2026-10-16T14:25:00'
+        }
+      ],
+      attractions: [],
+      pending: false
+    },
+    {
+      date: '16 OUT (sex)',
+      title: 'Chegada em Paris',
+      tickets: [],
+      stays: [
+        {
+          name: 'Hotel Convention Montparnasse',
+          fields: [
+            { label: 'Check-in', value: '16 OUT' },
+            { label: 'Check-out', value: '19 OUT' },
+            { label: 'Titular da reserva', value: 'Augusto' }
+          ],
+          links: [
+            { href: 'https://drive.google.com/file/d/1rf9Gz1FbKhvaVgk0aMqKEYdJEEY5OjqD/view?usp=sharing', label: 'Voucher' }
+          ]
+        }
+      ],
+      attractions: [],
+      pending: false
+    },
+    {
+      date: '17 OUT (sáb)',
+      title: 'Parc des Princes e Louvre',
+      tickets: [],
+      attractions: [
+        { name: 'Parc des Princes', desc: 'Aberto sábado de 10h às 17h.\n- Valor: 28€/pessoa.\n- Duração média: 1h30 a 2 horas.',
+          links: [
+            { href: 'https://www.psg.fr/pt/o-clube/instalacoes/parc-des-princes', label: 'PSG' },
+            { href: 'https://stadiumtour.psg.fr/en/', label: 'Stadium Tour' }
+          ]
+        },
+        { name: 'Jardin Tuileries', desc: '' },
+        { name: 'Museu do Louvre', desc: 'Horário: 17h.\n- Duração média: 2h30 a 3 horas.',
+          links: [
+            { href: 'https://drive.google.com/file/d/1sEQFqWMSLyoQf8U3_xD-Fr84tj-UsltS/view?usp=sharing', label: 'Ingresso' }
+          ]
+        },
+        { name: 'Restaurantes próximos (Louvre)', desc: 'Bistrot Victoires.\n- Aberto de 11:30h às 23h.\n- Dica: pedir entrada Sopa de cebola e de sobremesa o Profiteroles.' },
+        { name: 'Galerias Lafayette Haussmann', desc: 'Terraço panorâmico gratuito para Paris, incluindo a vista para a Torre Eiffel.' }
+      ],
+      pending: false
+    },
+    {
+      date: '18 OUT (dom)',
+      title: 'Arco do Triunfo e Torre Eiffel',
+      tickets: [],
+      attractions: [
+        { name: 'Arco do Triunfo', desc: '' },
+        { name: 'Champs-Élysées', desc: '- Provar Macarons na Pierre Hermé ou Ladurée.\n- Longchamp (marca de bolsa francesa).\n- Louis Vuitton | Gucci.\n- Nike entre outras lojas.' },
+        { name: 'Ponte Alexandre III', desc: '228 Rue de l\'Université: ponto estratégico para foto com a Torre Eiffel ao fundo.' },
+        { name: 'Torre Eiffel', desc: '' },
+        { name: 'Champs-de-Mars', desc: '' },
+        { name: 'Jardim do Trocadéro', desc: 'Vista famosa para a Torre Eiffel.' },
+        { name: 'Passeio de barco Bateaux-Mouche (pôr do sol)', desc: '- Passeio de barco pelo Rio Sena.\n- De segunda a domingo, partidas a cada 30 minutos entre as 10h e as 22h30.\n- Valor: 20€/pessoa.',
+          links: [
+            { href: 'https://www.bateaux-mouches.fr/pt', label: 'Bateaux-Mouche' }
+          ]
+        }
+      ],
+      pending: false
+    },
+    {
+      date: '19 OUT (seg)',
+      title: 'Voo para Roma',
+      tickets: [
+        {
+          kind: 'Voo · Internacional',
+          from: 'CDG',
+          to: 'FCO',
+          fields: [
+            { label: 'Embarque', value: '06:10' },
+            { label: 'Pouso', value: '08:10' }
+          ],
+          note: 'Sugiro deixar previamente agendado táxi ou Uber para o Aeroporto de CDG, Paris.',
+          arriveAt: '2026-10-19T08:10:00'
+        }
+      ],
+      stays: [
+        {
+          name: 'Hotel Madison',
+          fields: [
+            { label: 'Check-in', value: '19 OUT' },
+            { label: 'Check-out', value: '22 OUT' },
+            { label: 'Titular da reserva', value: 'Augusto' }
+          ],
+          note: 'Localizado em frente à Estação Termini, Roma.',
+          links: [
+            { href: 'https://drive.google.com/file/d/1b8qtC-szQWm6U1BhiSSdwc6f4PfGRnpz/view?usp=sharing', label: 'Voucher' }
+          ]
+        }
+      ],
+      attractions: [
+        { name: 'Deslocamento do aeroporto até a hospedagem', desc: 'Trem expresso de FCO até a Estação Termini, Roma.\n- Tempo de viagem: 32 minutos.\n- Frequência: partidas a cada 15 minutos (podendo variar para 30 minutos em horários de menor movimento).\n- Preço: € 14 por pessoa por trecho.' },
+        { name: 'Fontana di Trevi', desc: '' },
+        { name: 'Igreja Santo Inácio de Loyola', desc: 'Aberto todos os dias de 9h às 23:30h.\n- Gratuita.\n- Espelho famoso para tirar foto com o teto.' },
+        { name: 'Pantheon', desc: '' },
+        { name: 'Piazza Navona', desc: '' },
+        { name: 'Restaurantes próximos', desc: 'Sugestões:\n- Spaghetto Roma (bom e barato)\n- All\'Antico Vinaio (franquia de sanduíche famoso italiano)\n- Giolitti (gelateria famosa e gostosa)\n- Gelateria La Romana dal 1947.' }
+      ],
+      pending: false
+    },
+    {
+      date: '20 OUT (ter)',
+      title: 'Vaticano e Basílica de São Pedro',
+      tickets: [],
+      attractions: [
+        { name: 'Visita ao Vaticano', desc: 'Da hospedagem até o Vaticano são 30 minutos de metrô.' },
+        { name: 'Basílica de São Pedro', desc: 'Gratuita.\n- Aberto de 7h10 às 19h10.' },
+        { name: 'Coliseu iluminado (à noite)', desc: 'Sugestão: voltar para a hospedagem e andar de patinete por Roma à noite para ver o Coliseu iluminado.' },
+        { name: 'Restaurantes próximos à hospedagem', desc: 'Sugestões:\n- Taverna Romana (aberto de 12:30h às 15h e 19h às 23h)\n- La Vecchia Roma\n- All\'antico vinaio (franquia de sanduíche famoso italiano).' }
+      ],
+      pending: false
+    },
+    {
+      date: '21 OUT (qua)',
+      title: 'Coliseu e Fórum Romano',
+      tickets: [],
+      attractions: [
+        { name: 'Coliseu, Fórum e Monte Palatino', desc: 'Horário: 9:30h.\n- Duração da visita: 3 horas.\n- Atenção! É necessário retirada de ingresso no endereço fornecido no próprio bilhete em PDF.\n- Ponto de encontro: Via delle Terme di Tito, 93, 00184 Roma RM, Itália.\n- Encontro no escritório da agência Enjoy Rome, Via delle Terme di Tito 93. Chegar ao ponto de encontro 30 minutos antes da hora escolhida.',
+          links: [
+            { href: 'https://drive.google.com/file/d/1Sd0mTkmLd5QrPc9hjMGcrMvNNV-c63UK/view?usp=sharing', label: 'Ingresso' }
+          ]
+        },
+        { name: 'Piazza Venezia e Monumento a Vítor Emanuel II', desc: '' },
+        { name: 'Restaurantes próximos à hospedagem', desc: 'Sugestões:\n- Taverna Romana (aberto de 12:30h às 15h e 19h às 23h)\n- All\'antico vinaio (franquia de sanduíche famoso italiano)\n- La Vecchia Roma.' }
+      ],
+      pending: false
+    },
+    {
+      date: '22 OUT (qui)',
+      title: 'Deslocamento para Piacenza',
+      tickets: [],
+      attractions: [
+        { name: 'Deslocamento Roma → Piacenza', desc: '' }
+      ],
+      pending: false
+    },
+    {
+      date: '23 OUT (sex)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '24 OUT (sáb)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '25 OUT (dom)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '26 OUT (seg)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '27 OUT (ter)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '28 OUT (qua)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '29 OUT (qui)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '30 OUT (sex)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '31 OUT (sáb)',
+      title: 'Piacenza',
+      tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '01 NOV (dom)',
+      title: 'Trem para Lugano',
+      tickets: [],
+      stays: [
+        {
+          name: 'Hotel Federale Lugano',
+          fields: [
+            { label: 'Check-in', value: '01 NOV' },
+            { label: 'Check-out', value: '02 NOV' },
+            { label: 'Titular da reserva', value: 'Augusto' }
+          ],
+          links: [
+            { href: 'https://drive.google.com/file/d/1t_1d106NH1D7-_vda5NjWXR0PLaG_stv/view?usp=sharing', label: 'Voucher' }
+          ]
+        }
+      ],
+      attractions: [
+        { name: 'Deslocamento Piacenza → Lugano', desc: 'Trem · duração aproximada 2h40.' },
+        { name: 'Lugano', desc: 'A Suíça italiana.' },
+        { name: 'Estação de trem Lugano', desc: '' },
+        { name: 'Catedral de San Lorenzo', desc: '' },
+        { name: 'Centro histórico de Lugano', desc: '' },
+        { name: 'Via Catedral', desc: '' },
+        { name: 'Gabbani 1937', desc: 'Produtos artesanais locais (cores vermelho e azul na embalagem).\n- Criadores do panetone.\n- Vende comidas, panini, pizza; bom local para almoçar.' },
+        { name: 'Piazza Della Riforma', desc: 'No centro histórico.' },
+        { name: 'Via Nassa', desc: 'Lojas famosas.' },
+        { name: 'Passeio de Trem "Giro Città"', desc: 'Passeio de trem pelos principais pontos turísticos da cidade.\n- Duração: cerca de 40 min.\n- Sábado e domingo, aberto de 10h às 19h. Funciona a cada 30 min.\n- Em caso de mau tempo, as viagens são reduzidas ou canceladas.',
+          links: [
+            { href: 'https://drive.google.com/file/d/1SJEKxKjy2wr537bOZKeWRhXo897bk95S/view', label: 'Prospetto TTL 2025' }
+          ]
+        },
+        { name: 'Parco Ciani', desc: '' },
+        { name: 'Caminhada pela margem do Lago de Lugano', desc: '' }
+      ],
+      pending: false
+    },
+    {
+      date: '02 NOV (seg)',
+      title: 'Explorando Zurique',
+      tickets: [],
+      attractions: [
+        { name: 'Deslocamento Lugano → Zurique', desc: 'Trem · duração aproximada 2h.' },
+        { name: 'Centro histórico - Altstadt', desc: '' },
+        { name: 'Bahnhofstrasse', desc: 'Rua principal e a mais cara da Europa.' },
+        { name: 'Augustinerstrasse', desc: 'Rua charmosa com bandeirinhas da Suíça.' },
+        { name: 'Lindenhof', desc: 'Mirante com vista para o rio Limmat.' },
+        { name: 'Niederdorf', desc: 'Ruas charmosas do centro histórico.' },
+        { name: 'Grossmünster', desc: 'Igreja símbolo de Zurique; é possível visitar a torre pagando.' },
+        { name: 'Fraumünster', desc: 'Igreja (cobra a entrada).' },
+        { name: 'St. Peter Kirche', desc: '' },
+        { name: 'Augustinerkirche', desc: '' },
+        { name: 'Passeio pela margem do rio Limmat', desc: '' },
+        { name: 'Lindt Museu do Chocolate', desc: 'Trem Zurich HB → Kilchberg ZH.\n- Sugiro o horário de 17:30h (último horário para visita).',
+          links: [
+            { href: 'https://www.lindt-home-of-chocolate.com/en/chocolate-museum-tour/', label: 'Lindt - Home of Chocolate' }
+          ]
+        }
+      ],
+      pending: false
+    },
+    {
+      date: '03 NOV (ter)',
+      title: 'Voo para o Brasil',
+      tickets: [
+        {
+          kind: 'Voo · Internacional',
+          from: 'ZRH',
+          to: 'GRU',
+          fields: [
+            { label: 'Embarque', value: '09:35' },
+            { label: 'Pouso', value: '05:30 (04/11)' }
+          ],
+          note: 'Voo noturno, com pouso em São Paulo já na manhã do dia seguinte.',
+          arriveAt: '2026-11-04T05:30:00'
+        }
+      ],
+      attractions: [],
+      pending: false
+    },
+    {
+      date: '04 NOV (qua)',
+      title: 'Chegada em São Paulo',
+      tickets: [],
+      attractions: [
+        { name: 'Chegada em São Paulo', desc: 'Fim da viagem!' }
+      ],
+      pending: false
+    }
+  ];
+
+  var checksKey = 'rheinRoteiro_' + TRIP_ID;
+  var checks = {};
+  try {
+    var saved = localStorage.getItem(checksKey);
+    if (saved) checks = JSON.parse(saved) || {};
+  } catch (e) {}
+
+  function saveChecks(){
+    try { localStorage.setItem(checksKey, JSON.stringify(checks)); } catch (e) {}
+  }
+
+  var dayNav = document.getElementById('dayNav');
+  var daysWrap = document.getElementById('days');
+  var progressCount = document.getElementById('progressCount');
+  var progressFill = document.getElementById('progressFill');
+
+  var totalAttractions = 0;
+  DAYS.forEach(function(d){
+    totalAttractions += d.attractions.length;
+    totalAttractions += d.tickets.length;
+    totalAttractions += (d.stays || []).length;
+  });
+
+  function nl2br(s){ return s.replace(/\n/g, '<br>'); }
+
+  function buttonsHtml(obj){
+    var buttons = [];
+    if (obj.pdfs && obj.pdfs.length){
+      obj.pdfs.forEach(function(p){ buttons.push({ href: p.href, label: p.label, download: true }); });
+    }
+    if (obj.links && obj.links.length){
+      obj.links.forEach(function(l){ buttons.push({ href: l.href, label: l.label, download: false }); });
+    }
+    if (!buttons.length) return '';
+    return '<div class="ticket-downloads">' + buttons.map(function(b){
+      return '<a class="wa-btn" href="' + b.href + '"' + (b.download ? ' download' : ' target="_blank" rel="noopener noreferrer"') + '>' + b.label + '</a>';
+    }).join('') + '</div>';
+  }
+
+  function hasButtons(obj){
+    return !!((obj.pdfs && obj.pdfs.length) || (obj.links && obj.links.length));
+  }
+
+  var AUTO_DONE_BUFFER_MS = 30 * 60 * 1000;
+  function isPastWithBuffer(iso){
+    if (!iso) return false;
+    return Date.now() >= (new Date(iso).getTime() + AUTO_DONE_BUFFER_MS);
+  }
+  function ticketAutoDone(t){ return isPastWithBuffer(t.arriveAt); }
+  function stayAutoDone(s){ return isPastWithBuffer(s.checkOutAt); }
+
+  var TRIP_START_DATE = new Date(2026, 9, 15);
+  function dayConcluded(di){
+    var dayEnd = new Date(TRIP_START_DATE.getFullYear(), TRIP_START_DATE.getMonth(), TRIP_START_DATE.getDate() + di + 1);
+    return Date.now() >= dayEnd.getTime();
+  }
+
+  function updateProgress(){
+    var done = 0;
+    DAYS.forEach(function(d, di){
+      d.attractions.forEach(function(att, ai){
+        if (checks['day' + (di + 1) + '-att' + ai]) done++;
+      });
+      d.tickets.forEach(function(t, ti){
+        if (ticketAutoDone(t) || checks['day' + (di + 1) + '-ticket' + ti]) done++;
+      });
+      (d.stays || []).forEach(function(s, si){
+        if (stayAutoDone(s) || checks['day' + (di + 1) + '-stay' + si]) done++;
+      });
+    });
+    progressCount.textContent = done + ' de ' + totalAttractions + ' atividades concluídas';
+    progressFill.style.width = totalAttractions ? Math.round((done / totalAttractions) * 100) + '%' : '0%';
+  }
+
+  var autoChecks = [];
+
+  DAYS.forEach(function(day, di){
+    var dayId = 'day-' + (di + 1);
+
+    var section = document.createElement('details');
+    section.className = 'day';
+    section.id = dayId;
+
+    var head = document.createElement('summary');
+    head.className = 'day-head';
+    head.innerHTML =
+      '<span class="title-row"><span class="arrow">▾</span><span class="title-text"><span class="day-num mono">' + day.date + '</span><span class="num">' + day.title + '</span></span></span>';
+    section.appendChild(head);
+
+    var navLink = document.createElement('a');
+    navLink.href = '#' + dayId;
+    var navConcluded = dayConcluded(di);
+    if (navConcluded) navLink.classList.add('done');
+    navLink.textContent = (navConcluded ? '✓ ' : '') + day.date;
+    navLink.addEventListener('click', function(){ section.open = true; });
+    dayNav.appendChild(navLink);
+
+    if (!navConcluded){
+      autoChecks.push(function(){
+        if (!dayConcluded(di)) return false;
+        navLink.classList.add('done');
+        navLink.textContent = '✓ ' + day.date;
+        return true;
+      });
+    }
+
+    function renderTickets(){
+    day.tickets.forEach(function(t, ti){
+      var ticket = document.createElement('div');
+      ticket.className = 'ticket';
+      var fieldsHtml = t.fields.map(function(f){
+        return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+      }).join('');
+      ticket.innerHTML =
+        '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span>' + (t.locator ? '<span class="locator mono">' + t.locator + '</span>' : '') + '</div>' +
+        '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
+        '<div class="ticket-fields">' + fieldsHtml + '</div>' +
+        (t.note ? '<div class="ticket-note">' + nl2br(t.note) + '</div>' : '') +
+        buttonsHtml(t);
+      section.appendChild(ticket);
+
+      var ticketId = 'day' + (di + 1) + '-ticket' + ti;
+      var locked = ticketAutoDone(t);
+      var doneNow = locked || !!checks[ticketId];
+      var ticketCheck = document.createElement('div');
+      ticketCheck.className = 'ticket-check' + (doneNow ? ' done' : '') + (locked ? ' locked' : '');
+      ticketCheck.innerHTML =
+        '<span class="box" aria-hidden="true"></span>' +
+        '<span class="label">' + (doneNow ? 'Trecho concluído' : 'Marcar trecho como concluído') + '</span>';
+      ticketCheck.addEventListener('click', function(){
+        if (ticketAutoDone(t)) return;
+        checks[ticketId] = !checks[ticketId];
+        ticketCheck.classList.toggle('done', !!checks[ticketId]);
+        ticketCheck.querySelector('.label').textContent = checks[ticketId] ? 'Trecho concluído' : 'Marcar trecho como concluído';
+        saveChecks();
+        updateProgress();
+      });
+      ticket.appendChild(ticketCheck);
+
+      if (!locked){
+        autoChecks.push(function(){
+          if (!ticketAutoDone(t)) return false;
+          ticketCheck.classList.add('done', 'locked');
+          ticketCheck.querySelector('.label').textContent = 'Trecho concluído';
+          return true;
+        });
+      }
+
+      if (t.connectionAfter){
+        var conn = document.createElement('div');
+        conn.className = 'connection mono';
+        conn.textContent = t.connectionAfter;
+        section.appendChild(conn);
+      }
+    });
+    }
+
+    function renderStays(){
+    (day.stays || []).forEach(function(s, si){
+      var stayCard = document.createElement('div');
+      stayCard.className = 'stay-card';
+      var stayFieldsHtml = s.fields.map(function(f){
+        return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+      }).join('');
+      stayCard.innerHTML =
+        '<div class="ticket-top"><span class="kind mono">Hospedagem</span>' + (s.confirmation ? '<span class="locator mono">' + s.confirmation + '</span>' : '') + '</div>' +
+        '<div class="ticket-route"><span class="city">' + s.name + '</span></div>' +
+        '<div class="ticket-fields">' + stayFieldsHtml + '</div>' +
+        (s.note ? '<div class="ticket-note">' + nl2br(s.note) + '</div>' : '') +
+        buttonsHtml(s);
+      section.appendChild(stayCard);
+
+      var stayId = 'day' + (di + 1) + '-stay' + si;
+      var stayLocked = stayAutoDone(s);
+      var stayDoneNow = stayLocked || !!checks[stayId];
+      var stayCheck = document.createElement('div');
+      stayCheck.className = 'ticket-check' + (stayDoneNow ? ' done' : '') + (stayLocked ? ' locked' : '');
+      stayCheck.innerHTML =
+        '<span class="box" aria-hidden="true"></span>' +
+        '<span class="label">' + (stayDoneNow ? 'Hospedagem concluída' : 'Marcar hospedagem como concluída') + '</span>';
+      stayCheck.addEventListener('click', function(){
+        if (stayAutoDone(s)) return;
+        checks[stayId] = !checks[stayId];
+        stayCheck.classList.toggle('done', !!checks[stayId]);
+        stayCheck.querySelector('.label').textContent = checks[stayId] ? 'Hospedagem concluída' : 'Marcar hospedagem como concluída';
+        saveChecks();
+        updateProgress();
+      });
+      stayCard.appendChild(stayCheck);
+
+      if (!stayLocked){
+        autoChecks.push(function(){
+          if (!stayAutoDone(s)) return false;
+          stayCheck.classList.add('done', 'locked');
+          stayCheck.querySelector('.label').textContent = 'Hospedagem concluída';
+          return true;
+        });
+      }
+    });
+    }
+
+    if (day.pending){
+      var pending = document.createElement('div');
+      pending.className = 'day-pending mono';
+      pending.textContent = 'Roteiro deste dia ainda não cadastrado.';
+      section.appendChild(pending);
+    }
+
+    function renderAttractions(){
+    if (day.attractions.length){
+      var attractionsWrap = document.createElement('div');
+      attractionsWrap.className = 'attractions';
+      var h3 = document.createElement('h3');
+      h3.textContent = 'Passeios do dia';
+      attractionsWrap.appendChild(h3);
+
+      day.attractions.forEach(function(att, ai){
+        var itemId = 'day' + (di + 1) + '-att' + ai;
+        var item = document.createElement('div');
+        item.className = 'item' + (checks[itemId] ? ' done' : '');
+        item.innerHTML =
+          '<span class="box" aria-hidden="true"></span>' +
+          '<span class="info"><span class="name">' + att.name + '</span>' +
+          (att.desc ? '<span class="desc">' + nl2br(att.desc) + '</span>' : '') +
+          buttonsHtml(att) +
+          '</span>';
+        item.addEventListener('click', function(){
+          checks[itemId] = !checks[itemId];
+          item.classList.toggle('done', !!checks[itemId]);
+          saveChecks();
+          updateProgress();
+        });
+        if (hasButtons(att)){
+          item.querySelectorAll('.ticket-downloads a').forEach(function(a){
+            a.addEventListener('click', function(e){ e.stopPropagation(); });
+          });
+        }
+        attractionsWrap.appendChild(item);
+      });
+
+      section.appendChild(attractionsWrap);
+    }
+    }
+
+    renderTickets();
+    renderStays();
+    renderAttractions();
+
+    daysWrap.appendChild(section);
+  });
+
+  updateProgress();
+
+  setInterval(function(){
+    var anyChanged = false;
+    autoChecks = autoChecks.filter(function(check){
+      var justLocked = check();
+      if (justLocked) anyChanged = true;
+      return !justLocked;
+    });
+    if (anyChanged) updateProgress();
+  }, 60000);
+})();
+</script>
+
+</body>
+</html>
