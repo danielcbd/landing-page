@@ -433,14 +433,22 @@
       tickets: [
         {
           kind: 'Voo · Internacional',
+          locator: 'CI4FJD',
           from: 'CDG',
           to: 'FCO',
           fields: [
+            { label: 'Cia · Voo', value: 'ITA Airways AZ317' },
             { label: 'Embarque', value: '06:10' },
-            { label: 'Pouso', value: '08:10' }
+            { label: 'Pouso', value: '08:10' },
+            { label: 'Terminal', value: '2B → 1' }
           ],
           note: 'Sugiro deixar previamente agendado táxi ou Uber para o Aeroporto de CDG, Paris.',
-          arriveAt: '2026-10-19T08:10:00'
+          arriveAt: '2026-10-19T08:10:00',
+          pdfs: [
+            { href: 'assets/bilhete-cdg-fco-augusto.pdf', label: 'Bilhete eletrônico - Augusto' },
+            { href: 'assets/bilhete-cdg-fco-amanda.pdf', label: 'Bilhete eletrônico - Amanda' },
+            { href: 'assets/bilhete-cdg-fco-arthur.pdf', label: 'Bilhete eletrônico - Arthur' }
+          ]
         }
       ],
       stays: [
