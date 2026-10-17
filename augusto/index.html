@@ -606,9 +606,24 @@
     {
       date: '01 NOV (dom)',
       title: 'Trem para Lugano',
-      tickets: [],
-      attractionsBefore: [
-        { name: 'Deslocamento Piacenza → Lugano', desc: 'Trem · duração aproximada 2h40.' }
+      tickets: [
+        {
+          kind: 'Trem · Internacional',
+          locator: 'PDN3FN',
+          from: 'PIACENZA',
+          to: 'LUGANO',
+          fields: [
+            { label: 'Cia · Trem', value: 'Trenitalia EuroCity 30' },
+            { label: 'Embarque', value: '10:59' },
+            { label: 'Chegada', value: '13:28' },
+            { label: 'Vagão · Lugares', value: '5 · 11 (Augusto) e 12 (Amanda)' }
+          ],
+          arriveAt: '2026-11-01T13:28:00',
+          pdfs: [
+            { href: 'assets/bilhete-trem-piacenza-lugano-augusto.pdf', label: 'Bilhete eletrônico - Augusto' },
+            { href: 'assets/bilhete-trem-piacenza-lugano-amanda.pdf', label: 'Bilhete eletrônico - Amanda' }
+          ]
+        }
       ],
       stays: [
         {
@@ -647,9 +662,23 @@
     {
       date: '02 NOV (seg)',
       title: 'Explorando Zurique',
-      tickets: [],
-      attractionsBefore: [
-        { name: 'Deslocamento Lugano → Zurique', desc: 'Trem · duração aproximada 2h.' }
+      tickets: [
+        {
+          kind: 'Trem · Internacional',
+          locator: '151551165725',
+          from: 'LUGANO',
+          to: 'ZÜRICH HB',
+          fields: [
+            { label: 'Cia · Trem', value: 'SBB CFF FFS IC870' },
+            { label: 'Embarque', value: '09:00' },
+            { label: 'Chegada', value: '10:55' }
+          ],
+          arriveAt: '2026-11-02T10:55:00',
+          pdfs: [
+            { href: 'assets/bilhete-trem-lugano-zurich-augusto.pdf', label: 'Bilhete eletrônico - Augusto' },
+            { href: 'assets/bilhete-trem-lugano-zurich-amanda.pdf', label: 'Bilhete eletrônico - Amanda' }
+          ]
+        }
       ],
       stays: [
         {
