@@ -278,8 +278,8 @@
     <div class="trip-card">
       <span class="who">Augusto, Amanda &amp; Arthur</span>
       <div class="trip-fields">
-        <div><div class="f-label">Período</div><div class="f-value">15 out a 04 nov 2026</div></div>
-        <div><div class="f-label">Duração</div><div class="f-value">21 dias · França, Itália e Suíça</div></div>
+        <div><div class="f-label">Período</div><div class="f-value">15 out a 05 nov 2026</div></div>
+        <div><div class="f-label">Duração</div><div class="f-value">22 dias · França, Itália e Suíça</div></div>
       </div>
       <div class="ticket-downloads">
         <a class="wa-btn" href="assets/seguro-viagem-augusto.pdf" download>Seguro Viagem - Augusto</a>
@@ -718,14 +718,32 @@
       tickets: [
         {
           kind: 'Voo · Internacional',
+          locator: 'AGPJMF',
           from: 'ZRH',
+          to: 'MXP',
+          fields: [
+            { label: 'Cia · Voo', value: 'LATAM Airlines LA8799' },
+            { label: 'Embarque', value: '08:45' },
+            { label: 'Pouso', value: '09:40' }
+          ],
+          connectionAfter: 'Conexão em Milão · 2h30',
+          arriveAt: '2026-11-03T09:40:00'
+        },
+        {
+          kind: 'Voo · Internacional',
+          locator: 'AGPJMF',
+          from: 'MXP',
           to: 'GRU',
           fields: [
-            { label: 'Embarque', value: '09:35' },
-            { label: 'Pouso', value: '05:30 (04/11)' }
+            { label: 'Cia · Voo', value: 'LATAM Airlines LA8073' },
+            { label: 'Embarque', value: '12:10' },
+            { label: 'Pouso', value: '20:10' }
           ],
-          note: 'Voo noturno, com pouso em São Paulo já na manhã do dia seguinte.',
-          arriveAt: '2026-11-04T05:30:00'
+          note: 'Bagagem (total dos 3 passageiros): 3 bolsas pequenas, 3 de mão, 2 despachadas. Bilhete LA9578819CELF.',
+          arriveAt: '2026-11-03T20:10:00',
+          pdfs: [
+            { href: 'assets/comprovante-voo-zrh-gru.pdf', label: 'Comprovante da reserva' }
+          ]
         }
       ],
       attractions: [],
@@ -733,10 +751,34 @@
     },
     {
       date: '04 NOV (qua)',
-      title: 'Chegada em São Paulo',
+      title: 'São Paulo',
       tickets: [],
+      attractions: [],
+      pending: true
+    },
+    {
+      date: '05 NOV (qui)',
+      title: 'Voo para Vitória',
+      tickets: [
+        {
+          kind: 'Voo · Nacional',
+          locator: 'NDADIY',
+          from: 'CGH',
+          to: 'VIX',
+          fields: [
+            { label: 'Cia · Voo', value: 'Gol 1350' },
+            { label: 'Embarque', value: '18:55' },
+            { label: 'Pouso', value: '20:30' }
+          ],
+          note: 'Bagagem (total dos 3 passageiros): 3 bolsas pequenas, 2 de mão. Sem bagagem despachada.',
+          arriveAt: '2026-11-05T20:30:00',
+          pdfs: [
+            { href: 'assets/comprovante-voo-cgh-vix.pdf', label: 'Comprovante da reserva' }
+          ]
+        }
+      ],
       attractions: [
-        { name: 'Chegada em São Paulo', desc: 'Fim da viagem!' }
+        { name: 'Chegada em Vitória', desc: 'Fim da viagem!' }
       ],
       pending: false
     }
