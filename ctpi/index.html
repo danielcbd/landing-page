@@ -11,23 +11,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /*
-    Paleta provisória (não é a identidade da Rhein): será trocada
-    pelas cores/logo reais assim que a foto do evento chegar.
-  */
+  /* Identidade do CTPI: fundo escuro, vinho/vermelho, tipografia bold uppercase */
   :root{
-    --paper:#f2efe6;
-    --paper-deep:#e6e0cf;
-    --paper-line:#d4cbb0;
-    --ink:#1c1a16;
-    --ink-soft:#655f4e;
-    --accent:#b5892c;
-    --accent-deep:#8a6a1f;
-    --board-bg:#14130f;
-    --board-line:rgba(242,239,230,0.16);
-    --board-text:#f2efe6;
+    --paper:#0d0908;
+    --paper-deep:#1c1210;
+    --paper-line:#3a2220;
+    --ink:#f5efe8;
+    --ink-soft:#b8a89f;
+    --accent:#c23b4a;
+    --accent-deep:#8a1f2d;
+    --board-bg:#000000;
+    --board-line:rgba(245,239,232,0.14);
+    --board-text:#f5efe8;
     --ok:#3d7a4f;
-    color-scheme: light;
+    color-scheme: dark;
   }
   *{box-sizing:border-box;}
   body{
@@ -53,6 +50,7 @@
     display:flex;align-items:center;justify-content:space-between;gap:12px;
   }
   .logo-img{height:22px;width:auto;display:block;}
+  .logo-chip{display:inline-flex;align-items:center;background:var(--ink);padding:7px 12px;}
   .wa-btn{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
@@ -65,14 +63,14 @@
   .ticket-downloads{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
   .ticket .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
   .ticket .ticket-downloads .wa-btn{background:var(--accent);border-color:var(--accent);color:var(--ink);}
-  .ticket .ticket-downloads .wa-btn:hover{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
+  .ticket .ticket-downloads .wa-btn:hover{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--ink);}
 
   /* ---------- cover ---------- */
   .cover{padding:36px 0 8px;}
   .cover .eyebrow{
     font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.76rem;
-    letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-deep);
-    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);
+    border-top:2px solid var(--accent);border-bottom:2px solid var(--accent);
     padding:6px 0;margin-bottom:22px;display:inline-block;
   }
   .cover h1{font-size:clamp(1.9rem,6.2vw,2.7rem);line-height:1.02;}
@@ -152,7 +150,8 @@
     max-width:340px;width:100%;background:var(--paper-deep);border:2px solid var(--ink);
     padding:32px 28px;text-align:center;
   }
-  .lock-card .logo-img{height:22px;margin:0 auto 20px;}
+  .lock-card .logo-chip{margin:0 auto 20px;}
+  .lock-card .logo-img{height:22px;}
   .lock-lead{color:var(--ink-soft);font-size:0.9rem;margin-bottom:24px;}
   .lock-input{
     width:100%;font-family:'IBM Plex Mono',monospace;font-size:1.6rem;letter-spacing:0.6em;
@@ -168,7 +167,7 @@
 <body>
 <div class="lock-screen" id="lockScreen">
   <div class="lock-card">
-    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <span class="logo-chip"><img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens"></span>
     <p class="lock-lead">Chegadas da Conferência Novas Igrejas para uma Nova Realidade. Digite o código de acesso.</p>
     <form id="lockForm" autocomplete="off">
       <input id="lockInput" class="lock-input mono" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" aria-label="Código de acesso">
@@ -181,7 +180,7 @@
 <div id="appContent">
 <header>
   <div class="bar">
-    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <span class="logo-chip"><img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens"></span>
     <a class="wa-btn" href="https://api.whatsapp.com/send?phone=5527998600269">Falar com a Rhein</a>
   </div>
 </header>
@@ -194,8 +193,9 @@
 
     <div class="event-card">
       <div class="event-fields">
-        <div><div class="f-label">Evento</div><div class="f-value">Conferência Novas Igrejas para uma Nova Realidade</div></div>
-        <div><div class="f-label">Local</div><div class="f-value">Uberlândia/MG</div></div>
+        <div><div class="f-label">Data</div><div class="f-value">05 de novembro</div></div>
+        <div><div class="f-label">Horário</div><div class="f-value">9h às 21h</div></div>
+        <div><div class="f-label">Local</div><div class="f-value">Igreja Presbiteriana Central de Uberlândia</div></div>
       </div>
     </div>
   </section>
