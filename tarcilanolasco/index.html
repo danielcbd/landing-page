@@ -270,7 +270,100 @@
   // ---------- documents ----------
   // Cada item vai virando um card conforme os bilhetes/comprovantes forem chegando.
 
-  var FLIGHTS = [];
+  var TICKET_PDFS = [
+    { href: 'assets/bilhete-aereo-tarcila.pdf', label: 'Tarcila' },
+    { href: 'assets/bilhete-aereo-newton.pdf', label: 'Newton' }
+  ];
+
+  var FLIGHTS = [
+    {
+      kind: 'Voo · Internacional',
+      locator: 'KXLCHC',
+      from: 'VIX',
+      to: 'GIG',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP5976' },
+        { label: 'Embarque', value: '21:05 (29/10)' },
+        { label: 'Pouso', value: '22:15 (29/10)' },
+        { label: 'Terminal', value: '2' }
+      ],
+      pdfs: TICKET_PDFS,
+      connectionAfter: 'Conexão no Rio de Janeiro (Galeão) · 2h00'
+    },
+    {
+      kind: 'Voo · Internacional',
+      locator: 'KXLCHC',
+      from: 'GIG',
+      to: 'LIS',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP67' },
+        { label: 'Embarque', value: '00:15 (30/10)' },
+        { label: 'Pouso', value: '12:55 (30/10)' },
+        { label: 'Terminal', value: '2 → 1' }
+      ],
+      note: 'Voo noturno direto Rio de Janeiro–Lisboa.',
+      pdfs: TICKET_PDFS,
+      connectionAfter: 'Conexão em Lisboa · 1h45'
+    },
+    {
+      kind: 'Voo · Internacional',
+      locator: 'KXLCHC',
+      from: 'LIS',
+      to: 'FCO',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP836' },
+        { label: 'Embarque', value: '14:40 (30/10)' },
+        { label: 'Pouso', value: '18:45 (30/10)' },
+        { label: 'Terminal', value: '1' }
+      ],
+      note: 'Chegada em Roma.',
+      pdfs: TICKET_PDFS
+    },
+    {
+      kind: 'Voo · Internacional',
+      locator: 'KXLCHC',
+      from: 'ZRH',
+      to: 'LIS',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP933' },
+        { label: 'Embarque', value: '18:00 (07/11)' },
+        { label: 'Pouso', value: '20:00 (07/11)' },
+        { label: 'Terminal', value: '1' }
+      ],
+      note: 'Início da volta, saindo de Zurique.',
+      pdfs: TICKET_PDFS,
+      connectionAfter: 'Conexão em Lisboa · 3h25'
+    },
+    {
+      kind: 'Voo · Internacional',
+      locator: 'KXLCHC',
+      from: 'LIS',
+      to: 'GRU',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP87' },
+        { label: 'Embarque', value: '23:25 (07/11)' },
+        { label: 'Pouso', value: '06:50 (08/11)' },
+        { label: 'Terminal', value: '1 → 3' }
+      ],
+      note: 'Voo noturno, com pouso em São Paulo já na manhã do dia seguinte.',
+      pdfs: TICKET_PDFS,
+      connectionAfter: 'Conexão em São Paulo (Guarulhos) · 3h10'
+    },
+    {
+      kind: 'Voo · Nacional',
+      locator: 'KXLCHC',
+      from: 'GRU',
+      to: 'VIX',
+      fields: [
+        { label: 'Cia · Voo', value: 'TAP TP4169' },
+        { label: 'Embarque', value: '10:00 (08/11)' },
+        { label: 'Pouso', value: '11:30 (08/11)' },
+        { label: 'Terminal', value: '2' }
+      ],
+      note: 'Chegada em Vitória. Fim da viagem!',
+      pdfs: TICKET_PDFS
+    }
+  ];
 
   var TRAINS = [];
 
