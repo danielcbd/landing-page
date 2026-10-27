@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área do Cliente | Tarcila &amp; Newton</title>
+<meta name="description" content="Área do cliente Rhein Viagens: passagens aéreas, de trem e comprovantes de hospedagem de Tarcila Nolasco Yokota e Newton Pinheiro Filho.">
+<link rel="icon" href="../ressurgencia/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="../ressurgencia/assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe7d6;
+    --paper-deep:#e3d4b3;
+    --paper-line:#d8c69f;
+    --ink:#1d170f;
+    --ink-soft:#6e6353;
+    --rhein:#ff4d23;
+    --rhein-deep:#a82c10;
+    --board-bg:#17110a;
+    --board-line:rgba(243,231,201,0.16);
+    --board-text:#f3e7c9;
+    --ok:#3d7a4f;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;text-wrap:balance;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;}
+
+  header{
+    background:var(--paper);border-bottom:2px solid var(--ink);
+    position:sticky;top:0;z-index:10;
+  }
+  header .bar{
+    max-width:760px;margin:0 auto;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo-img{height:24px;width:auto;display:block;}
+  .wa-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    letter-spacing:0.03em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);
+    padding:9px 14px;border:2px solid var(--ink);text-decoration:none;
+    transition:background .15s ease,color .15s ease;
+  }
+  .wa-btn:hover{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket-downloads{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .ticket .ticket-downloads,.stay-card .ticket-downloads{margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);}
+  .ticket .ticket-downloads .wa-btn,.stay-card .ticket-downloads .wa-btn{background:var(--rhein);border-color:var(--rhein);color:var(--ink);}
+  .ticket .ticket-downloads .wa-btn:hover,.stay-card .ticket-downloads .wa-btn:hover{background:var(--rhein-deep);border-color:var(--rhein-deep);color:var(--paper);}
+
+  /* ---------- cover ---------- */
+  .cover{padding:36px 0 8px;}
+  .cover .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.76rem;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--rhein-deep);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    padding:6px 0;margin-bottom:22px;display:inline-block;
+  }
+  .cover h1{font-size:clamp(2.1rem,7vw,3.1rem);line-height:0.98;}
+  .cover h1 .cut{color:var(--rhein);}
+  .cover p.lead{margin-top:14px;color:var(--ink-soft);font-size:1.02rem;max-width:520px;}
+
+  .trip-card{
+    margin-top:28px;background:var(--paper-deep);border:2px solid var(--ink);
+    padding:24px 24px 26px;
+  }
+  .trip-card .who{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;display:block;}
+  .trip-card .who + .who{margin-top:2px;}
+  .trip-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px 22px;margin-top:18px;
+  }
+  .trip-fields .f-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
+  .trip-fields .f-value{font-size:0.98rem;font-weight:600;margin-top:3px;}
+
+  /* ---------- document sections ---------- */
+  .doc-section{margin-top:40px;}
+  .doc-section .section-head{
+    display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
+  }
+  .doc-section .section-num{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rhein-deep);font-family:'IBM Plex Mono',monospace;}
+  .doc-section h2{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.7rem;text-transform:uppercase;}
+  .doc-list > * + *{margin-top:14px;}
+
+  .ticket{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;
+  }
+  .ticket-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .ticket-top .kind{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rhein);}
+  .ticket-top .locator{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:#b8ab8c;}
+  .ticket-route{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .ticket-route .city{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:1.5rem;text-transform:uppercase;}
+  .ticket-route .arrow{color:var(--rhein);font-size:1.2rem;}
+  .ticket-fields{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:14px 20px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--board-line);
+  }
+  .ticket-fields .t-label{font-size:0.66rem;letter-spacing:0.1em;color:#b8ab8c;font-family:'IBM Plex Mono',monospace;}
+  .ticket-fields .t-value{font-size:0.92rem;font-weight:600;margin-top:3px;}
+  .ticket-note{
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--board-line);
+    font-size:0.82rem;color:#d8cbb0;
+  }
+
+  .connection{
+    background:var(--paper-deep);color:var(--ink-soft);
+    border-left:2px solid var(--ink);border-right:2px solid var(--ink);
+    padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
+  }
+
+  .stay-card{
+    background:var(--board-bg);color:var(--board-text);
+    border:2px solid var(--ink);padding:22px 22px 20px;
+  }
+  .stay-card .ticket-route{margin-top:10px;}
+
+  .section-empty{
+    border:2px dashed var(--paper-line);background:var(--paper-deep);
+    padding:16px 22px;color:var(--ink-soft);font-size:0.8rem;text-align:center;
+  }
+
+  footer{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);}
+  footer .fine-print{font-size:0.72rem;color:var(--ink-soft);text-align:center;}
+
+  @media (max-width:560px){
+    .cover{padding-top:26px;}
+    .trip-card,.ticket,.stay-card{padding-left:18px;padding-right:18px;}
+  }
+
+  /* ---------- access lock ---------- */
+  #appContent{display:none;}
+  #appContent.show{display:block;}
+  .lock-screen{
+    position:fixed;inset:0;background:var(--paper);z-index:100;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .lock-screen.hidden{display:none;}
+  .lock-card{
+    max-width:340px;width:100%;background:var(--paper-deep);border:2px solid var(--ink);
+    padding:32px 28px;text-align:center;
+  }
+  .lock-card .logo-img{height:24px;margin:0 auto 20px;}
+  .lock-lead{color:var(--ink-soft);font-size:0.9rem;margin-bottom:24px;}
+  .lock-input{
+    width:100%;font-family:'IBM Plex Mono',monospace;font-size:1.6rem;letter-spacing:0.6em;
+    text-align:center;padding:12px 12px 12px 18px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);
+    margin-bottom:16px;
+  }
+  .lock-input:focus{outline:none;border-color:var(--rhein);}
+  .lock-btn{width:100%;justify-content:center;border:none;cursor:pointer;font-size:0.78rem;}
+  .lock-error{color:var(--rhein-deep);font-size:0.82rem;margin-top:14px;}
+</style>
+
+</head>
+<body>
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <p class="lock-lead">Área do cliente de Tarcila &amp; Newton. Digite o código de acesso.</p>
+    <form id="lockForm" autocomplete="off">
+      <input id="lockInput" class="lock-input mono" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" aria-label="Código de acesso">
+      <button type="submit" class="wa-btn lock-btn">Entrar</button>
+    </form>
+    <p class="lock-error mono" id="lockError" hidden>Código incorreto. Tente novamente.</p>
+  </div>
+</div>
+
+<div id="appContent">
+<header>
+  <div class="bar">
+    <img class="logo-img" src="assets/rhein-wordmark.png" alt="Rhein Viagens">
+    <a class="wa-btn" href="https://api.whatsapp.com/send?phone=5527998600269">Falar com a Rhein</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="cover">
+    <span class="eyebrow">Área do cliente</span>
+    <h1 class="display">Seus documentos<br>de viagem<span class="cut">.</span></h1>
+    <p class="lead">Passagens aéreas, passagens de trem e comprovantes de hospedagem, tudo reunido num só lugar para vocês.</p>
+
+    <div class="trip-card">
+      <span class="who">Tarcila Nolasco Yokota</span>
+      <span class="who">Newton Pinheiro Filho</span>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <div class="section-head">
+      <span class="section-num mono">01</span>
+      <h2>Passagens aéreas</h2>
+    </div>
+    <div class="doc-list" id="flights"></div>
+  </section>
+
+  <section class="doc-section">
+    <div class="section-head">
+      <span class="section-num mono">02</span>
+      <h2>Passagens de trem</h2>
+    </div>
+    <div class="doc-list" id="trains"></div>
+  </section>
+
+  <section class="doc-section">
+    <div class="section-head">
+      <span class="section-num mono">03</span>
+      <h2>Hospedagem</h2>
+    </div>
+    <div class="doc-list" id="stays"></div>
+  </section>
+
+  <footer>
+    <p class="fine-print mono">Rhein Viagens e Turismo LTDA · Cadastur · Qualquer imprevisto, chama a gente no WhatsApp a qualquer hora.</p>
+  </footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var TRIP_ID = 'TARCILANOLASCO2026';
+
+  var ACCESS_PIN = '4827';
+  var accessKey = 'rheinRoteiroUnlocked_' + TRIP_ID;
+  var lockScreen = document.getElementById('lockScreen');
+  var appContent = document.getElementById('appContent');
+  var lockForm = document.getElementById('lockForm');
+  var lockInput = document.getElementById('lockInput');
+  var lockError = document.getElementById('lockError');
+
+  function unlock(){
+    lockScreen.classList.add('hidden');
+    appContent.classList.add('show');
+  }
+
+  var alreadyUnlocked = false;
+  try { alreadyUnlocked = localStorage.getItem(accessKey) === '1'; } catch (e) {}
+
+  if (alreadyUnlocked){
+    unlock();
+  } else {
+    lockForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (lockInput.value === ACCESS_PIN){
+        try { localStorage.setItem(accessKey, '1'); } catch (e) {}
+        unlock();
+      } else {
+        lockError.hidden = false;
+        lockInput.value = '';
+        lockInput.focus();
+      }
+    });
+  }
+
+  // ---------- documents ----------
+  // Cada item vai virando um card conforme os bilhetes/comprovantes forem chegando.
+
+  var FLIGHTS = [];
+
+  var TRAINS = [];
+
+  var STAYS = [];
+
+  function nl2br(s){ return s.replace(/\n/g, '<br>'); }
+
+  function renderTicket(t){
+    var ticket = document.createElement('div');
+    ticket.className = 'ticket';
+    var fieldsHtml = t.fields.map(function(f){
+      return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+    }).join('');
+    ticket.innerHTML =
+      '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span>' + (t.locator ? '<span class="locator mono">' + t.locator + '</span>' : '') + '</div>' +
+      '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
+      '<div class="ticket-fields">' + fieldsHtml + '</div>' +
+      (t.note ? '<div class="ticket-note">' + nl2br(t.note) + '</div>' : '') +
+      (t.pdfs && t.pdfs.length ? '<div class="ticket-downloads">' + t.pdfs.map(function(p){
+        return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+      }).join('') + '</div>' : '');
+    return ticket;
+  }
+
+  function renderStay(s){
+    var stayCard = document.createElement('div');
+    stayCard.className = 'stay-card';
+    var stayFieldsHtml = s.fields.map(function(f){
+      return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
+    }).join('');
+    stayCard.innerHTML =
+      '<div class="ticket-top"><span class="kind mono">Hospedagem</span>' + (s.confirmation ? '<span class="locator mono">' + s.confirmation + '</span>' : '') + '</div>' +
+      '<div class="ticket-route"><span class="city">' + s.name + '</span></div>' +
+      '<div class="ticket-fields">' + stayFieldsHtml + '</div>' +
+      (s.note ? '<div class="ticket-note">' + nl2br(s.note) + '</div>' : '') +
+      (s.pdfs && s.pdfs.length ? '<div class="ticket-downloads">' + s.pdfs.map(function(p){
+        return '<a class="wa-btn" href="' + p.href + '" download>' + p.label + '</a>';
+      }).join('') + '</div>' : '');
+    return stayCard;
+  }
+
+  function renderSection(containerId, list, renderFn, emptyMsg){
+    var container = document.getElementById(containerId);
+    if (!list.length){
+      var empty = document.createElement('div');
+      empty.className = 'section-empty mono';
+      empty.textContent = emptyMsg;
+      container.appendChild(empty);
+      return;
+    }
+    list.forEach(function(item, i){
+      container.appendChild(renderFn(item));
+      if (item.connectionAfter){
+        var conn = document.createElement('div');
+        conn.className = 'connection mono';
+        conn.textContent = item.connectionAfter;
+        container.appendChild(conn);
+      }
+    });
+  }
+
+  renderSection('flights', FLIGHTS, renderTicket, 'Nenhuma passagem aérea adicionada ainda.');
+  renderSection('trains', TRAINS, renderTicket, 'Nenhuma passagem de trem adicionada ainda.');
+  renderSection('stays', STAYS, renderStay, 'Nenhum comprovante de hospedagem adicionado ainda.');
+})();
+</script>
+
+</body>
+</html>
