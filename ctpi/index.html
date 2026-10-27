@@ -75,17 +75,6 @@
   .cover h1 .cut{color:var(--accent);}
   .cover p.lead{margin-top:14px;color:var(--ink-soft);font-size:1.02rem;max-width:560px;}
 
-  .event-card{
-    margin-top:28px;background:var(--paper-deep);border:2px solid var(--ink);
-    padding:24px 24px 26px;
-  }
-  .event-fields{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:16px 22px;
-  }
-  .event-fields .f-label{font-size:0.68rem;letter-spacing:0.1em;color:var(--ink-soft);text-transform:uppercase;}
-  .event-fields .f-value{font-size:0.98rem;font-weight:600;margin-top:3px;}
-
   /* ---------- guests ---------- */
   .doc-section{margin-top:40px;}
   .doc-section .section-head{
@@ -133,7 +122,7 @@
 
   @media (max-width:560px){
     .cover{padding-top:26px;}
-    .event-card,.ticket{padding-left:18px;padding-right:18px;}
+    .ticket{padding-left:18px;padding-right:18px;}
   }
 
   /* ---------- access lock ---------- */
@@ -187,14 +176,6 @@
     <span class="eyebrow">Organização de chegadas</span>
     <h1 class="display">Conferência Novas Igrejas<br>para uma Nova Realidade<span class="cut">.</span></h1>
     <p class="lead">Horário e bilhete de chegada de cada preletor, organizados pela Rhein Viagens para facilitar a organização do evento.</p>
-
-    <div class="event-card">
-      <div class="event-fields">
-        <div><div class="f-label">Data</div><div class="f-value">05 de novembro</div></div>
-        <div><div class="f-label">Horário</div><div class="f-value">9h às 21h</div></div>
-        <div><div class="f-label">Local</div><div class="f-value">Igreja Presbiteriana Central de Uberlândia</div></div>
-      </div>
-    </div>
   </section>
 
   <section class="doc-section">
@@ -202,7 +183,23 @@
       <span class="section-num mono">01</span>
       <h2>Chegadas</h2>
     </div>
-    <div id="guests"></div>
+    <div id="arrivals"></div>
+  </section>
+
+  <section class="doc-section">
+    <div class="section-head">
+      <span class="section-num mono">02</span>
+      <h2>Saídas</h2>
+    </div>
+    <div id="departures"></div>
+  </section>
+
+  <section class="doc-section">
+    <div class="section-head">
+      <span class="section-num mono">03</span>
+      <h2>Hospedagem</h2>
+    </div>
+    <div id="stays"></div>
   </section>
 
   <footer>
@@ -247,16 +244,16 @@
     });
   }
 
-  // ---------- chegadas ----------
-  // Cada convidado vira um bloco com nome + bilhete(s) conforme forem chegando.
-  // Exemplo de formato esperado por convidado:
+  // ---------- chegadas, saídas e hospedagem ----------
+  // Cada preletor vira um bloco com nome + item(ns) conforme forem chegando.
+  // Exemplo de formato esperado por preletor:
   // {
-  //   name: 'Nome do Convidado',
-  //   tickets: [
+  //   name: 'Nome do Preletor',
+  //   items: [
   //     {
   //       kind: 'Voo · Nacional',
   //       locator: 'ABC123',
-  //       from: 'GIG', to: 'UDI',
+  //       from: 'GIG', to: 'UDI',        // (ou `name` no lugar de from/to, pra hospedagem)
   //       fields: [
   //         { label: 'Cia · Voo', value: 'Azul 1234' },
   //         { label: 'Chegada', value: '14:30 (12/12)' }
@@ -267,19 +264,24 @@
   //   ]
   // }
 
-  var GUESTS = [];
+  var ARRIVALS = [];
+  var DEPARTURES = [];
+  var STAYS = [];
 
   function nl2br(s){ return s.replace(/\n/g, '<br>'); }
 
-  function renderTicket(t){
+  function renderItem(t){
     var ticket = document.createElement('div');
     ticket.className = 'ticket';
     var fieldsHtml = t.fields.map(function(f){
       return '<div><div class="t-label">' + f.label + '</div><div class="t-value">' + f.value + '</div></div>';
     }).join('');
+    var routeHtml = (t.from && t.to)
+      ? '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>'
+      : (t.name ? '<div class="ticket-route"><span class="city">' + t.name + '</span></div>' : '');
     ticket.innerHTML =
       '<div class="ticket-top"><span class="kind mono">' + t.kind + '</span>' + (t.locator ? '<span class="locator mono">' + t.locator + '</span>' : '') + '</div>' +
-      '<div class="ticket-route"><span class="city">' + t.from + '</span><span class="arrow">→</span><span class="city">' + t.to + '</span></div>' +
+      routeHtml +
       '<div class="ticket-fields">' + fieldsHtml + '</div>' +
       (t.note ? '<div class="ticket-note">' + nl2br(t.note) + '</div>' : '') +
       (t.pdfs && t.pdfs.length ? '<div class="ticket-downloads">' + t.pdfs.map(function(p){
@@ -288,32 +290,37 @@
     return ticket;
   }
 
-  var guestsWrap = document.getElementById('guests');
-
-  if (!GUESTS.length){
-    var empty = document.createElement('div');
-    empty.className = 'section-empty mono';
-    empty.textContent = 'Nenhuma chegada cadastrada ainda.';
-    guestsWrap.appendChild(empty);
-  } else {
-    GUESTS.forEach(function(guest){
-      var guestWrap = document.createElement('div');
-      guestWrap.className = 'guest';
+  function renderPersonSection(containerId, people, emptyMsg){
+    var wrap = document.getElementById(containerId);
+    if (!people.length){
+      var empty = document.createElement('div');
+      empty.className = 'section-empty mono';
+      empty.textContent = emptyMsg;
+      wrap.appendChild(empty);
+      return;
+    }
+    people.forEach(function(person){
+      var personWrap = document.createElement('div');
+      personWrap.className = 'guest';
       var name = document.createElement('div');
       name.className = 'guest-name';
-      name.textContent = guest.name;
-      guestWrap.appendChild(name);
+      name.textContent = person.name;
+      personWrap.appendChild(name);
 
       var list = document.createElement('div');
       list.className = 'doc-list';
-      (guest.tickets || []).forEach(function(t){
-        list.appendChild(renderTicket(t));
+      (person.items || []).forEach(function(t){
+        list.appendChild(renderItem(t));
       });
-      guestWrap.appendChild(list);
+      personWrap.appendChild(list);
 
-      guestsWrap.appendChild(guestWrap);
+      wrap.appendChild(personWrap);
     });
   }
+
+  renderPersonSection('arrivals', ARRIVALS, 'Nenhuma chegada cadastrada ainda.');
+  renderPersonSection('departures', DEPARTURES, 'Nenhuma saída cadastrada ainda.');
+  renderPersonSection('stays', STAYS, 'Nenhuma hospedagem cadastrada ainda.');
 })();
 </script>
 
