@@ -124,6 +124,13 @@
     padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
   }
 
+  .group-divider{
+    margin:40px 0 18px;padding-top:16px;border-top:3px solid var(--ink);
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.8rem;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-deep);
+  }
+  .doc-list > .group-divider:first-child{margin-top:0;}
+
   .stay-card{
     background:var(--board-bg);color:var(--board-text);
     border:2px solid var(--ink);padding:22px 22px 20px;
@@ -279,6 +286,7 @@
     {
       kind: 'Voo · Internacional',
       locator: 'KXLCHC',
+      groupLabel: 'Passagem de ida',
       from: 'VIX',
       to: 'GIG',
       fields: [
@@ -322,6 +330,7 @@
     {
       kind: 'Voo · Internacional',
       locator: 'KXLCHC',
+      groupLabel: 'Passagem de volta',
       from: 'ZRH',
       to: 'LIS',
       fields: [
@@ -570,6 +579,12 @@
       return;
     }
     list.forEach(function(item, i){
+      if (item.groupLabel){
+        var divider = document.createElement('div');
+        divider.className = 'group-divider';
+        divider.textContent = item.groupLabel;
+        container.appendChild(divider);
+      }
       container.appendChild(renderFn(item));
       if (item.connectionAfter){
         var conn = document.createElement('div');
