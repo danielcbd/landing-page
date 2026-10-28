@@ -365,9 +365,67 @@
     }
   ];
 
-  var TRAINS = [];
+  var TRAINS = [
+    {
+      kind: 'Trem · Italo',
+      locator: 'QKPGYK',
+      from: 'ROMA TER.',
+      to: 'MI CENTRALE',
+      fields: [
+        { label: 'Trem', value: 'Italo 9974' },
+        { label: 'Partida', value: '09:05 (03/11)' },
+        { label: 'Chegada', value: '12:15 (03/11)' },
+        { label: 'Ambiente', value: 'Smart · Carruagem 7' },
+        { label: 'Lugares', value: 'Tarcila 35 · Newton 36' }
+      ],
+      note: 'Retirem as passagens para acesso à plataforma antes da partida do trem, no Lounge Casa Italo ou nas máquinas de bilhetes Italo — basta apresentar este bilhete. Recomendamos chegar com cerca de 45 minutos de antecedência, para fazer o processo com calma.\nBagagem: na classe Smart não são permitidas malas com dimensões superiores a 75x53x30cm.\nAs portas do trem fecham 2 minutos antes da partida.',
+      pdfs: [
+        { href: 'assets/trem-roma-milano.pdf', label: 'Bilhete' }
+      ]
+    },
+    {
+      kind: 'Trem · Trenord (Regionale)',
+      from: 'MILANO CENTRALE',
+      to: 'TIRANO',
+      fields: [
+        { label: 'Trem', value: 'Regionale 2812' },
+        { label: 'Partida', value: '06:20 (04/11)' },
+        { label: 'Chegada', value: '08:52 (04/11)' },
+        { label: 'Classe', value: '2ª classe' }
+      ],
+      note: 'Ida de Tarcila (código do bilhete 2996027007). Ainda faltam os bilhetes de ida de Newton (código 2996027006) e de volta de Tirano para Milano de ambos (códigos 2996171312 e 2996171311) para completar este trecho.\nValidação automática na partida: baixem o app da Trenitalia, informem o código do bilhete e o e-mail rheinviagens@gmail.com, e confirmem que a viagem aparece marcada. Viajem com o QR code do aplicativo.',
+      pdfs: [
+        { href: 'assets/trem-milano-tirano-ida-tarcila.pdf', label: 'Tarcila (ida)' }
+      ]
+    }
+  ];
 
-  var STAYS = [];
+  var STAYS = [
+    {
+      name: 'Relais de l\'Opera',
+      confirmation: '15351572',
+      fields: [
+        { label: 'Check-in', value: '30/10' },
+        { label: 'Check-out', value: '03/11' }
+      ],
+      note: 'Titular da reserva: Newton.\nVia Palermo 36, Rome, RM, 00184 Itália · +39 (069) 4534185\nImposto municipal de 56 euros, pago no check-in (já abatido do valor pago antecipadamente).\nCheck-in deverá ser feito até as 22h — se chegarem após esse horário, avisem com antecedência para comunicarmos a hospedagem.\nCheck-out às 10h30. Sem café da manhã.',
+      pdfs: [
+        { href: 'assets/hospedagem-roma.pdf', label: 'Reserva' }
+      ]
+    },
+    {
+      name: 'Hotel Mythos',
+      confirmation: '2573525464',
+      fields: [
+        { label: 'Check-in', value: '03/11' },
+        { label: 'Check-out', value: '05/11' }
+      ],
+      note: 'Titular da reserva: Newton.\nVia Carlo Tenca 21, Milan, MI, 20124 Itália · +39 0267490047\nImposto municipal de 28 euros, pago no check-in (já abatido do valor pago antecipadamente).\nCheck-in a partir das 14h. Check-out às 11h. Sem café da manhã.',
+      pdfs: [
+        { href: 'assets/hospedagem-milao.pdf', label: 'Reserva' }
+      ]
+    }
+  ];
 
   function nl2br(s){ return s.replace(/\n/g, '<br>'); }
 
