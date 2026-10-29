@@ -283,8 +283,8 @@
   ];
 
   var BOARDING_GIG_FCO_PDFS = [
-    { href: 'assets/cartao-embarque-gig-lis-fco-tarcila.pdf', label: 'Tarcila · Cartão' },
-    { href: 'assets/cartao-embarque-gig-lis-fco-newton.pdf', label: 'Newton · Cartão' }
+    { href: 'assets/cartao-embarque-gig-lis-fco-tarcila.pdf', label: 'Tarcila' },
+    { href: 'assets/cartao-embarque-gig-lis-fco-newton.pdf', label: 'Newton' }
   ];
 
   var FLIGHTS = [
@@ -315,7 +315,7 @@
         { label: 'Terminal', value: '2 → 1' }
       ],
       note: 'Voo noturno direto Rio de Janeiro–Lisboa.',
-      pdfs: TICKET_PDFS.concat(BOARDING_GIG_FCO_PDFS),
+      pdfs: BOARDING_GIG_FCO_PDFS,
       connectionAfter: 'Conexão em Lisboa · 1h45'
     },
     {
@@ -330,7 +330,7 @@
         { label: 'Terminal', value: '1' }
       ],
       note: 'Chegada em Roma.',
-      pdfs: TICKET_PDFS.concat(BOARDING_GIG_FCO_PDFS)
+      pdfs: BOARDING_GIG_FCO_PDFS
     },
     {
       kind: 'Voo · Internacional',
