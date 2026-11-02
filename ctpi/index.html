@@ -264,7 +264,37 @@
   //   ]
   // }
 
-  var ARRIVALS = [];
+  var ARRIVALS = [
+    {
+      name: 'Rodrigo Mattos Karagulian',
+      items: [
+        {
+          kind: 'Voo · Nacional',
+          locator: 'FIUC7P',
+          from: 'REC',
+          to: 'VCP',
+          fields: [
+            { label: 'Cia · Voo', value: 'Azul 4335' },
+            { label: 'Embarque', value: '03:25 (05/11)' },
+            { label: 'Pouso', value: '06:40 (05/11)' }
+          ],
+          note: 'Conexão em São Paulo (Viracopos) · 2h35.'
+        },
+        {
+          kind: 'Voo · Nacional',
+          locator: 'FIUC7P',
+          from: 'VCP',
+          to: 'UDI',
+          fields: [
+            { label: 'Cia · Voo', value: 'Azul 4240' },
+            { label: 'Embarque', value: '09:15 (05/11)' },
+            { label: 'Pouso', value: '10:45 (05/11)' }
+          ],
+          note: 'Chegada em Uberlândia.'
+        }
+      ]
+    }
+  ];
   var DEPARTURES = [];
   var STAYS = [];
 
