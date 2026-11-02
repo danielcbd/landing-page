@@ -295,7 +295,37 @@
       ]
     }
   ];
-  var DEPARTURES = [];
+  var DEPARTURES = [
+    {
+      name: 'Rodrigo Mattos Karagulian',
+      items: [
+        {
+          kind: 'Voo · Nacional',
+          locator: 'FIUC7P',
+          from: 'UDI',
+          to: 'CNF',
+          fields: [
+            { label: 'Cia · Voo', value: 'Azul 4922' },
+            { label: 'Embarque', value: '19:05 (05/11)' },
+            { label: 'Pouso', value: '20:25 (05/11)' }
+          ],
+          note: 'Conexão em Belo Horizonte · 2h35.'
+        },
+        {
+          kind: 'Voo · Nacional',
+          locator: 'FIUC7P',
+          from: 'CNF',
+          to: 'REC',
+          fields: [
+            { label: 'Cia · Voo', value: 'Azul 4604' },
+            { label: 'Embarque', value: '23:00 (05/11)' },
+            { label: 'Pouso', value: '01:30 (06/11)' }
+          ],
+          note: 'Chegada em Recife.'
+        }
+      ]
+    }
+  ];
   var STAYS = [];
 
   function nl2br(s){ return s.replace(/\n/g, '<br>'); }
