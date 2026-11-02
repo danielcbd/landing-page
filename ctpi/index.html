@@ -85,11 +85,27 @@
 
   .guest{margin-top:28px;}
   .guest:first-child{margin-top:0;}
+  .guest-head{
+    display:flex;align-items:center;gap:10px;margin-bottom:10px;
+    cursor:pointer;list-style:none;
+  }
+  .guest-head::-webkit-details-marker{display:none;}
+  .guest-head .arrow{
+    display:inline-block;font-size:1.1rem;color:var(--accent-deep);
+    transition:transform .2s ease;transform:rotate(-90deg);flex:0 0 auto;
+  }
+  .guest[open] .guest-head .arrow{transform:rotate(0deg);}
   .guest-name{
     font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:1.25rem;
-    text-transform:uppercase;margin-bottom:10px;
+    text-transform:uppercase;
   }
   .guest .doc-list > * + *{margin-top:14px;}
+
+  .connection{
+    background:var(--paper-deep);color:var(--ink-soft);
+    border-left:2px solid var(--ink);border-right:2px solid var(--ink);
+    padding:9px 22px;font-size:0.74rem;text-align:center;letter-spacing:0.03em;
+  }
 
   .ticket{
     background:var(--board-bg);color:var(--board-text);
@@ -278,7 +294,7 @@
             { label: 'Embarque', value: '03:25 (05/11)' },
             { label: 'Pouso', value: '06:40 (05/11)' }
           ],
-          note: 'Conexão em São Paulo (Viracopos) · 2h35.'
+          connectionAfter: 'Conexão em São Paulo (Viracopos) · 2h35'
         },
         {
           kind: 'Voo · Nacional',
@@ -309,7 +325,7 @@
             { label: 'Embarque', value: '19:05 (05/11)' },
             { label: 'Pouso', value: '20:25 (05/11)' }
           ],
-          note: 'Conexão em Belo Horizonte · 2h35.'
+          connectionAfter: 'Conexão em Belo Horizonte · 2h35'
         },
         {
           kind: 'Voo · Nacional',
@@ -360,17 +376,25 @@
       return;
     }
     people.forEach(function(person){
-      var personWrap = document.createElement('div');
+      var personWrap = document.createElement('details');
       personWrap.className = 'guest';
-      var name = document.createElement('div');
-      name.className = 'guest-name';
-      name.textContent = person.name;
-      personWrap.appendChild(name);
+      personWrap.open = true;
+
+      var head = document.createElement('summary');
+      head.className = 'guest-head';
+      head.innerHTML = '<span class="arrow">▾</span><span class="guest-name">' + person.name + '</span>';
+      personWrap.appendChild(head);
 
       var list = document.createElement('div');
       list.className = 'doc-list';
       (person.items || []).forEach(function(t){
         list.appendChild(renderItem(t));
+        if (t.connectionAfter){
+          var conn = document.createElement('div');
+          conn.className = 'connection mono';
+          conn.textContent = t.connectionAfter;
+          list.appendChild(conn);
+        }
       });
       personWrap.appendChild(list);
 
