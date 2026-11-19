@@ -197,12 +197,19 @@
   }
 
   /* ---------- destinos ---------- */
-  .destinos-grid{
-    margin-top:40px;
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:24px;
+  .destinos-scroll{
+    margin:40px -24px 0;
+    padding:0 24px 14px;
+    display:flex;gap:20px;
+    overflow-x:auto;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
   }
+  .destinos-scroll::-webkit-scrollbar{height:6px;}
+  .destinos-scroll::-webkit-scrollbar-thumb{background:var(--paper-line);}
   .destino-card{
+    flex:0 0 230px;scroll-snap-align:start;
     background:var(--paper);border:2px solid var(--ink);overflow:hidden;
   }
   .destino-card img{width:100%;height:170px;object-fit:cover;display:block;}
@@ -212,10 +219,6 @@
   }
   .destino-card .city{font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;font-size:1.1rem;}
   .destino-card .code{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--ink-soft);}
-  .destinos-credit{
-    margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-soft);
-  }
-  .destinos-credit a{border-bottom:1px solid var(--ink-soft);}
 
   /* ---------- stamps / reviews ---------- */
   .stamps-section{
@@ -481,7 +484,7 @@
       <p>Alguns dos lugares que a gente já ajudou gente de verdade a conhecer.</p>
     </div>
 
-    <div class="destinos-grid">
+    <div class="destinos-scroll">
       <div class="destino-card">
         <img src="assets/destino-lisboa.jpg" alt="Torre de Belém, Lisboa">
         <div class="label"><span class="city">Lisboa</span><span class="code mono">LIS</span></div>
@@ -502,9 +505,75 @@
         <img src="assets/destino-suica.jpg" alt="Lago de Lugano, Suíça">
         <div class="label"><span class="city">Suíça</span><span class="code mono">ZRH</span></div>
       </div>
+      <div class="destino-card">
+        <img src="assets/destino-toquio.jpg" alt="Tóquio">
+        <div class="label"><span class="city">Tóquio</span><span class="code mono">HND</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-nyc.jpg" alt="Times Square, Nova York">
+        <div class="label"><span class="city">Nova York</span><span class="code mono">JFK</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-singapura.jpg" alt="Marina Bay, Singapura">
+        <div class="label"><span class="city">Singapura</span><span class="code mono">SIN</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-bangkok.jpg" alt="Wat Arun, Bangkok">
+        <div class="label"><span class="city">Bangkok</span><span class="code mono">BKK</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-seul.jpg" alt="Seul">
+        <div class="label"><span class="city">Seul</span><span class="code mono">ICN</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-amsterda.jpg" alt="Canais de Amsterdã">
+        <div class="label"><span class="city">Amsterdã</span><span class="code mono">AMS</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-frankfurt.jpg" alt="Frankfurt">
+        <div class="label"><span class="city">Frankfurt</span><span class="code mono">FRA</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-bruxelas.jpg" alt="Grand Place, Bruxelas">
+        <div class="label"><span class="city">Bruxelas</span><span class="code mono">BRU</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-orlando.jpg" alt="Lake Eola, Orlando">
+        <div class="label"><span class="city">Orlando</span><span class="code mono">MCO</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-machupicchu.jpg" alt="Machu Picchu, Peru">
+        <div class="label"><span class="city">Machu Picchu</span><span class="code mono">CUZ</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-atacama.jpg" alt="Valle de la Luna, Deserto do Atacama">
+        <div class="label"><span class="city">Atacama</span><span class="code mono">CJC</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-buenosaires.jpg" alt="Obelisco, Buenos Aires">
+        <div class="label"><span class="city">Buenos Aires</span><span class="code mono">EZE</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-bariloche.jpg" alt="Lago Nahuel Huapi, Bariloche">
+        <div class="label"><span class="city">Bariloche</span><span class="code mono">BRC</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-montevideo.jpg" alt="Pocitos, Montevidéu">
+        <div class="label"><span class="city">Montevidéu</span><span class="code mono">MVD</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-aruba.jpg" alt="Eagle Beach, Aruba">
+        <div class="label"><span class="city">Aruba</span><span class="code mono">AUA</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-curacao.jpg" alt="Handelskade, Curaçao">
+        <div class="label"><span class="city">Curaçao</span><span class="code mono">CUR</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-grecia.jpg" alt="Oia, Santorini, Grécia">
+        <div class="label"><span class="city">Grécia</span><span class="code mono">JTR</span></div>
+      </div>
     </div>
-
-    <p class="destinos-credit">Fotos: Norbert Nagel, Radek Kucharski, Dietmar Rabich, Didier Descouens e Roy Egloff, via <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (CC BY-SA 4.0 / CC BY 4.0).</p>
   </div>
 </section>
 
@@ -666,6 +735,7 @@
     </div>
   </div>
   <p class="fine-print">© 2026 Rhein Viagens e Turismo · CNPJ 57.930.498/0001-09 · Vila Velha/ES · Cadastur</p>
+  <p class="fine-print">Fotos dos destinos: Norbert Nagel, Radek Kucharski, Dietmar Rabich, Didier Descouens, Roy Egloff, Benh Lieu Song, Jakub Hałun, Basile Morin, Niwat Tantayanusorn, Frank Schulenburg, Trougnouf, JER3L1337, Diego Delso, Dpalma01, Fernando, Intendencia de Montevideo, Ginelly.Q, Coolcaesar e Giles Laurent, via <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (CC BY / CC BY-SA 4.0).</p>
 </footer>
 
 <script>
