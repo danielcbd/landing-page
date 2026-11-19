@@ -196,6 +196,27 @@
     .board-row .status{grid-column:1 / -1;justify-self:start;}
   }
 
+  /* ---------- destinos ---------- */
+  .destinos-grid{
+    margin-top:40px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:24px;
+  }
+  .destino-card{
+    background:var(--paper);border:2px solid var(--ink);overflow:hidden;
+  }
+  .destino-card img{width:100%;height:170px;object-fit:cover;display:block;}
+  .destino-card .label{
+    padding:13px 16px;display:flex;align-items:center;justify-content:space-between;
+    border-top:2px dashed var(--ink-soft);
+  }
+  .destino-card .city{font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;font-size:1.1rem;}
+  .destino-card .code{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--ink-soft);}
+  .destinos-credit{
+    margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-soft);
+  }
+  .destinos-credit a{border-bottom:1px solid var(--ink-soft);}
+
   /* ---------- stamps / reviews ---------- */
   .stamps-section{
     background:var(--paper-deep);
@@ -449,6 +470,41 @@
         <span class="status">Confirmado</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="destinos">
+  <div class="wrap">
+    <div class="head-block">
+      <span class="eyebrow">Mapa carimbado</span>
+      <h2 class="display">Destinos que já carimbamos</h2>
+      <p>Alguns dos lugares que a gente já ajudou gente de verdade a conhecer.</p>
+    </div>
+
+    <div class="destinos-grid">
+      <div class="destino-card">
+        <img src="assets/destino-lisboa.jpg" alt="Torre de Belém, Lisboa">
+        <div class="label"><span class="city">Lisboa</span><span class="code mono">LIS</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-paris.jpg" alt="Torre Eiffel, Paris">
+        <div class="label"><span class="city">Paris</span><span class="code mono">CDG</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-roma.jpg" alt="Coliseu, Roma">
+        <div class="label"><span class="city">Roma</span><span class="code mono">FCO</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-barcelona.jpg" alt="Sagrada Família, Barcelona">
+        <div class="label"><span class="city">Barcelona</span><span class="code mono">BCN</span></div>
+      </div>
+      <div class="destino-card">
+        <img src="assets/destino-suica.jpg" alt="Lago de Lugano, Suíça">
+        <div class="label"><span class="city">Suíça</span><span class="code mono">ZRH</span></div>
+      </div>
+    </div>
+
+    <p class="destinos-credit">Fotos: Norbert Nagel, Radek Kucharski, Dietmar Rabich, Didier Descouens e Roy Egloff, via <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (CC BY-SA 4.0 / CC BY 4.0).</p>
   </div>
 </section>
 
