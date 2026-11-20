@@ -155,6 +155,44 @@
     font-size:0.82rem;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 22px;
   }
   .trust-line strong{color:var(--ink);}
+  .cadastur-trigger{
+    font:inherit;color:var(--ink-soft);background:none;border:none;padding:0;cursor:pointer;
+    text-decoration:underline dotted;text-underline-offset:3px;
+  }
+  .cadastur-trigger:hover{color:var(--rhein-deep);}
+  .cadastur-trigger strong{color:inherit;}
+
+  /* ---------- cadastur modal ---------- */
+  .cadastur-overlay{
+    position:fixed;inset:0;background:rgba(23,17,10,0.72);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    z-index:200;opacity:0;pointer-events:none;transition:opacity 0.2s ease;
+  }
+  .cadastur-overlay.is-open{opacity:1;pointer-events:auto;}
+  .cadastur-modal{
+    position:relative;max-width:560px;width:100%;
+    background:var(--paper);border:3px solid var(--ink);
+    padding:20px;transform:translateY(12px);transition:transform 0.2s ease;
+  }
+  .cadastur-overlay.is-open .cadastur-modal{transform:translateY(0);}
+  .cadastur-modal img{width:100%;display:block;border:1px solid var(--ink);}
+  .cadastur-modal .perf{border-top:2px dashed var(--ink-soft);margin:16px -20px 0;position:relative;}
+  .cadastur-modal .perf::before,.cadastur-modal .perf::after{
+    content:'';position:absolute;top:0;transform:translateY(-50%);
+    width:16px;height:16px;border-radius:50%;background:rgba(23,17,10,0.72);border:2px solid var(--ink);
+  }
+  .cadastur-modal .perf::before{left:-8px;}
+  .cadastur-modal .perf::after{right:-8px;}
+  .cadastur-modal-foot{
+    display:flex;align-items:center;justify-content:space-between;padding-top:14px;gap:16px;flex-wrap:wrap;
+  }
+  .cadastur-modal-foot span{font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--ink-soft);}
+  .cadastur-close{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.8rem;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--ink);background:var(--paper-deep);border:2px solid var(--ink);
+    padding:8px 16px;cursor:pointer;
+  }
+  .cadastur-close:hover{background:var(--rhein);color:#fff;border-color:var(--ink);}
 
   /* ---------- generic section chrome ---------- */
   section{padding:76px 0;}
@@ -431,7 +469,7 @@
       </div>
 
       <div class="trust-line">
-        <span><strong>Cadastur</strong> · agência certificada</span>
+        <button type="button" class="cadastur-trigger" id="cadastur-open"><strong>Cadastur</strong> · agência certificada</button>
         <span><strong>5.0</strong> nas avaliações do Google</span>
       </div>
     </div>
@@ -801,6 +839,17 @@
   <p class="fine-print">© 2026 Rhein Viagens e Turismo · CNPJ 57.930.498/0001-09 · Vila Velha/ES · Cadastur</p>
 </footer>
 
+<div class="cadastur-overlay" id="cadastur-overlay">
+  <div class="cadastur-modal" role="dialog" aria-modal="true" aria-label="Certificado Cadastur">
+    <img src="assets/cadastur-certificado.jpg" alt="Certificado Cadastur da Rhein Viagens e Turismo LTDA, CNPJ 57.930.498/0001-09, válido de 06/11/2024 a 06/11/2026">
+    <div class="perf"></div>
+    <div class="cadastur-modal-foot">
+      <span>Consulte em cadastur.turismo.gov.br</span>
+      <button type="button" class="cadastur-close" id="cadastur-close">Fechar</button>
+    </div>
+  </div>
+</div>
+
 <script>
   var WA_PHONE = '5527998600269';
 
@@ -1021,6 +1070,25 @@
       .catch(function (err) { console.error('Falha ao enviar cotação pro iDDAS:', err); })
       .then(finish);
   });
+
+  (function () {
+    var overlay = document.getElementById('cadastur-overlay');
+    var openBtn = document.getElementById('cadastur-open');
+    var closeBtn = document.getElementById('cadastur-close');
+    if (!overlay || !openBtn || !closeBtn) return;
+
+    function open() { overlay.classList.add('is-open'); }
+    function close() { overlay.classList.remove('is-open'); }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
 </script>
 
 </body>
