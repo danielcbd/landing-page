@@ -280,7 +280,26 @@
   //   ]
   // }
 
-  var ARRIVALS = [];
+  var ARRIVALS = [
+    {
+      name: 'Rodrigo Mattos Karagulian',
+      items: [
+        {
+          kind: 'Voo · Nacional',
+          locator: 'MT9P5B',
+          from: 'REC',
+          to: 'VIX',
+          fields: [
+            { label: 'Cia · Voo', value: 'Azul 4314 (voo direto)' },
+            { label: 'Embarque', value: '22:10 (23/11)' },
+            { label: 'Pouso', value: '00:35 (24/11)' }
+          ],
+          note: 'Chegada em Vitória.',
+          pdfs: [{ href: 'assets/bilhete-rodrigo-karagulian-rec-vix.jpg', label: 'Cartão de embarque' }]
+        }
+      ]
+    }
+  ];
   var DEPARTURES = [];
   var STAYS = [];
 
