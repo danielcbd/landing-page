@@ -301,7 +301,23 @@
     }
   ];
   var DEPARTURES = [];
-  var STAYS = [];
+  var STAYS = [
+    {
+      name: 'Rodrigo Mattos Karagulian',
+      items: [
+        {
+          kind: 'Hospedagem',
+          locator: 'SH31555395',
+          name: 'Quality Suites Vila Velha',
+          fields: [
+            { label: 'Check-in', value: '23/11 14h' },
+            { label: 'Check-out', value: '24/11' }
+          ],
+          note: 'Avenida Antônio Gil Veloso, 856, Praia da Costa, Vila Velha, ES. · +55 (27) 3441-9090\n\n1 diária · 1 quarto · Suite Double Superior.\nWi-Fi grátis · salas de reuniões.\n\nHóspede: Rodrigo Mattos Karagulian (titular) · 1 adulto.'
+        }
+      ]
+    }
+  ];
 
   function nl2br(s){ return s.replace(/\n/g, '<br>'); }
 
